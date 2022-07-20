@@ -18,6 +18,7 @@ export 'dialog.dart';
 export 'drawer.dart';
 export 'expandable.dart';
 export 'icon.dart';
+export 'icon_nav.dart';
 export 'link_button.dart';
 export 'masonry_grid.dart';
 export 'menu.dart';

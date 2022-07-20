@@ -70,8 +70,18 @@ class _CarrotScaffold extends State<CarrotScaffold> {
   final List<CarrotSheetEntry> _sheets = [];
 
   Size _appBarSize = Size.zero;
+  CarrotRouter? _router;
   ScrollController? _scrollController;
+  ScrollNotificationObserverState? _scrollNotificationObserver;
   double _scrollPosition = 0.0;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _routingListenerAdd();
+    _scrollListenerAdd();
+  }
 
   @override
   void didUpdateWidget(CarrotScaffold oldWidget) {
@@ -92,20 +102,14 @@ class _CarrotScaffold extends State<CarrotScaffold> {
     super.dispose();
   }
 
-  @override
-  void initState() {
-    super.initState();
-
-    onMounted(() {
-      _routingListenerAdd();
-      _scrollListenerAdd();
-    });
-  }
-
   void _handleRoutingChange() async {
     _scrollListenerRemove();
 
     await Future.delayed(const Duration(milliseconds: 720));
+
+    if (!mounted) {
+      return;
+    }
 
     setState(() {
       _scrollPosition = 0.0;
@@ -121,34 +125,32 @@ class _CarrotScaffold extends State<CarrotScaffold> {
       return;
     }
 
-    setState(() {
-      if (!mounted) {
-        return;
-      }
+    if (!mounted) {
+      return;
+    }
 
+    setState(() {
       _scrollController = primaryScrollView.scrollController;
       _scrollPosition = notification.metrics.pixels;
     });
   }
 
   void _routingListenerAdd() {
-    widget.router?.addListener(_handleRoutingChange);
+    _router = widget.router;
+    _router?.addListener(_handleRoutingChange);
   }
 
   void _routingListenerRemove() {
-    widget.router?.removeListener(_handleRoutingChange);
+    _router?.removeListener(_handleRoutingChange);
   }
 
   void _scrollListenerAdd() {
-    ScrollNotificationObserver.of(context)?.addListener(_handleScroll);
+    _scrollNotificationObserver = ScrollNotificationObserver.of(context);
+    _scrollNotificationObserver?.addListener(_handleScroll);
   }
 
   void _scrollListenerRemove() {
-    try {
-      ScrollNotificationObserver.of(context)?.removeListener(_handleScroll);
-    } catch (err) {
-      debugPrint(err.toString());
-    }
+    _scrollNotificationObserver?.removeListener(_handleScroll);
   }
 
   void _drawerClose(BuildContext context) {
