@@ -6,9 +6,22 @@ import '../ui/theme.dart';
 class CarrotApp extends StatelessWidget {
   final Widget child;
   final Locale? locale;
+  final LocaleResolutionCallback? localeResolutionCallback;
+  final LocaleListResolutionCallback? localeListResolutionCallback;
+  final Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates;
+  final Iterable<Locale> supportedLocales;
   final CarrotAppSettings settings;
+  final Map<Type, Action<Intent>>? actions;
+  final Map<ShortcutActivator, Intent>? shortcuts;
+  final String? restorationScopeId;
+  final bool checkerboardOffscreenLayers;
+  final bool checkerboardRasterCacheImages;
+  final bool debugShowWidgetInspector;
+  final InspectorSelectButtonBuilder? inspectorSelectButtonBuilder;
   final bool showDebugBanner;
   final bool showPerformanceOverlay;
+  final bool showSemanticsDebugger;
+  final bool useInheritedMediaQuery;
   final CarrotTheme theme;
 
   const CarrotApp({
@@ -17,8 +30,21 @@ class CarrotApp extends StatelessWidget {
     required this.settings,
     required this.theme,
     this.locale,
+    this.localeResolutionCallback,
+    this.localeListResolutionCallback,
+    this.localizationsDelegates,
+    this.supportedLocales = const [Locale('en', 'US')],
+    this.actions,
+    this.shortcuts,
+    this.restorationScopeId,
+    this.checkerboardOffscreenLayers = false,
+    this.checkerboardRasterCacheImages = false,
+    this.debugShowWidgetInspector = false,
+    this.inspectorSelectButtonBuilder,
     this.showDebugBanner = false,
     this.showPerformanceOverlay = false,
+    this.showSemanticsDebugger = false,
+    this.useInheritedMediaQuery = false,
   });
 
   @override
@@ -30,10 +56,24 @@ class CarrotApp extends StatelessWidget {
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: WidgetsApp(
             color: theme.primary,
-            debugShowCheckedModeBanner: showDebugBanner,
-            showPerformanceOverlay: showPerformanceOverlay,
             locale: locale,
+            localizationsDelegates: localizationsDelegates,
+            localeResolutionCallback: localeResolutionCallback,
+            localeListResolutionCallback: localeListResolutionCallback,
+            supportedLocales: supportedLocales,
+            actions: actions,
+            shortcuts: shortcuts,
+            restorationScopeId: restorationScopeId,
+            checkerboardOffscreenLayers: checkerboardOffscreenLayers,
+            checkerboardRasterCacheImages: checkerboardRasterCacheImages,
+            debugShowCheckedModeBanner: showDebugBanner,
+            debugShowWidgetInspector: debugShowWidgetInspector,
+            inspectorSelectButtonBuilder: inspectorSelectButtonBuilder,
+            showPerformanceOverlay: showPerformanceOverlay,
+            showSemanticsDebugger: showSemanticsDebugger,
+            useInheritedMediaQuery: useInheritedMediaQuery,
             title: settings.title,
+            textStyle: theme.typography.body1,
             builder: (context, widget) => DefaultTextStyle(
               style: theme.typography.body1,
               child: child,
