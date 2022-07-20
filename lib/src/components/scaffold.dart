@@ -77,7 +77,7 @@ class _CarrotScaffold extends State<CarrotScaffold> {
   void didUpdateWidget(CarrotScaffold oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.appBar != oldWidget.appBar) {
+    if (widget.appBar == null && oldWidget.appBar != null) {
       setState(() {
         _appBarSize = Size.zero;
       });
