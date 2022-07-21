@@ -6,6 +6,7 @@ import '../app/app.dart';
 import '../ui/shadow.dart';
 
 import 'filter/backdrop_blur_container.dart';
+import 'app_bar_buttons.dart';
 
 enum CarrotAppBarSystemOverlayStyle {
   auto,
@@ -24,8 +25,8 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
   final CarrotAppBarSystemOverlayStyle systemOverlayStyle;
   final Color? textColor;
   final List<Shadow> textShadow;
-  final Widget? after;
-  final Widget? before;
+  final List<Widget>? after;
+  final List<Widget>? before;
   final Widget? title;
 
   @override
@@ -49,7 +50,7 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch(systemOverlayStyle) {
+    switch (systemOverlayStyle) {
       case CarrotAppBarSystemOverlayStyle.auto:
         SystemChrome.setSystemUIOverlayStyle(isTransparent || color.isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark);
         break;
@@ -103,7 +104,7 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
             color: textColor,
             shadows: textShadow,
           ),
-          child: _CarrotAppBarContainer(
+          child: _CarrotAppBarBody(
             after: after,
             before: before,
             title: title,
@@ -114,12 +115,12 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
-class _CarrotAppBarContainer extends StatelessWidget {
-  final Widget? after;
-  final Widget? before;
+class _CarrotAppBarBody extends StatelessWidget {
+  final List<Widget>? after;
+  final List<Widget>? before;
   final Widget? title;
 
-  const _CarrotAppBarContainer({
+  const _CarrotAppBarBody({
     this.after,
     this.before,
     this.title,
@@ -140,7 +141,10 @@ class _CarrotAppBarContainer extends StatelessWidget {
             if (before != null)
               Align(
                 alignment: Alignment.centerLeft,
-                child: before,
+                child: CarrotAppBarButtons(
+                  alignment: MainAxisAlignment.start,
+                  children: before!,
+                ),
               ),
             if (title != null)
               Align(
@@ -150,7 +154,10 @@ class _CarrotAppBarContainer extends StatelessWidget {
             if (after != null)
               Align(
                 alignment: Alignment.centerRight,
-                child: after,
+                child: CarrotAppBarButtons(
+                  alignment: MainAxisAlignment.end,
+                  children: after!,
+                ),
               ),
           ],
         ),

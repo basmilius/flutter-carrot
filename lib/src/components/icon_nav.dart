@@ -196,7 +196,7 @@ class _CarrotIconNavItem extends StatelessWidget {
               ),
               child: CarrotColumn(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                gap: 9,
+                gap: 3,
                 children: [
                   AnimatedSlide(
                     curve: iconNav.curve,
@@ -212,19 +212,24 @@ class _CarrotIconNavItem extends StatelessWidget {
                       child: item.icon,
                     ),
                   ),
-                  AnimatedOpacity(
+                  AnimatedSlide(
                     curve: iconNav.curve,
                     duration: iconNav.duration,
-                    opacity: isActive || iconNav.isLabelAlwaysVisible ? 1 : 0,
-                    child: AnimatedDefaultTextStyle(
+                    offset: isActive || iconNav.isLabelAlwaysVisible ? Offset.zero : const Offset(0, .5),
+                    child: AnimatedOpacity(
                       curve: iconNav.curve,
                       duration: iconNav.duration,
-                      style: context.carrotTheme.typography.body1.copyWith(
-                        color: labelColor,
-                        fontSize: 12,
-                        overflow: TextOverflow.ellipsis,
+                      opacity: isActive || iconNav.isLabelAlwaysVisible ? 1 : 0,
+                      child: AnimatedDefaultTextStyle(
+                        curve: iconNav.curve,
+                        duration: iconNav.duration,
+                        style: context.carrotTheme.typography.body1.copyWith(
+                          color: labelColor,
+                          fontSize: 12,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        child: item.label,
                       ),
-                      child: item.label,
                     ),
                   ),
                 ],

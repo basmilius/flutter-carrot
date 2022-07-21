@@ -41,21 +41,19 @@ class _PreviewBase extends StatelessWidget {
       theme: theme,
       child: DefaultTextStyle(
         style: theme.typography.body1,
-        child: Expanded(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: theme.background,
-            ),
-            child: CarrotScrollView(
-              scrollController: ScrollController(),
-              child: Padding(
-                padding: context.safeArea.add(const EdgeInsets.all(30)),
-                child: CarrotColumn(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  gap: 30,
-                  children: children,
-                ),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: theme.background,
+          ),
+          child: CarrotScrollView(
+            scrollController: ScrollController(),
+            child: Padding(
+              padding: const EdgeInsets.all(30),
+              child: CarrotColumn(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.start,
+                gap: 30,
+                children: children,
               ),
             ),
           ),
