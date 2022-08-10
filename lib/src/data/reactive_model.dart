@@ -15,10 +15,12 @@ abstract class CarrotReactiveModel with ChangeNotifier, DiagnosticableTreeMixin 
   }
 
   void transaction(Function fn) {
-    _inTransaction = true;
-    fn();
-    _inTransaction = false;
-    notifyListeners();
+    Future.microtask(() {
+      _inTransaction = true;
+      fn();
+      _inTransaction = false;
+      notifyListeners();
+    });
   }
 
   static T read<T extends CarrotReactiveModel>(BuildContext context) {

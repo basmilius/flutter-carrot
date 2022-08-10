@@ -11,13 +11,6 @@ import 'drawer_gesture_detector.dart';
 import 'scroll_view.dart';
 import 'sheet.dart';
 
-// todo(Bas): Currently the scrollPosition is used in ValueKeys for
-//  the drawer and the app bar. This should be changed for improved
-//  performance and stability.
-
-// todo(Bas): Check if scaffold can be or provide an InheritedWidget,
-//  this will also fix the above note.
-
 class CarrotScaffold extends StatefulWidget {
   final Widget child;
   final PreferredSizeWidget? appBar;
@@ -287,9 +280,7 @@ class _CarrotScaffoldBody extends StatelessWidget {
 
     return Stack(
       children: [
-        Positioned.fill(
-          child: content,
-        ),
+        content,
         if (appBar != null)
           Positioned(
             top: 0,

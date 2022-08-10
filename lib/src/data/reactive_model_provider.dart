@@ -12,4 +12,12 @@ class CarrotReactiveModelProvider<T extends CarrotReactiveModel> extends ChangeN
   }) : super(
           create: (_) => create(),
         );
+
+  CarrotReactiveModelProvider.fromModel({
+    super.key,
+    super.child,
+    required T model,
+  }) : super(
+          create: (_) => model,
+        );
 }
