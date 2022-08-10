@@ -40,7 +40,8 @@ class CarrotScaffold extends StatefulWidget {
     this.drawerWidth = 300.0,
   }) : child = Router(
           restorationScopeId: "scaffold",
-          routeInformationParser: router!.routeInformationParser,
+          routeInformationProvider: router!.routeInformationProvider,
+          routeInformationParser: router.routeInformationParser,
           routerDelegate: router.routerDelegate,
         );
 
