@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../animation/animation.dart';
@@ -70,7 +71,7 @@ class _CarrotBackgroundTapState extends State<CarrotBackgroundTap> with SingleTi
       });
   }
 
-  void _onTap() {
+  void _onPanDown(DragDownDetails details) {
     if (!canTap) {
       return;
     }
@@ -78,7 +79,7 @@ class _CarrotBackgroundTapState extends State<CarrotBackgroundTap> with SingleTi
     _animationController.forward();
   }
 
-  void _onTapUp() {
+  void _onPanEndOrCancel([DragEndDetails? details]) {
     if (!canTap) {
       return;
     }
@@ -86,13 +87,22 @@ class _CarrotBackgroundTapState extends State<CarrotBackgroundTap> with SingleTi
     _animationController.reverse();
   }
 
+  void _onTap() {
+    if (!canTap) {
+      return;
+    }
+
+    HapticFeedback.selectionClick();
+    widget.onTap!.call();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onPanDown: (details) => _onTap(),
-      onPanEnd: (details) => _onTapUp(),
-      onPanCancel: () => _onTapUp(),
-      onTap: widget.onTap,
+      onPanDown: _onPanDown,
+      onPanEnd: _onPanEndOrCancel,
+      onPanCancel: _onPanEndOrCancel,
+      onTap: _onTap,
       onTapDown: widget.onTapDown,
       onTapUp: widget.onTapUp,
       onTapCancel: widget.onTapCancel,

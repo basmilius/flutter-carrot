@@ -52,6 +52,30 @@ class CarrotLinkButton extends StatelessWidget {
     this.onTapCancel,
   });
 
+  CarrotLinkButton.text({
+    super.key,
+    required Text text,
+    this.border,
+    this.duration = const Duration(milliseconds: 240),
+    this.focusNode,
+    this.icon,
+    this.iconAfter,
+    this.iconAfterStyle = CarrotIconStyle.regular,
+    this.iconStyle = CarrotIconStyle.regular,
+    this.isPrimary = false,
+    this.padding,
+    this.scale = 1.0,
+    this.scaleTap = .985,
+    this.shadow = CarrotShadows.small,
+    this.shadowTap = CarrotShadows.small,
+    this.size = CarrotButtonSize.medium,
+    this.textStyle,
+    this.onTap,
+    this.onTapDown,
+    this.onTapUp,
+    this.onTapCancel,
+  }) : children = [text];
+
   @override
   build(BuildContext context) {
     final appTheme = context.carrotTheme;

@@ -16,7 +16,7 @@ class CarrotAppBarButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return CarrotRow(
       gap: 6.0,
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: alignment,
       children: children,
     );
   }

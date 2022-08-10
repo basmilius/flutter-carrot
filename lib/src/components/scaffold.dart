@@ -21,6 +21,7 @@ import 'sheet.dart';
 class CarrotScaffold extends StatefulWidget {
   final Widget child;
   final PreferredSizeWidget? appBar;
+  final PreferredSizeWidget? bottomBar;
   final CarrotLayoutBuilder? drawer;
   final Color? drawerScrimColor;
   final double drawerWidth;
@@ -30,6 +31,7 @@ class CarrotScaffold extends StatefulWidget {
     super.key,
     required this.child,
     this.appBar,
+    this.bottomBar,
     this.drawer,
     this.drawerScrimColor,
     this.drawerWidth = 300.0,
@@ -39,6 +41,7 @@ class CarrotScaffold extends StatefulWidget {
     super.key,
     required this.router,
     this.appBar,
+    this.bottomBar,
     this.drawer,
     this.drawerScrimColor,
     this.drawerWidth = 300.0,
@@ -70,6 +73,7 @@ class _CarrotScaffold extends State<CarrotScaffold> {
   final List<CarrotSheetEntry> _sheets = [];
 
   Size _appBarSize = Size.zero;
+  Size _bottomBarSize = Size.zero;
   CarrotRouter? _router;
   ScrollController? _scrollController;
   ScrollNotificationObserverState? _scrollNotificationObserver;
@@ -90,6 +94,12 @@ class _CarrotScaffold extends State<CarrotScaffold> {
     if (widget.appBar == null && oldWidget.appBar != null) {
       setState(() {
         _appBarSize = Size.zero;
+      });
+    }
+
+    if (widget.bottomBar == null && oldWidget.bottomBar != null) {
+      setState(() {
+        _bottomBarSize = Size.zero;
       });
     }
   }
@@ -184,7 +194,9 @@ class _CarrotScaffold extends State<CarrotScaffold> {
   Widget build(BuildContext context) {
     return _CarrotScaffoldController(
       appBarSize: _appBarSize,
+      bottomBarSize: _bottomBarSize,
       hasAppBar: widget.appBar != null,
+      hasBottomBar: widget.bottomBar != null,
       hasDrawer: widget.drawer != null,
       scrollPosition: _scrollPosition,
       drawerCloseFunction: _drawerClose,
@@ -208,9 +220,13 @@ class _CarrotScaffold extends State<CarrotScaffold> {
                 drawerWidth: widget.drawerWidth,
                 child: _CarrotScaffoldBody(
                   appBar: widget.appBar,
+                  bottomBar: widget.bottomBar,
                   child: widget.child,
-                  onSizeChange: (size) {
+                  onAppBarSizeChange: (size) {
                     setState(() => _appBarSize = size);
+                  },
+                  onBottomBarSizeChange: (size) {
+                    setState(() => _bottomBarSize = size);
                   },
                 ),
               ),
@@ -243,13 +259,17 @@ class _CarrotScaffold extends State<CarrotScaffold> {
 
 class _CarrotScaffoldBody extends StatelessWidget {
   final Widget? appBar;
+  final Widget? bottomBar;
   final Widget child;
-  final _MeasureSizeCallback onSizeChange;
+  final _MeasureSizeCallback onAppBarSizeChange;
+  final _MeasureSizeCallback onBottomBarSizeChange;
 
   const _CarrotScaffoldBody({
     required this.appBar,
+    required this.bottomBar,
     required this.child,
-    required this.onSizeChange,
+    required this.onAppBarSizeChange,
+    required this.onBottomBarSizeChange,
   });
 
   @override
@@ -261,17 +281,35 @@ class _CarrotScaffoldBody extends StatelessWidget {
       child: child,
     );
 
-    if (appBar == null) {
+    if (appBar == null && bottomBar == null) {
       return content;
     }
 
     return Stack(
       children: [
-        content,
-        CarrotSizeMeasureChild(
-          onChange: onSizeChange,
-          child: appBar!,
+        Positioned.fill(
+          child: content,
         ),
+        if (appBar != null)
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: CarrotSizeMeasureChild(
+              onChange: onAppBarSizeChange,
+              child: appBar!,
+            ),
+          ),
+        if (bottomBar != null)
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: CarrotSizeMeasureChild(
+              onChange: onBottomBarSizeChange,
+              child: bottomBar!,
+            ),
+          ),
       ],
     );
   }
@@ -471,7 +509,11 @@ class _CarrotScaffoldController extends InheritedWidget implements CarrotScaffol
   @override
   final Size appBarSize;
   @override
+  final Size bottomBarSize;
+  @override
   final bool hasAppBar;
+  @override
+  final bool hasBottomBar;
   @override
   final bool hasDrawer;
   @override
@@ -485,7 +527,9 @@ class _CarrotScaffoldController extends InheritedWidget implements CarrotScaffol
   const _CarrotScaffoldController({
     required super.child,
     required this.appBarSize,
+    required this.bottomBarSize,
     required this.hasAppBar,
+    required this.hasBottomBar,
     required this.hasDrawer,
     required this.scrollPosition,
     required this.drawerCloseFunction,
@@ -520,7 +564,15 @@ class _CarrotScaffoldController extends InheritedWidget implements CarrotScaffol
       return true;
     }
 
+    if (oldWidget.bottomBarSize != bottomBarSize) {
+      return true;
+    }
+
     if (oldWidget.hasAppBar != hasAppBar) {
+      return true;
+    }
+
+    if (oldWidget.hasBottomBar != hasBottomBar) {
       return true;
     }
 
@@ -543,7 +595,11 @@ typedef _SheetToggle = void Function(CarrotSheetEntry);
 abstract class CarrotScaffoldController {
   Size get appBarSize;
 
+  Size get bottomBarSize;
+
   bool get hasAppBar;
+
+  bool get hasBottomBar;
 
   bool get hasDrawer;
 

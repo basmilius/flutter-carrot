@@ -354,8 +354,8 @@ class _CarrotBasicAnimation<T extends CarrotBasicAnimationBuilder> extends State
   void initState() {
     super.initState();
 
-    _initBuilder();
     _initAnimationController();
+    _initBuilder();
   }
 
   void _initAnimationController() {

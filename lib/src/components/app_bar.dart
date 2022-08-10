@@ -135,8 +135,11 @@ class _CarrotAppBarBody extends StatelessWidget {
         right: 15,
       ),
       child: ConstrainedBox(
-        constraints: const BoxConstraints.expand(height: 72.0),
+        constraints: const BoxConstraints(
+          minHeight: 60,
+        ),
         child: Stack(
+          fit: StackFit.passthrough,
           children: [
             if (before != null)
               Align(

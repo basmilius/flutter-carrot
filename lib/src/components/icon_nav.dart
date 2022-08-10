@@ -60,15 +60,14 @@ class CarrotIconNav extends StatefulWidget {
 
 class _CarrotIconNav extends State<CarrotIconNav> {
   CarrotRouter? _router;
-  String? _currentRoute;
 
-  int? get activeIndex => _router != null ? widget.items.indexWhere((item) => item.route == _currentRoute) : widget.activeIndex;
+  int? get activeIndex => _router != null ? widget.items.indexWhere((item) => _router?.routerDelegate.matches.first.subloc == item.route) : widget.activeIndex;
 
   @override
   void dispose() {
-    super.dispose();
-
     _router?.removeListener(_onRouteChanged);
+
+    super.dispose();
   }
 
   @override
@@ -76,8 +75,6 @@ class _CarrotIconNav extends State<CarrotIconNav> {
     super.didChangeDependencies();
 
     _router = widget.router;
-    _currentRoute = _router?.location;
-
     _router?.addListener(_onRouteChanged);
   }
 
@@ -88,7 +85,6 @@ class _CarrotIconNav extends State<CarrotIconNav> {
     if (widget.router != oldWidget.router) {
       setState(() {
         _router = widget.router;
-        _currentRoute = _router?.location;
       });
     }
   }
@@ -113,9 +109,7 @@ class _CarrotIconNav extends State<CarrotIconNav> {
     // todo(Bas): figure out why this is necessary
     await Future.delayed(const Duration(microseconds: 1));
 
-    setState(() {
-      _currentRoute = _router?.location;
-    });
+    setState(() {});
   }
 
   @override
@@ -215,7 +209,7 @@ class _CarrotIconNavItem extends StatelessWidget {
                   AnimatedSlide(
                     curve: iconNav.curve,
                     duration: iconNav.duration,
-                    offset: isActive || iconNav.isLabelAlwaysVisible ? Offset.zero : const Offset(0, .5),
+                    offset: isActive || iconNav.isLabelAlwaysVisible ? Offset.zero : const Offset(0, 1),
                     child: AnimatedOpacity(
                       curve: iconNav.curve,
                       duration: iconNav.duration,
