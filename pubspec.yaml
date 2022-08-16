@@ -1,6 +1,6 @@
 name: carrot
 description: A new Flutter UI library.
-version: 1.0.0+1
+version: 1.0.0-dev
 homepage: https://vegetable.studio/carrot
 
 environment:

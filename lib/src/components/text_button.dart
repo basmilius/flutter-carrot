@@ -7,11 +7,14 @@ import 'button.dart';
 import 'icon.dart';
 
 class CarrotTextButton extends StatelessWidget {
-  final CarrotColor? border;
+  final Color? background;
+  final Color? backgroundTap;
+  final Border? border;
   final BorderRadius? borderRadius;
   final List<Widget> children;
   final Duration duration;
   final FocusNode? focusNode;
+  final Color? foreground;
   final String? icon;
   final String? iconAfter;
   final CarrotIconStyle iconAfterStyle;
@@ -31,10 +34,13 @@ class CarrotTextButton extends StatelessWidget {
   const CarrotTextButton({
     super.key,
     required this.children,
+    this.background,
+    this.backgroundTap,
     this.border,
     this.borderRadius,
     this.duration = const Duration(milliseconds: 240),
     this.focusNode,
+    this.foreground,
     this.icon,
     this.iconAfter,
     this.iconAfterStyle = CarrotIconStyle.regular,
@@ -52,13 +58,43 @@ class CarrotTextButton extends StatelessWidget {
     this.onTapCancel,
   });
 
-  CarrotTextButton.text({
+  CarrotTextButton.icon({
     super.key,
-    required Text text,
+    required CarrotIcon icon,
+    this.background,
+    this.backgroundTap,
     this.border,
     this.borderRadius,
     this.duration = const Duration(milliseconds: 240),
     this.focusNode,
+    this.foreground,
+    this.padding,
+    this.scale = 1.0,
+    this.scaleTap = .985,
+    this.shadow = CarrotShadows.small,
+    this.shadowTap = CarrotShadows.small,
+    this.size = CarrotButtonSize.medium,
+    this.textStyle,
+    this.onTap,
+    this.onTapDown,
+    this.onTapUp,
+    this.onTapCancel,
+  })  : children = [icon],
+        icon = null,
+        iconAfter = null,
+        iconAfterStyle = CarrotIconStyle.regular,
+        iconStyle = CarrotIconStyle.regular;
+
+  CarrotTextButton.text({
+    super.key,
+    required Text text,
+    this.background,
+    this.backgroundTap,
+    this.border,
+    this.borderRadius,
+    this.duration = const Duration(milliseconds: 240),
+    this.focusNode,
+    this.foreground,
     this.icon,
     this.iconAfter,
     this.iconAfterStyle = CarrotIconStyle.regular,
@@ -79,8 +115,13 @@ class CarrotTextButton extends StatelessWidget {
   @override
   build(BuildContext context) {
     final appTheme = context.carrotTheme;
-    final borderColor = border?[300] ?? appTheme.gray[300];
     final radius = borderRadius ?? appTheme.borderRadius;
+
+    final border = this.border ??
+        Border.all(
+          color: appTheme.gray[300].withOpacity(.35),
+          width: 1.0,
+        );
 
     return CarrotButton(
       duration: duration,
@@ -98,19 +139,20 @@ class CarrotTextButton extends StatelessWidget {
       onTapUp: onTapUp,
       onTapCancel: onTapCancel,
       decoration: BoxDecoration(
-        border: Border.all(color: borderColor.withOpacity(.35)),
+        border: border,
         borderRadius: radius,
         boxShadow: shadow,
-        color: appTheme.gray[0],
+        color: background ?? appTheme.gray[0],
       ),
       decorationTap: BoxDecoration(
-        border: Border.all(color: borderColor.withOpacity(.35)),
+        border: border,
         borderRadius: radius,
         boxShadow: shadowTap,
-        color: appTheme.gray[50],
+        color: backgroundTap ?? background ?? appTheme.gray[50],
       ),
       textStyle: textStyle ??
           appTheme.typography.button.copyWith(
+            color: foreground,
             fontSize: size == CarrotButtonSize.tiny ? 14 : null,
           ),
       children: children,
