@@ -277,48 +277,48 @@ class CarrotText extends StatelessWidget {
 
   TextStyle _getTextStyle(BuildContext context) {
     final typography = context.carrotTheme.typography;
-    TextStyle style;
+    TextStyle base;
 
     switch (type) {
       case CarrotTypographyType.display1:
-        style = typography.display1;
+        base = typography.display1;
         break;
       case CarrotTypographyType.display2:
-        style = typography.display2;
+        base = typography.display2;
         break;
       case CarrotTypographyType.headline1:
-        style = typography.headline1;
+        base = typography.headline1;
         break;
       case CarrotTypographyType.headline2:
-        style = typography.headline2;
+        base = typography.headline2;
         break;
       case CarrotTypographyType.headline3:
-        style = typography.headline3;
+        base = typography.headline3;
         break;
       case CarrotTypographyType.headline4:
-        style = typography.headline4;
+        base = typography.headline4;
         break;
       case CarrotTypographyType.headline5:
-        style = typography.headline5;
+        base = typography.headline5;
         break;
       case CarrotTypographyType.headline6:
-        style = typography.headline6;
+        base = typography.headline6;
         break;
       case CarrotTypographyType.subtitle1:
-        style = typography.subtitle1;
+        base = typography.subtitle1;
         break;
       case CarrotTypographyType.subtitle2:
-        style = typography.subtitle2;
+        base = typography.subtitle2;
         break;
       case CarrotTypographyType.body1:
-        style = typography.body1;
+        base = typography.body1;
         break;
       case CarrotTypographyType.body2:
-        style = typography.body2;
+        base = typography.body2;
         break;
     }
 
-    return style.merge(style);
+    return base.merge(style);
   }
 
   @override
