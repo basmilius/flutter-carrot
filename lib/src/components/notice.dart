@@ -29,6 +29,18 @@ class CarrotNotice extends StatelessWidget {
     this.title,
   });
 
+  const CarrotNotice.serious({
+    super.key,
+    this.color,
+    this.child,
+    this.isBordered = true,
+    this.isFluid = false,
+    this.shadow = CarrotShadows.none,
+    this.icon,
+    this.message,
+    this.title,
+  }) : isSerious = true;
+
   @override
   Widget build(BuildContext context) {
     var appTheme = context.carrotTheme;
@@ -39,11 +51,6 @@ class CarrotNotice extends StatelessWidget {
 
     if (isFluid) {
       radius = null;
-    } else if (isBordered) {
-      radius = appTheme.borderRadius.copyWith(
-        bottomLeft: const Radius.circular(3),
-        topLeft: const Radius.circular(3),
-      );
     } else {
       radius = appTheme.borderRadius;
     }
@@ -64,9 +71,9 @@ class CarrotNotice extends StatelessWidget {
       children: [
         if (title != null) ...[
           DefaultTextStyle(
-            style: appTheme.typography.headline5.copyWith(
+            style: appTheme.typography.headline6.copyWith(
               color: palette[appTheme.darkMode ? 500 : 600],
-              height: 1.4,
+              height: 1.2,
             ),
             child: title!,
           ),
@@ -76,7 +83,7 @@ class CarrotNotice extends StatelessWidget {
             style: appTheme.typography.body1.copyWith(
               color: palette[appTheme.darkMode ? 300 : 900],
               fontSize: 15,
-              height: 1.4,
+              height: 1.2,
             ),
             child: message!,
           ),
@@ -114,25 +121,34 @@ class CarrotNotice extends StatelessWidget {
       decoration: BoxDecoration(
         border: isFluid ? Border.symmetric(horizontal: BorderSide(color: palette[appTheme.darkMode ? 800 : 200])) : null,
         borderRadius: radius,
-        color: !isSerious ? CarrotColors.transparent : palette[appTheme.darkMode ? 900 : 100],
+        color: isFluid || isSerious ? palette[appTheme.darkMode ? 900 : 100] : CarrotColors.transparent,
       ),
       child: Stack(
         children: [
           if (isBordered)
             Positioned(
-              top: 0,
-              left: 0,
-              bottom: 0,
+              top: isSerious ? 15 : 6,
+              left: isSerious ? 12 : 0,
+              bottom: isSerious ? 15 : 6,
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   borderRadius: lineRadius,
                   color: palette[500],
                 ),
-                child: const SizedBox(width: 6),
+                child: const SizedBox(width: 3),
               ),
             ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: isFluid ? 15 : 18, vertical: isFluid ? 15 : (isSerious ? 18 : 3)),
+            padding: EdgeInsets.only(
+              top: isFluid || isSerious ? 15 : 3,
+              left: isBordered
+                  ? (isSerious ? 24 : 15)
+                  : isFluid || isSerious
+                      ? 15
+                      : 0,
+              right: isFluid || isSerious ? 15 : 0,
+              bottom: isFluid || isSerious ? 15 : 3,
+            ),
             child: body,
           ),
         ],

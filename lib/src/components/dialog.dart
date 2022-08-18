@@ -266,6 +266,7 @@ class CarrotDialogTitle extends StatelessWidget {
 }
 
 class CarrotAlertDialog extends CarrotDialog<void> {
+  final String okLabel;
   final Widget title;
 
   const CarrotAlertDialog({
@@ -273,15 +274,16 @@ class CarrotAlertDialog extends CarrotDialog<void> {
     required super.close,
     required super.content,
     required this.title,
+    this.okLabel = 'Ok',
     super.scrollController,
     super.width = _kDefaultDialogWidth,
   });
 
   @override
   Widget? buildFooter(BuildContext context) {
-    return const CarrotDialogButtons(
+    return CarrotDialogButtons(
       buttons: [
-        CarrotDialogButton.primary(label: "Oké"),
+        CarrotDialogButton.primary(label: okLabel),
       ],
     );
   }
