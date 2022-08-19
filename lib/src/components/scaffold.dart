@@ -11,6 +11,10 @@ import 'drawer_gesture_detector.dart';
 import 'scroll_view.dart';
 import 'sheet.dart';
 
+typedef CarrotScaffoldRouterWrap = Widget Function(BuildContext, Router);
+
+Widget defaultRouterWrap(context, router) => router;
+
 class CarrotScaffold extends StatefulWidget {
   final Widget child;
   final PreferredSizeWidget? appBar;
@@ -38,12 +42,17 @@ class CarrotScaffold extends StatefulWidget {
     this.drawer,
     this.drawerScrimColor,
     this.drawerWidth = 300.0,
-  }) : child = Router(
-          restorationScopeId: "scaffold",
-          routeInformationProvider: router!.routeInformationProvider,
-          routeInformationParser: router.routeInformationParser,
-          routerDelegate: router.routerDelegate,
-        );
+    CarrotScaffoldRouterWrap routerWrapper = defaultRouterWrap,
+  }) : child = LayoutBuilder(
+    builder: (context, constraints) {
+      return routerWrapper(context, Router(
+        restorationScopeId: "scaffold",
+        routeInformationProvider: router!.routeInformationProvider,
+        routeInformationParser: router.routeInformationParser,
+        routerDelegate: router.routerDelegate,
+      ));
+    },
+  );
 
   @override
   createState() => _CarrotScaffold();
