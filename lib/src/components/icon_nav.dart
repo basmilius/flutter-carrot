@@ -61,7 +61,20 @@ class CarrotIconNav extends StatefulWidget {
 class _CarrotIconNav extends State<CarrotIconNav> {
   CarrotRouter? _router;
 
-  int? get activeIndex => _router != null ? widget.items.indexWhere((item) => _router?.routerDelegate.matches.matches.first.subloc == item.route) : widget.activeIndex;
+  int? get activeIndex {
+    if (_router == null) {
+      return widget.activeIndex;
+    }
+
+    final delegate = _router!.routerDelegate;
+    final matches = delegate.matches;
+
+    if (matches.isEmpty || matches.matches.isEmpty) {
+      return widget.activeIndex;
+    }
+
+    return widget.items.indexWhere((item) => matches.matches.first.subloc == item.route);
+  }
 
   @override
   void dispose() {
@@ -114,6 +127,8 @@ class _CarrotIconNav extends State<CarrotIconNav> {
 
   @override
   Widget build(BuildContext context) {
+    final activeIndex = this.activeIndex;
+
     return CarrotBackdropBlurContainer(
       sigmaX: widget.blur,
       sigmaY: widget.blur,
