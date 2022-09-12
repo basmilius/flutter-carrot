@@ -20,6 +20,7 @@ const EdgeInsets _kDefaultDialogPadding = EdgeInsets.all(27);
 abstract class CarrotDialog<T> extends StatefulWidget {
   final CarrotOverlayBaseClose<T> close;
   final Widget content;
+  final EdgeInsets padding;
   final ScrollController? scrollController;
   final double width;
 
@@ -27,6 +28,7 @@ abstract class CarrotDialog<T> extends StatefulWidget {
     super.key,
     required this.close,
     required this.content,
+    this.padding = _kDefaultDialogPadding,
     this.scrollController,
     this.width = _kDefaultDialogWidth,
   });
@@ -85,15 +87,15 @@ class _CarrotDialog extends State<CarrotDialog> {
         child: Stack(
           children: [
             CarrotScrollView(
-              padding: _kDefaultDialogPadding.copyWith(
-                top: math.max(_kDefaultDialogPadding.top, _headerSize.height),
-                bottom: math.max(_kDefaultDialogPadding.top, _footerSize.height),
+              padding: widget.padding.copyWith(
+                top: math.max(widget.padding.top, _headerSize.height),
+                bottom: math.max(widget.padding.top, _footerSize.height),
               ),
               physics: const CarrotBouncingScrollPhysics.notAlways(),
               scrollController: _scrollController,
               scrollPadding: EdgeInsets.only(
-                top: _headerSize.height - _kDefaultDialogPadding.top,
-                bottom: _footerSize.height - _kDefaultDialogPadding.bottom,
+                top: _headerSize.height - widget.padding.top,
+                bottom: _footerSize.height - widget.padding.bottom,
               ),
               child: Align(
                 alignment: AlignmentDirectional.center,
