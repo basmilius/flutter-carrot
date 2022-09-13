@@ -469,8 +469,6 @@ class _CarrotScaffoldReturnToTop extends StatelessWidget {
   });
 
   void _onTap() {
-    debugPrint("_CarrotScaffoldReturnToTop->_onTap()");
-
     if (scrollController != null && scrollController!.positions.isNotEmpty) {
       scrollController?.animateTo(
         0,
