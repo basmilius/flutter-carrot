@@ -388,7 +388,7 @@ class _CarrotBasicAnimation<T extends CarrotBasicAnimationBuilder> extends State
 
   void _prepareForAnimation() {
     if (widget.animate && widget.delay.inMilliseconds > 0) {
-      _delayTimer = Timer(widget.delay, () => _controller.forward());
+      _delayTimer = Timer(widget.delay, () => mounted ? _controller.forward() : null);
     } else if (widget.animate) {
       _controller.forward();
     }
