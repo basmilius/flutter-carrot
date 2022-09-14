@@ -56,7 +56,7 @@ class CarrotAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final swatch = _swatches[context.hashCode % _swatches.length];
+    final swatch = _swatches[(letters ?? image ?? context.hashCode).hashCode % _swatches.length];
 
     Widget media;
 
