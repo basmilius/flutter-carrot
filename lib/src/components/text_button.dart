@@ -87,7 +87,7 @@ class CarrotTextButton extends StatelessWidget {
 
   CarrotTextButton.text({
     super.key,
-    required Text text,
+    required Widget text,
     this.background,
     this.backgroundTap,
     this.border,

@@ -114,6 +114,7 @@ class CarrotTypography {
   final double fontSize;
   final FontWeight fontWeight;
   final double height;
+  final TextHeightBehavior textHeightBehavior;
 
   TextStyle get display1 => base.copyWith(
         color: gray?[700],
@@ -213,12 +214,17 @@ class CarrotTypography {
     this.fontSize = 16.0,
     this.fontWeight = FontWeight.w400,
     this.height = 1.6,
+    this.textHeightBehavior = const TextHeightBehavior(
+      applyHeightToFirstAscent: false,
+      applyHeightToLastDescent: true,
+      leadingDistribution: TextLeadingDistribution.even,
+    ),
   }) : base = TextStyle(
           fontFamily: fontFamily,
           fontSize: fontSize,
           fontWeight: fontWeight,
           height: height,
-          leadingDistribution: TextLeadingDistribution.even,
+          leadingDistribution: textHeightBehavior.leadingDistribution,
         );
 }
 
@@ -294,5 +300,6 @@ class CarrotTypographyPanton extends CarrotTypography {
     super.fontSize = 16.0,
     super.fontWeight = FontWeight.w600,
     super.height = 1.6,
+    super.textHeightBehavior,
   }) : super(fontFamily: "panton");
 }

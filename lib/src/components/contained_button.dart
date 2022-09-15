@@ -54,7 +54,7 @@ class CarrotContainedButton extends StatelessWidget {
 
   CarrotContainedButton.text({
     super.key,
-    required Text text,
+    required Widget text,
     this.borderRadius,
     this.color,
     this.duration = const Duration(milliseconds: 240),

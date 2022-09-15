@@ -54,7 +54,7 @@ class CarrotLinkButton extends StatelessWidget {
 
   CarrotLinkButton.text({
     super.key,
-    required Text text,
+    required Widget text,
     this.border,
     this.duration = const Duration(milliseconds: 240),
     this.focusNode,

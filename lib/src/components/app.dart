@@ -74,9 +74,12 @@ class CarrotApp extends StatelessWidget {
             useInheritedMediaQuery: useInheritedMediaQuery,
             title: settings.title,
             textStyle: theme.typography.body1,
-            builder: (context, widget) => DefaultTextStyle(
-              style: theme.typography.body1,
-              child: child,
+            builder: (context, widget) => DefaultTextHeightBehavior(
+              textHeightBehavior: theme.typography.textHeightBehavior,
+              child: DefaultTextStyle(
+                style: theme.typography.body1,
+                child: child,
+              ),
             ),
           ),
         ),
