@@ -31,6 +31,7 @@ export 'scroll_view.dart';
 export 'sheet.dart';
 export 'spacer.dart';
 export 'spinner.dart';
+export 'switch.dart';
 export 'teaching.dart';
 export 'text_button.dart';
 export 'text_field.dart';
