@@ -13,7 +13,7 @@ import 'sheet.dart';
 
 typedef CarrotScaffoldRouterWrap = Widget Function(BuildContext, Router);
 
-Widget defaultRouterWrap(context, router) => router;
+Widget _defaultRouterWrap(context, router) => router;
 
 class CarrotScaffold extends StatefulWidget {
   final Widget child;
@@ -42,7 +42,7 @@ class CarrotScaffold extends StatefulWidget {
     this.drawer,
     this.drawerScrimColor,
     this.drawerWidth = 300.0,
-    CarrotScaffoldRouterWrap routerWrapper = defaultRouterWrap,
+    CarrotScaffoldRouterWrap routerWrapper = _defaultRouterWrap,
   }) : child = LayoutBuilder(
     builder: (context, constraints) {
       return routerWrapper(context, Router(

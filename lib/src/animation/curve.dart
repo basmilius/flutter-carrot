@@ -1,5 +1,4 @@
 import 'package:flutter/animation.dart';
-import 'package:flutter/rendering.dart';
 
 import 'spring.dart';
 

@@ -9,8 +9,6 @@ import '../components/scaffold.dart';
 import 'overlay.dart';
 import 'route.dart';
 
-typedef CarrotRouterNavigatorBuilder = Widget Function(BuildContext context, GoRouterState state, Widget child);
-
 class CarrotRouter extends GoRouter {
   CarrotRouter({
     super.debugLogDiagnostics = false,
@@ -21,16 +19,13 @@ class CarrotRouter extends GoRouter {
     super.refreshListenable,
     super.restorationScopeId,
     super.routerNeglect = false,
-    super.urlPathStrategy,
     required List<CarrotRoute> routes,
     CarrotRouteWidgetBuilder? errorBuilder,
     CarrotRoutePageBuilder? errorPageBuilder,
-    CarrotRouterNavigatorBuilder? navigatorBuilder,
   }) : super(
           routes: routes,
           errorBuilder: errorBuilder,
           errorPageBuilder: errorPageBuilder,
-          navigatorBuilder: navigatorBuilder,
         );
 
   Future<T?> overlay<T>({

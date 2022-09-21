@@ -27,7 +27,7 @@ class CarrotSwitch extends StatefulWidget {
 
 class _CarrotSwitchState extends State<CarrotSwitch> {
   bool _isPressed = false;
-  double _x = 3;
+  double _x = 0;
 
   @override
   void didUpdateWidget(CarrotSwitch oldWidget) {
@@ -36,6 +36,13 @@ class _CarrotSwitchState extends State<CarrotSwitch> {
     setState(() {
       _x = widget.value ? 21 : 3;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _x = widget.value ? 21 : 3;
   }
 
   void _onPanEnd(DragEndDetails details) {

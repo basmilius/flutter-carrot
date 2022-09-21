@@ -3,10 +3,12 @@ import 'package:go_router/go_router.dart';
 
 import 'page.dart';
 
-typedef CarrotRouteNameGenerator = String? Function(BuildContext context);
-typedef CarrotRouteRedirect = String? Function(GoRouterState state);
-typedef CarrotRoutePageBuilder = Page<void> Function(BuildContext context, GoRouterState state);
-typedef CarrotRouteWidgetBuilder = Widget Function(BuildContext context, GoRouterState state);
+typedef CarrotRouteNameGenerator = String? Function(BuildContext);
+typedef CarrotRouteRedirect = String? Function(BuildContext, GoRouterState);
+typedef CarrotRoutePageBuilder = Page<dynamic> Function(BuildContext, GoRouterState);
+typedef CarrotRouteWidgetBuilder = Widget Function(BuildContext, GoRouterState);
+typedef CarrotShellRoutePageBuilder = Page<dynamic> Function(BuildContext, GoRouterState, Widget);
+typedef CarrotShellRouteWidgetBuilder = Widget Function(BuildContext, GoRouterState, Widget);
 
 class CarrotRoute extends GoRoute {
   CarrotRoute({
@@ -37,6 +39,18 @@ class CarrotRoute extends GoRoute {
           redirect: redirect,
           routes: routes,
         );
-
-  static String? _noRedirect(GoRouterState state) => null;
 }
+
+class CarrotShellRoute extends ShellRoute {
+  CarrotShellRoute({
+    super.navigatorKey,
+    super.routes,
+    CarrotShellRouteWidgetBuilder? builder,
+    CarrotShellRoutePageBuilder? pageBuilder,
+  }) : super(
+          builder: builder,
+          pageBuilder: pageBuilder,
+        );
+}
+
+String? _noRedirect(BuildContext _, GoRouterState __) => null;
