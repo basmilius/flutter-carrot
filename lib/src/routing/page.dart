@@ -18,10 +18,9 @@ class CarrotRoutingPage<T> extends CustomTransitionPage<T> {
   const CarrotRoutingPage({
     super.key,
     required super.child,
+    super.name,
     Duration duration = const Duration(milliseconds: 450),
-    String? name,
   }) : super(
-          name: name,
           transitionDuration: duration,
           transitionsBuilder: _transitionBuilder,
         );

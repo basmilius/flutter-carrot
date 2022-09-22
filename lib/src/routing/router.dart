@@ -19,7 +19,7 @@ class CarrotRouter extends GoRouter {
     super.refreshListenable,
     super.restorationScopeId,
     super.routerNeglect = false,
-    required List<CarrotRoute> routes,
+    required List<RouteBase> routes,
     CarrotRouteWidgetBuilder? errorBuilder,
     CarrotRoutePageBuilder? errorPageBuilder,
   }) : super(
