@@ -3,42 +3,56 @@ import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 
 import '../app/extensions/extensions.dart';
-
-import 'primitive/primitive.dart';
-import 'scroll/scroll.dart';
-
 import 'basic.dart';
 import 'button.dart';
 import 'contained_button.dart';
 import 'overlay.dart';
+import 'primitive/primitive.dart';
+import 'scroll/scroll.dart';
 import 'scroll_view.dart';
 import 'text_button.dart';
+
+typedef CarrotDialogWidgetBuilder = Widget? Function(BuildContext);
 
 const double _kDefaultDialogWidth = 480;
 const EdgeInsets _kDefaultDialogPadding = EdgeInsets.all(27);
 
-abstract class CarrotDialog<T> extends StatefulWidget {
+class CarrotDialog<T> extends StatefulWidget {
   final CarrotOverlayBaseClose<T> close;
-  final Widget content;
+  final Widget? content;
   final EdgeInsets padding;
   final ScrollController? scrollController;
   final double width;
+  final CarrotDialogWidgetBuilder? contentBuilder;
+  final CarrotDialogWidgetBuilder? footerBuilder;
+  final CarrotDialogWidgetBuilder? headerBuilder;
 
   const CarrotDialog({
     super.key,
     required this.close,
-    required this.content,
+    this.content,
     this.padding = _kDefaultDialogPadding,
     this.scrollController,
     this.width = _kDefaultDialogWidth,
+    this.contentBuilder,
+    this.footerBuilder,
+    this.headerBuilder,
   });
 
   @override
   createState() => _CarrotDialog();
 
-  Widget? buildFooter(BuildContext context);
+  Widget? buildContent(BuildContext context) {
+    return contentBuilder?.call(context) ?? content;
+  }
 
-  Widget? buildHeader(BuildContext context);
+  Widget? buildFooter(BuildContext context) {
+    return footerBuilder?.call(context);
+  }
+
+  Widget? buildHeader(BuildContext context) {
+    return headerBuilder?.call(context);
+  }
 }
 
 class _CarrotDialog extends State<CarrotDialog> {
@@ -97,9 +111,8 @@ class _CarrotDialog extends State<CarrotDialog> {
                 top: _headerSize.height - widget.padding.top,
                 bottom: _footerSize.height - widget.padding.bottom,
               ),
-              child: Align(
-                alignment: AlignmentDirectional.center,
-                child: widget.content,
+              child: Builder(
+                builder: (context) => widget.buildContent(context) ?? Container(),
               ),
             ),
             if (header != null)
@@ -153,7 +166,7 @@ class CarrotDialogButton<T> extends StatelessWidget {
 
     assert(dialog != null);
 
-    void _onTap() {
+    void onTap() {
       dialog!.widget.close(result);
     }
 
@@ -167,14 +180,14 @@ class CarrotDialogButton<T> extends StatelessWidget {
       return CarrotContainedButton(
         color: theme.primary,
         size: buttonSize,
-        onTap: _onTap,
+        onTap: onTap,
         children: children,
       );
     }
 
     return CarrotTextButton(
       size: buttonSize,
-      onTap: _onTap,
+      onTap: onTap,
       children: children,
     );
   }
@@ -324,6 +337,51 @@ class CarrotConfirmDialog extends CarrotDialog<bool> {
   Widget? buildHeader(BuildContext context) {
     return CarrotDialogTitle(
       child: title,
+    );
+  }
+}
+
+abstract class CarrotStatefulDialog<T> extends StatefulWidget {
+  final CarrotOverlayBaseClose<T> close;
+  final Widget? content;
+  final EdgeInsets padding;
+  final ScrollController? scrollController;
+  final double width;
+
+  const CarrotStatefulDialog({
+    super.key,
+    required this.close,
+    this.content,
+    this.padding = _kDefaultDialogPadding,
+    this.scrollController,
+    this.width = _kDefaultDialogWidth,
+  });
+}
+
+abstract class CarrotStatefulDialogState<T, W extends CarrotStatefulDialog<T>> extends State<W> {
+  Widget? buildContent(BuildContext context) {
+    return null;
+  }
+
+  Widget? buildFooter(BuildContext context) {
+    return null;
+  }
+
+  Widget? buildHeader(BuildContext context) {
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CarrotDialog<T>(
+      close: widget.close,
+      content: widget.content,
+      padding: widget.padding,
+      scrollController: widget.scrollController,
+      width: widget.width,
+      contentBuilder: buildContent,
+      footerBuilder: buildFooter,
+      headerBuilder: buildHeader,
     );
   }
 }

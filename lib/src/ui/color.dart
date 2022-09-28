@@ -44,7 +44,7 @@ class CarrotColor extends Color {
   }
 
   @override
-  int get hashCode => hashValues(runtimeType, value, _swatch);
+  int get hashCode => Object.hash(runtimeType, value, _swatch);
 
   CarrotColor reverse() => CarrotColor(0, {
         0: this[900],

@@ -6,7 +6,6 @@ import '../animation/animation.dart';
 import '../app/extensions/extensions.dart';
 
 import 'primitive/primitive.dart';
-import 'scroll/scroll.dart';
 
 const _kAnimationDuration = Duration(milliseconds: 540);
 
@@ -71,8 +70,7 @@ class _CarrotOverlay<T> extends State<CarrotOverlay<T>> with SingleTickerProvide
   final GlobalKey contentKey = GlobalKey(debugLabel: "carrot/overlay:content");
 
   late AnimationController _animationController;
-  late Animation<double> _animationBoxTranslate;
-  late CarrotOverflowScrollController _scrollController;
+  late ScrollController _scrollController;
 
   bool _isClosing = false;
   bool _isOpening = false;
@@ -89,19 +87,14 @@ class _CarrotOverlay<T> extends State<CarrotOverlay<T>> with SingleTickerProvide
     super.initState();
 
     _animationController = AnimationController(duration: _kAnimationDuration, vsync: this)
-      ..addListener(_handleAnimationChange)
       ..addStatusListener(_handleAnimationStatusChange);
 
-    _scrollController = CarrotOverflowScrollController(
-      enableOverflow: widget.dismissible,
-      onRequestDismiss: _handleDismiss,
-      onStateChanged: () => setState(() {}),
-    );
+    _scrollController = ScrollController();
 
     open();
   }
 
-  void close([T? result, bool withTranslate = false]) {
+  void close([T? result]) {
     if (_isClosing) {
       return;
     }
@@ -110,20 +103,6 @@ class _CarrotOverlay<T> extends State<CarrotOverlay<T>> with SingleTickerProvide
 
     /// note(Bas): do we want to pass the result before the animation ends?
     widget.completer.complete(result);
-
-    if (withTranslate) {
-      _animationBoxTranslate = _animationController.curveTween(
-        begin: 2,
-        end: 0,
-        curve: CarrotCurves.springOverDamped.flipped,
-      );
-    } else {
-      _animationBoxTranslate = _animationController.curveTween(
-        begin: 0,
-        end: 0,
-        curve: CarrotCurves.springOverDamped.flipped,
-      );
-    }
 
     _animationController
       ..value = 1
@@ -137,20 +116,10 @@ class _CarrotOverlay<T> extends State<CarrotOverlay<T>> with SingleTickerProvide
 
     _isOpening = true;
 
-    setState(() {
-      _animationBoxTranslate = _animationController.curveTween(
-        begin: 0,
-        end: 0,
-        curve: CarrotCurves.springOverDamped,
-      );
-
-      _animationController
-        ..value = 0
-        ..animateTo(1, duration: _kAnimationDuration);
-    });
+    _animationController
+      ..value = 0
+      ..animateTo(1, duration: _kAnimationDuration);
   }
-
-  void _handleAnimationChange() {}
 
   void _handleAnimationStatusChange(AnimationStatus status) {
     if (status != AnimationStatus.completed) {
@@ -165,43 +134,20 @@ class _CarrotOverlay<T> extends State<CarrotOverlay<T>> with SingleTickerProvide
     _isOpening = false;
   }
 
-  void _handleDismiss(double velocity) {
-    close(null, true);
-  }
-
   @override
   Widget build(BuildContext context) {
-    double y = 0;
-
-    final scrollState = _scrollController.state;
-
-    if (scrollState.atStart) {
-      y = scrollState.overflowStart;
-    } else if (scrollState.atEnd) {
-      y = -scrollState.overflowEnd;
-    }
-
     return CarrotOverlayBase<T>(
       animation: _animationController,
       close: close,
       defaultValue: widget.defaultValue,
       dismissible: widget.dismissible,
-      builder: (close) => AnimatedBuilder(
-        animation: _animationController,
-        child: widget.builder(CarrotOverlayBag(
+      builder: (close) => Builder(
+        key: contentKey,
+        builder: (context) => widget.builder(CarrotOverlayBag(
           close: close,
           completer: widget.completer,
           scrollController: _scrollController,
         )),
-        builder: (context, child) {
-          return Transform.translate(
-            offset: Offset(0, y),
-            child: Transform.translate(
-              offset: Offset(0, _animationBoxTranslate.value * scrollState.availablePixels),
-              child: child,
-            ),
-          );
-        },
       ),
     );
   }
@@ -326,24 +272,29 @@ class _CarrotOverlayBase<T> extends State<CarrotOverlayBase> with SingleTickerPr
               onTap: _onScrimTap,
             ),
           ),
-          AnimatedBuilder(
-            animation: widget.animation,
-            child: Padding(
-              padding: const EdgeInsets.all(27),
-              child: Align(
-                alignment: AlignmentDirectional.center,
-                child: widget.builder(_close),
-              ),
-            ),
-            builder: (context, child) {
-              return FadeTransition(
-                opacity: _animationBoxOpacity,
-                child: Transform.scale(
-                  scale: _animationBoxScale.value,
-                  child: child,
+          SafeArea(
+            child: AnimatedBuilder(
+              animation: widget.animation,
+              child: Padding(
+                padding: const EdgeInsets.all(27),
+                child: Align(
+                  alignment: AlignmentDirectional.center,
+                  child: Builder(
+                    key: contentKey,
+                    builder: (_) => widget.builder(_close),
+                  ),
                 ),
-              );
-            },
+              ),
+              builder: (context, child) {
+                return FadeTransition(
+                  opacity: _animationBoxOpacity,
+                  child: Transform.scale(
+                    scale: _animationBoxScale.value,
+                    child: child,
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
