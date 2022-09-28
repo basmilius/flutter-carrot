@@ -13,6 +13,7 @@ class CarrotRouter extends GoRouter {
   CarrotRouter({
     super.debugLogDiagnostics = false,
     super.initialLocation = "/",
+    super.navigatorKey,
     super.observers,
     super.redirect,
     super.redirectLimit = 5,

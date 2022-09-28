@@ -18,6 +18,7 @@ export 'contained_button.dart';
 export 'container.dart';
 export 'dialog.dart';
 export 'drawer.dart';
+export 'dynamic_viewport_safe_area.dart';
 export 'expandable.dart';
 export 'icon.dart';
 export 'icon_nav.dart';

@@ -13,6 +13,7 @@ class CarrotApp extends StatelessWidget {
   final CarrotAppSettings settings;
   final Map<Type, Action<Intent>>? actions;
   final Map<ShortcutActivator, Intent>? shortcuts;
+  final List<NavigatorObserver> navigatorObservers;
   final String? restorationScopeId;
   final bool checkerboardOffscreenLayers;
   final bool checkerboardRasterCacheImages;
@@ -36,6 +37,7 @@ class CarrotApp extends StatelessWidget {
     this.supportedLocales = const [Locale('en', 'US')],
     this.actions,
     this.shortcuts,
+    this.navigatorObservers = const [],
     this.restorationScopeId,
     this.checkerboardOffscreenLayers = false,
     this.checkerboardRasterCacheImages = false,
@@ -63,6 +65,7 @@ class CarrotApp extends StatelessWidget {
             supportedLocales: supportedLocales,
             actions: actions,
             shortcuts: shortcuts,
+            navigatorObservers: navigatorObservers,
             restorationScopeId: restorationScopeId,
             checkerboardOffscreenLayers: checkerboardOffscreenLayers,
             checkerboardRasterCacheImages: checkerboardRasterCacheImages,

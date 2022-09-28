@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
 import '../app/app.dart';
-import '../routing/routing.dart';
 import '../ui/ui.dart';
 
 import 'filter/filter.dart';
@@ -10,11 +9,6 @@ import 'primitive/primitive.dart';
 import 'basic.dart';
 
 typedef CarrotIconNavChanged = void Function(int);
-
-enum CarrotIconNavRouterMode {
-  push,
-  replace,
-}
 
 class CarrotIconNav extends StatefulWidget {
   final double blur;
@@ -30,8 +24,6 @@ class CarrotIconNav extends StatefulWidget {
   final Color? labelColorActive;
   final List<BoxShadow> shadow;
   final int? activeIndex;
-  final CarrotRouter? router;
-  final CarrotIconNavRouterMode routerMode;
   final CarrotIconNavChanged? onChanged;
 
   const CarrotIconNav({
@@ -48,87 +40,21 @@ class CarrotIconNav extends StatefulWidget {
     this.isSafeAreaAware = true,
     this.labelColor,
     this.labelColorActive,
-    this.router,
-    this.routerMode = CarrotIconNavRouterMode.push,
     this.shadow = CarrotShadows.small,
     this.onChanged,
-  }) : assert((router != null && activeIndex == null) || (router == null && activeIndex != null), "CarrotIconNav must have either a router or an activeIndex.");
+  });
 
   @override
   createState() => _CarrotIconNav();
 }
 
 class _CarrotIconNav extends State<CarrotIconNav> {
-  CarrotRouter? _router;
-
-  int? get activeIndex {
-    if (_router == null) {
-      return widget.activeIndex;
-    }
-
-    final delegate = _router!.routerDelegate;
-    final matches = delegate.matches;
-
-    if (matches.isEmpty || matches.matches.isEmpty) {
-      return widget.activeIndex;
-    }
-
-    return widget.items.indexWhere((item) => matches.matches.first.subloc == item.route);
-  }
-
-  @override
-  void dispose() {
-    _router?.removeListener(_onRouteChanged);
-
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    _router = widget.router;
-    _router?.addListener(_onRouteChanged);
-  }
-
-  @override
-  void didUpdateWidget(CarrotIconNav oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (widget.router != oldWidget.router) {
-      setState(() {
-        _router = widget.router;
-      });
-    }
-  }
-
   void _onItemTap(CarrotIconNavItem item, int index) {
-    if (_router != null && item.route != null) {
-      switch (widget.routerMode) {
-        case CarrotIconNavRouterMode.push:
-          _router!.push(item.route!);
-          break;
-
-        case CarrotIconNavRouterMode.replace:
-          _router!.go(item.route!);
-          break;
-      }
-    } else {
-      widget.onChanged?.call(index);
-    }
-  }
-
-  void _onRouteChanged() async {
-    // todo(Bas): figure out why this is necessary
-    await Future.delayed(const Duration(microseconds: 1));
-
-    setState(() {});
+    widget.onChanged?.call(index);
   }
 
   @override
   Widget build(BuildContext context) {
-    final activeIndex = this.activeIndex;
-
     return CarrotBackdropBlurContainer(
       sigmaX: widget.blur,
       sigmaY: widget.blur,
@@ -149,9 +75,9 @@ class _CarrotIconNav extends State<CarrotIconNav> {
           for (int index = 0; index < widget.items.length; ++index)
             _CarrotIconNavItem(
               iconNav: widget,
-              isActive: index == activeIndex,
+              isActive: index == widget.activeIndex,
               item: widget.items.elementAt(index),
-              onTap: () => _onItemTap(widget.items.elementAt(index), index),
+              onTap: widget.items.elementAt(index).onTap ?? () => _onItemTap(widget.items.elementAt(index), index),
             ),
         ],
       ),
@@ -162,12 +88,12 @@ class _CarrotIconNav extends State<CarrotIconNav> {
 class CarrotIconNavItem {
   final Widget icon;
   final Widget label;
-  final String? route;
+  final GestureTapCallback? onTap;
 
   const CarrotIconNavItem({
     required this.icon,
     required this.label,
-    this.route,
+    this.onTap,
   });
 }
 

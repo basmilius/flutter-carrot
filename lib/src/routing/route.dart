@@ -17,6 +17,8 @@ class CarrotRoute extends GoRoute {
     CarrotRoutePageBuilder? pageBuilder,
     CarrotRouteRedirect redirect = _noRedirect,
     List<CarrotRoute> routes = const [],
+    super.name,
+    super.parentNavigatorKey,
   }) : super(
           builder: builder,
           pageBuilder: pageBuilder,
@@ -30,6 +32,8 @@ class CarrotRoute extends GoRoute {
     CarrotRouteNameGenerator? nameGenerator,
     CarrotRouteRedirect redirect = _noRedirect,
     List<CarrotRoute> routes = const [],
+    super.name,
+    super.parentNavigatorKey,
   }) : super(
           pageBuilder: (context, state) => CarrotRoutingPage<void>(
             key: state.pageKey,
@@ -50,6 +54,17 @@ class CarrotShellRoute extends ShellRoute {
   }) : super(
           builder: builder,
           pageBuilder: pageBuilder,
+        );
+
+  CarrotShellRoute.defaultTransition({
+    super.navigatorKey,
+    super.routes,
+    CarrotShellRouteWidgetBuilder? builder,
+  }) : super(
+          pageBuilder: (context, state, child) => CarrotRoutingPage<void>(
+            key: state.pageKey,
+            child: builder?.call(context, state, child) ?? child,
+          ),
         );
 }
 

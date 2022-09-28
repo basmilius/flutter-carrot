@@ -8,12 +8,9 @@ import '../ui/color.dart';
 
 import 'primitive/primitive.dart';
 import 'drawer_gesture_detector.dart';
+import 'dynamic_viewport_safe_area.dart';
 import 'scroll_view.dart';
 import 'sheet.dart';
-
-typedef CarrotScaffoldRouterWrap = Widget Function(BuildContext, Router);
-
-Widget _defaultRouterWrap(context, router) => router;
 
 class CarrotScaffold extends StatefulWidget {
   final Widget child;
@@ -33,26 +30,6 @@ class CarrotScaffold extends StatefulWidget {
     this.drawerScrimColor,
     this.drawerWidth = 300.0,
   }) : router = null;
-
-  CarrotScaffold.router({
-    super.key,
-    required this.router,
-    this.appBar,
-    this.bottomBar,
-    this.drawer,
-    this.drawerScrimColor,
-    this.drawerWidth = 300.0,
-    CarrotScaffoldRouterWrap routerWrapper = _defaultRouterWrap,
-  }) : child = LayoutBuilder(
-    builder: (context, constraints) {
-      return routerWrapper(context, Router(
-        restorationScopeId: "scaffold",
-        routeInformationProvider: router!.routeInformationProvider,
-        routeInformationParser: router.routeInformationParser,
-        routerDelegate: router.routerDelegate,
-      ));
-    },
-  );
 
   @override
   createState() => _CarrotScaffold();
@@ -277,10 +254,7 @@ class _CarrotScaffoldBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content = Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
+    final content = CarrotDynamicViewportSafeArea(
       child: child,
     );
 

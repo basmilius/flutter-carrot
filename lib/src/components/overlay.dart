@@ -6,6 +6,7 @@ import '../animation/animation.dart';
 import '../app/extensions/extensions.dart';
 
 import 'primitive/primitive.dart';
+import 'dynamic_viewport_safe_area.dart';
 
 const _kAnimationDuration = Duration(milliseconds: 540);
 
@@ -262,41 +263,43 @@ class _CarrotOverlayBase<T> extends State<CarrotOverlayBase> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: Stack(
-        children: [
-          FadeTransition(
-            opacity: _animationScrimOpacity,
-            child: CarrotScrim(
-              color: context.carrotTheme.scrimColor,
-              onTap: _onScrimTap,
+    return CarrotDynamicViewportSafeArea(
+      child: RepaintBoundary(
+        child: Stack(
+          children: [
+            FadeTransition(
+              opacity: _animationScrimOpacity,
+              child: CarrotScrim(
+                color: context.carrotTheme.scrimColor,
+                onTap: _onScrimTap,
+              ),
             ),
-          ),
-          SafeArea(
-            child: AnimatedBuilder(
-              animation: widget.animation,
-              child: Padding(
-                padding: const EdgeInsets.all(27),
-                child: Align(
-                  alignment: AlignmentDirectional.center,
-                  child: Builder(
-                    key: contentKey,
-                    builder: (_) => widget.builder(_close),
+            SafeArea(
+              child: AnimatedBuilder(
+                animation: widget.animation,
+                child: Padding(
+                  padding: const EdgeInsets.all(27),
+                  child: Align(
+                    alignment: AlignmentDirectional.center,
+                    child: Builder(
+                      key: contentKey,
+                      builder: (_) => widget.builder(_close),
+                    ),
                   ),
                 ),
+                builder: (context, child) {
+                  return FadeTransition(
+                    opacity: _animationBoxOpacity,
+                    child: Transform.scale(
+                      scale: _animationBoxScale.value,
+                      child: child,
+                    ),
+                  );
+                },
               ),
-              builder: (context, child) {
-                return FadeTransition(
-                  opacity: _animationBoxOpacity,
-                  child: Transform.scale(
-                    scale: _animationBoxScale.value,
-                    child: child,
-                  ),
-                );
-              },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
