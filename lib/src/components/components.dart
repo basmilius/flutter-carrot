@@ -33,6 +33,7 @@ export 'sheet.dart';
 export 'spacer.dart';
 export 'spinner.dart';
 export 'switch.dart';
+export 'tabs.dart';
 export 'text_button.dart';
 export 'text_field.dart';
 export 'typography.dart';

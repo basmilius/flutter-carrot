@@ -2,10 +2,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../animation/animation.dart';
-import '../../app/extensions/extensions.dart';
 
 class CarrotBounceTap extends StatefulWidget {
   final Widget child;
+  final Curve curve;
   final Duration duration;
   final double scale;
   final Function? onDown;
@@ -18,6 +18,7 @@ class CarrotBounceTap extends StatefulWidget {
   const CarrotBounceTap({
     super.key,
     required this.child,
+    this.curve = CarrotCurves.swiftOutCurve,
     this.duration = const Duration(milliseconds: 90),
     this.scale = .985,
     this.onDown,
@@ -32,103 +33,56 @@ class CarrotBounceTap extends StatefulWidget {
   createState() => _CarrotBounceTapState();
 }
 
-class _CarrotBounceTapState extends State<CarrotBounceTap> with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _scaleAnimation;
+class _CarrotBounceTapState extends State<CarrotBounceTap> {
+  bool get canTap => widget.onTap != null;
 
-  bool get canTap {
-    return widget.onTap != null;
-  }
-
-  @override
-  void didUpdateWidget(CarrotBounceTap oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    _animationController.duration = widget.duration;
-    _initializeAnimation();
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _animationController = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
-    _initializeAnimation();
-  }
-
-  void _initializeAnimation() {
-    _scaleAnimation = _animationController.curveTween(
-      begin: 1,
-      end: widget.scale,
-      curve: CarrotCurves.swiftOutCurve,
-    );
-  }
+  bool _isTapDown = false;
 
   void _onTap() {
     HapticFeedback.selectionClick();
-
-    if (widget.onTap != null) {
-      widget.onTap!();
-    }
+    widget.onTap?.call();
   }
 
-  void _onPanCancel() {
-    _onPanEnd(null);
-  }
-
-  void _onPanDown(DragDownDetails? _) {
+  void _onPanDown(DragDownDetails details) {
     if (!canTap) {
       return;
     }
 
-    _animationController.forward();
+    setState(() {
+      _isTapDown = true;
+    });
 
-    if (widget.onDown != null) {
-      widget.onDown!();
-    }
+    widget.onDown?.call();
   }
 
-  void _onPanEnd(DragEndDetails? _) {
+  void _onPanEndOrCancel([DragEndDetails? details]) {
     if (!canTap) {
       return;
     }
 
-    _animationController.reverse();
+    setState(() {
+      _isTapDown = false;
+    });
 
-    if (widget.onUp != null) {
-      widget.onUp!();
-    }
+    widget.onUp?.call();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onPanDown: _onPanDown,
-      onPanEnd: _onPanEnd,
-      onPanCancel: _onPanCancel,
+      onPanEnd: _onPanEndOrCancel,
+      onPanCancel: _onPanEndOrCancel,
       onTap: _onTap,
       onTapDown: widget.onTapDown,
       onTapUp: widget.onTapUp,
       onTapCancel: widget.onTapCancel,
       behavior: HitTestBehavior.opaque,
-      child: AnimatedBuilder(
-        animation: _animationController,
+      child: AnimatedScale(
+        curve: widget.curve,
+        duration: widget.duration,
+        scale: _isTapDown ? widget.scale : 1,
         child: widget.child,
-        builder: (context, child) {
-          return Transform.scale(
-            scale: _scaleAnimation.value,
-            child: child,
-          );
-        },
       ),
     );
   }

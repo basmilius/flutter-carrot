@@ -31,52 +31,21 @@ class CarrotBackgroundTap extends StatefulWidget {
   createState() => _CarrotBackgroundTapState();
 }
 
-class _CarrotBackgroundTapState extends State<CarrotBackgroundTap> with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<Color?> _colorAnimation;
-
+class _CarrotBackgroundTapState extends State<CarrotBackgroundTap> {
   bool get canTap {
     return widget.onTap != null;
   }
 
-  @override
-  void didUpdateWidget(CarrotBackgroundTap oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.duration != widget.duration) {
-      _animationController.duration = widget.duration;
-    }
-
-    if (oldWidget.background != widget.background || oldWidget.backgroundTap != widget.backgroundTap || oldWidget.curve != widget.curve) {
-      _createAnimation();
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _animationController = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
-
-    _createAnimation();
-  }
-
-  void _createAnimation() {
-    _colorAnimation = ColorTween(begin: widget.background, end: widget.backgroundTap ?? widget.background.withOpacity(.9)).animate(CurvedAnimation(parent: _animationController, curve: widget.curve))
-      ..addListener(() {
-        setState(() {});
-      });
-  }
+  bool isTapDown = false;
 
   void _onPanDown(DragDownDetails details) {
     if (!canTap) {
       return;
     }
 
-    _animationController.forward();
+    setState(() {
+      isTapDown = true;
+    });
   }
 
   void _onPanEndOrCancel([DragEndDetails? details]) {
@@ -84,7 +53,9 @@ class _CarrotBackgroundTapState extends State<CarrotBackgroundTap> with SingleTi
       return;
     }
 
-    _animationController.reverse();
+    setState(() {
+      isTapDown = false;
+    });
   }
 
   void _onTap() {
@@ -106,8 +77,10 @@ class _CarrotBackgroundTapState extends State<CarrotBackgroundTap> with SingleTi
       onTapDown: widget.onTapDown,
       onTapUp: widget.onTapUp,
       onTapCancel: widget.onTapCancel,
-      child: Container(
-        color: _colorAnimation.value,
+      child: AnimatedContainer(
+        color: isTapDown ? (widget.backgroundTap ?? widget.background) : widget.background,
+        curve: widget.curve,
+        duration: widget.duration,
         child: widget.child,
       ),
     );
