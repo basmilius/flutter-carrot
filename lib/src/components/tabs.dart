@@ -399,15 +399,17 @@ class _CarrotTabView extends State<CarrotTabView> {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints.expand(height: 300),
+    return AnimatedSize(
+      curve: widget.controller.animationCurve,
+      duration: widget.controller.animationDuration,
       child: NotificationListener<ScrollNotification>(
         onNotification: _handleScrollNotification,
         child: PageView(
           controller: _pageController,
           clipBehavior: widget.clipBehavior,
           dragStartBehavior: widget.dragStartBehavior,
-          physics: const PageScrollPhysics().applyTo(widget.physics),
+          physics: const NeverScrollableScrollPhysics(),
+          // physics: const PageScrollPhysics().applyTo(widget.physics),
           children: _childrenWithKey,
         ),
       ),
@@ -439,10 +441,12 @@ class CarrotTabViewWithGap extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final wrappedChildren = List<Widget>.generate(children.length, (index) => Padding(
-          padding: EdgeInsets.symmetric(horizontal: gap),
-          child: children[index],
-        ));
+        final wrappedChildren = List<Widget>.generate(
+            children.length,
+            (index) => Padding(
+                  padding: EdgeInsets.symmetric(horizontal: gap),
+                  child: children[index],
+                ));
 
         return CarrotTabView(
           controller: controller,

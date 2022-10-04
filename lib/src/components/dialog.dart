@@ -12,7 +12,7 @@ import 'scroll/scroll.dart';
 import 'scroll_view.dart';
 import 'text_button.dart';
 
-typedef CarrotDialogWidgetBuilder = Widget? Function(BuildContext);
+typedef CarrotDialogWidgetBuilder = Widget? Function(BuildContext, ScrollController, Size, Size);
 
 const double _kDefaultDialogWidth = 480;
 const EdgeInsets _kDefaultDialogPadding = EdgeInsets.all(27);
@@ -42,16 +42,32 @@ class CarrotDialog<T> extends StatefulWidget {
   @override
   createState() => _CarrotDialog();
 
-  Widget? buildContent(BuildContext context) {
-    return contentBuilder?.call(context) ?? content;
+  Widget? buildContent(BuildContext context, ScrollController scrollController, Size headerSize, Size footerSize) {
+    if (contentBuilder != null) {
+      return contentBuilder!.call(context, scrollController, headerSize, footerSize);
+    }
+
+    return CarrotScrollView(
+      padding: padding.copyWith(
+        top: math.max(padding.top, headerSize.height),
+        bottom: math.max(padding.top, footerSize.height),
+      ),
+      physics: const CarrotBouncingScrollPhysics.notAlways(),
+      scrollController: scrollController,
+      scrollPadding: EdgeInsets.only(
+        top: headerSize.height - padding.top,
+        bottom: footerSize.height - padding.bottom,
+      ),
+      child: content ?? Container(),
+    );
   }
 
-  Widget? buildFooter(BuildContext context) {
-    return footerBuilder?.call(context);
+  Widget? buildFooter(BuildContext context, ScrollController scrollController, Size headerSize, Size footerSize) {
+    return footerBuilder?.call(context, scrollController, headerSize, footerSize);
   }
 
-  Widget? buildHeader(BuildContext context) {
-    return headerBuilder?.call(context);
+  Widget? buildHeader(BuildContext context, ScrollController scrollController, Size headerSize, Size footerSize) {
+    return headerBuilder?.call(context, scrollController, headerSize, footerSize);
   }
 }
 
@@ -81,8 +97,8 @@ class _CarrotDialog extends State<CarrotDialog> {
   Widget build(BuildContext context) {
     final theme = context.carrotTheme;
 
-    final footer = widget.buildFooter(context);
-    final header = widget.buildHeader(context);
+    final footer = widget.buildFooter(context, _scrollController, _headerSize, _footerSize);
+    final header = widget.buildHeader(context, _scrollController, _headerSize, _footerSize);
 
     return Container(
       clipBehavior: Clip.hardEdge,
@@ -100,20 +116,8 @@ class _CarrotDialog extends State<CarrotDialog> {
         textAlign: TextAlign.center,
         child: Stack(
           children: [
-            CarrotScrollView(
-              padding: widget.padding.copyWith(
-                top: math.max(widget.padding.top, _headerSize.height),
-                bottom: math.max(widget.padding.top, _footerSize.height),
-              ),
-              physics: const CarrotBouncingScrollPhysics.notAlways(),
-              scrollController: _scrollController,
-              scrollPadding: EdgeInsets.only(
-                top: _headerSize.height - widget.padding.top,
-                bottom: _footerSize.height - widget.padding.bottom,
-              ),
-              child: Builder(
-                builder: (context) => widget.buildContent(context) ?? Container(),
-              ),
+            Builder(
+              builder: (context) => widget.buildContent(context, _scrollController, _headerSize, _footerSize) ?? Container(),
             ),
             if (header != null)
               Positioned(
@@ -295,7 +299,7 @@ class CarrotAlertDialog extends CarrotDialog<void> {
   });
 
   @override
-  Widget? buildFooter(BuildContext context) {
+  Widget? buildFooter(BuildContext context, ScrollController scrollController, Size headerSize, Size footerSize) {
     return CarrotDialogButtons(
       buttons: [
         CarrotDialogButton.primary(label: okLabel),
@@ -304,7 +308,7 @@ class CarrotAlertDialog extends CarrotDialog<void> {
   }
 
   @override
-  Widget? buildHeader(BuildContext context) {
+  Widget? buildHeader(BuildContext context, ScrollController scrollController, Size headerSize, Size footerSize) {
     return CarrotDialogTitle(
       child: title,
     );
@@ -324,7 +328,7 @@ class CarrotConfirmDialog extends CarrotDialog<bool> {
   });
 
   @override
-  Widget? buildFooter(BuildContext context) {
+  Widget? buildFooter(BuildContext context, ScrollController scrollController, Size headerSize, Size footerSize) {
     return const CarrotDialogButtons(
       buttons: [
         CarrotDialogButton.primary(label: "Abonneren", result: true),
@@ -334,7 +338,7 @@ class CarrotConfirmDialog extends CarrotDialog<bool> {
   }
 
   @override
-  Widget? buildHeader(BuildContext context) {
+  Widget? buildHeader(BuildContext context, ScrollController scrollController, Size headerSize, Size footerSize) {
     return CarrotDialogTitle(
       child: title,
     );
@@ -359,15 +363,15 @@ abstract class CarrotStatefulDialog<T> extends StatefulWidget {
 }
 
 abstract class CarrotStatefulDialogState<T, W extends CarrotStatefulDialog<T>> extends State<W> {
-  Widget? buildContent(BuildContext context) {
+  Widget? buildContent(BuildContext context, ScrollController scrollController, Size headerSize, Size footerSize) {
     return null;
   }
 
-  Widget? buildFooter(BuildContext context) {
+  Widget? buildFooter(BuildContext context, ScrollController scrollController, Size headerSize, Size footerSize) {
     return null;
   }
 
-  Widget? buildHeader(BuildContext context) {
+  Widget? buildHeader(BuildContext context, ScrollController scrollController, Size headerSize, Size footerSize) {
     return null;
   }
 
