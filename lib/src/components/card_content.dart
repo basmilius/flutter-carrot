@@ -37,7 +37,7 @@ class CarrotCardContent extends StatelessWidget {
         children: [
           if (title != null) ...[
             DefaultTextStyle(
-              style: context.carrotTheme.typography.headline4,
+              style: context.carrotTypography.headline4,
               child: title!,
             ),
             if (body != null) ...[

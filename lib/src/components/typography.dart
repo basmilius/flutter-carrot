@@ -3,7 +3,7 @@ import 'dart:ui' as ui show TextHeightBehavior;
 import 'package:flutter/widgets.dart';
 
 import '../app/extensions/extensions.dart';
-import '../ui/theme.dart' show CarrotTypographyType;
+import '../theme/theme.dart';
 
 class CarrotText extends StatelessWidget {
   final String? data;
@@ -276,7 +276,7 @@ class CarrotText extends StatelessWidget {
         type = CarrotTypographyType.body2;
 
   TextStyle _getTextStyle(BuildContext context) {
-    final typography = context.carrotTheme.typography;
+    final typography = context.carrotTypography;
     TextStyle base;
 
     switch (type) {

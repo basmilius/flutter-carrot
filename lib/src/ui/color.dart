@@ -46,7 +46,7 @@ class CarrotColor extends Color {
   @override
   int get hashCode => Object.hash(runtimeType, value, _swatch);
 
-  CarrotColor reverse() => CarrotColor(0, {
+  CarrotColor reverse() => CarrotColor(this[300].value, {
         0: this[900],
         50: this[800],
         100: this[700],
@@ -59,6 +59,22 @@ class CarrotColor extends Color {
         800: this[50],
         900: this[0],
       });
+
+  static CarrotColor lerp(CarrotColor a, CarrotColor b, double t) {
+    return CarrotColor(Color.lerp(a[500], b[500], t)!.value, {
+      0: Color.lerp(a[0], b[0], t)!,
+      50: Color.lerp(a[50], b[50], t)!,
+      100: Color.lerp(a[100], b[100], t)!,
+      200: Color.lerp(a[200], b[200], t)!,
+      300: Color.lerp(a[300], b[300], t)!,
+      400: Color.lerp(a[400], b[400], t)!,
+      500: Color.lerp(a[500], b[500], t)!,
+      600: Color.lerp(a[600], b[600], t)!,
+      700: Color.lerp(a[700], b[700], t)!,
+      800: Color.lerp(a[800], b[800], t)!,
+      900: Color.lerp(a[900], b[900], t)!,
+    });
+  }
 }
 
 class CarrotColors {
@@ -69,7 +85,7 @@ class CarrotColors {
   static const Color white = Color(0xFFFFFFFF);
 
   static const CarrotColor gray = CarrotColor(0xff6b7280, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfff9fafb),
     100: Color(0xfff3f4f6),
     200: Color(0xffe5e7eb),
@@ -83,7 +99,7 @@ class CarrotColors {
   });
 
   static const CarrotColor neutral = CarrotColor(0xff737373, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfffafafa),
     100: Color(0xfff5f5f5),
     200: Color(0xffe5e5e5),
@@ -97,7 +113,7 @@ class CarrotColors {
   });
 
   static const CarrotColor slate = CarrotColor(0xff64748b, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfff8fafc),
     100: Color(0xfff1f5f9),
     200: Color(0xffe2e8f0),
@@ -111,7 +127,7 @@ class CarrotColors {
   });
 
   static const CarrotColor stone = CarrotColor(0xff78716c, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfffafaf9),
     100: Color(0xfff5f5f4),
     200: Color(0xffe7e5e4),
@@ -125,7 +141,7 @@ class CarrotColors {
   });
 
   static const CarrotColor zinc = CarrotColor(0xff71717a, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfffafafa),
     100: Color(0xfff4f4f5),
     200: Color(0xffe4e4e7),
@@ -139,7 +155,7 @@ class CarrotColors {
   });
 
   static const CarrotColor amber = CarrotColor(0xfff59e0b, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfffffbeb),
     100: Color(0xfffef3c7),
     200: Color(0xfffde68a),
@@ -153,7 +169,7 @@ class CarrotColors {
   });
 
   static const CarrotColor blue = CarrotColor(0xff3b82f6, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xffeff6ff),
     100: Color(0xffdbeafe),
     200: Color(0xffbfdbfe),
@@ -167,7 +183,7 @@ class CarrotColors {
   });
 
   static const CarrotColor cyan = CarrotColor(0xff06b6d4, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xffecfeff),
     100: Color(0xffcffafe),
     200: Color(0xffa5f3fc),
@@ -181,7 +197,7 @@ class CarrotColors {
   });
 
   static const CarrotColor emerald = CarrotColor(0xff10b981, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xffecfdf5),
     100: Color(0xffd1fae5),
     200: Color(0xffa7f3d0),
@@ -195,7 +211,7 @@ class CarrotColors {
   });
 
   static const CarrotColor fuchsia = CarrotColor(0xffd946ef, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfffdf4ff),
     100: Color(0xfffae8ff),
     200: Color(0xfff5d0fe),
@@ -209,7 +225,7 @@ class CarrotColors {
   });
 
   static const CarrotColor green = CarrotColor(0xff22c55e, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfff0fdf4),
     100: Color(0xffdcfce7),
     200: Color(0xffbbf7d0),
@@ -223,7 +239,7 @@ class CarrotColors {
   });
 
   static const CarrotColor indigo = CarrotColor(0xff6366f1, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xffeef2ff),
     100: Color(0xffe0e7ff),
     200: Color(0xffc7d2fe),
@@ -237,7 +253,7 @@ class CarrotColors {
   });
 
   static const CarrotColor lime = CarrotColor(0xff84cc16, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfff7fee7),
     100: Color(0xffecfccb),
     200: Color(0xffd9f99d),
@@ -251,7 +267,7 @@ class CarrotColors {
   });
 
   static const CarrotColor orange = CarrotColor(0xfff97316, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfffff7ed),
     100: Color(0xffffedd5),
     200: Color(0xfffed7aa),
@@ -265,7 +281,7 @@ class CarrotColors {
   });
 
   static const CarrotColor pink = CarrotColor(0xffec4899, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfffdf2f8),
     100: Color(0xfffce7f3),
     200: Color(0xfffbcfe8),
@@ -279,7 +295,7 @@ class CarrotColors {
   });
 
   static const CarrotColor purple = CarrotColor(0xffa855f7, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfffaf5ff),
     100: Color(0xfff3e8ff),
     200: Color(0xffe9d5ff),
@@ -293,7 +309,7 @@ class CarrotColors {
   });
 
   static const CarrotColor red = CarrotColor(0xffef4444, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfffef2f2),
     100: Color(0xfffee2e2),
     200: Color(0xfffecaca),
@@ -307,7 +323,7 @@ class CarrotColors {
   });
 
   static const CarrotColor rose = CarrotColor(0xfff43f5e, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfffff1f2),
     100: Color(0xffffe4e6),
     200: Color(0xfffecdd3),
@@ -321,7 +337,7 @@ class CarrotColors {
   });
 
   static const CarrotColor sky = CarrotColor(0xff0ea5e9, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfff0f9ff),
     100: Color(0xffe0f2fe),
     200: Color(0xffbae6fd),
@@ -335,7 +351,7 @@ class CarrotColors {
   });
 
   static const CarrotColor teal = CarrotColor(0xff14b8a6, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfff0fdfa),
     100: Color(0xffccfbf1),
     200: Color(0xff99f6e4),
@@ -349,7 +365,7 @@ class CarrotColors {
   });
 
   static const CarrotColor violet = CarrotColor(0xff8b5cf6, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfff5f3ff),
     100: Color(0xffede9fe),
     200: Color(0xffddd6fe),
@@ -363,7 +379,7 @@ class CarrotColors {
   });
 
   static const CarrotColor yellow = CarrotColor(0xffeab308, {
-    0: Color(0xffffffff),
+    0: white,
     50: Color(0xfffefce8),
     100: Color(0xfffef9c3),
     200: Color(0xfffef08a),

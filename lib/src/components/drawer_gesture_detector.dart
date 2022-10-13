@@ -150,7 +150,7 @@ class _CarrotDrawerGestureDetector extends State<CarrotDrawerGestureDetector> wi
   ColorTween _buildScrimColorTween() {
     return ColorTween(
       begin: CarrotColors.transparent,
-      end: widget.scrimColor ?? context.carrotTheme.gray[900].withOpacity(.6),
+      end: widget.scrimColor ?? context.carrotTheme.defaults.scrim,
     );
   }
 

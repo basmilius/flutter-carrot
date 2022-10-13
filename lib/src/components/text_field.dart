@@ -7,10 +7,10 @@ import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
 import '../app/extensions/extensions.dart';
-import '../ui/color.dart';
+import '../theme/theme.dart';
+import '../ui/ui.dart';
 
 import 'scroll/scroll.dart';
-import 'theme/text_field_theme.dart';
 import 'text_selection.dart';
 
 const int _horizontalCursorOffsetPixels = -2;
@@ -75,7 +75,6 @@ class CarrotTextField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final TextSelectionControls? textSelectionControls;
   final TextStyle? textStyle;
-  final CarrotTextFieldTheme? theme;
   final ToolbarOptions toolbarOptions;
   final ValueChanged<String>? onChanged;
   final VoidCallback? onEditingComplete;
@@ -140,7 +139,6 @@ class CarrotTextField extends StatefulWidget {
     this.textInputAction,
     this.textSelectionControls,
     this.textStyle,
-    this.theme,
     this.onChanged,
     this.onEditingComplete,
     this.onSubmitted,
@@ -440,14 +438,7 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
         ),
     ];
 
-    final themeProxy = appTheme.textField.extend(widget.theme)..build(context);
-
-    final TextStyle textStyle = themeProxy.textStyle.merge(widget.textStyle);
-    final TextStyle placeholderStyle = themeProxy.textPlaceholderStyle.merge(widget.placeholderStyle);
-    final Brightness keyboardAppearance = widget.keyboardAppearance ?? mediaQuery.platformBrightness;
-    final Color cursorColor = widget.cursorColor ?? themeProxy.cursorColor;
-    final Offset cursorOffset = Offset(_horizontalCursorOffsetPixels / mediaQuery.devicePixelRatio, 0);
-    final Color selectionColor = widget.selectionColor ?? themeProxy.selectionColor;
+    final textFieldTheme = CarrotTextFieldTheme.of(context);
 
     final Widget paddedEditable = Padding(
       padding: widget.padding,
@@ -457,14 +448,14 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
           child: EditableText(
             key: editableTextKey,
             autocorrect: widget.autocorrect,
-            autocorrectionTextRectColor: selectionColor,
+            autocorrectionTextRectColor: textFieldTheme.selectionColor,
             autofillClient: this,
             autofocus: widget.autofocus,
             backgroundCursorColor: CarrotColors.pink,
             controller: _effectiveController,
-            cursorColor: cursorColor,
+            cursorColor: textFieldTheme.cursorColor,
             cursorHeight: widget.cursorHeight,
-            cursorOffset: cursorOffset,
+            cursorOffset: Offset(_horizontalCursorOffsetPixels / mediaQuery.devicePixelRatio, 0),
             cursorOpacityAnimates: true,
             cursorRadius: widget.cursorRadius,
             cursorWidth: widget.cursorWidth,
@@ -475,12 +466,12 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
             expands: widget.expands,
             focusNode: _effectiveFocusNode,
             inputFormatters: formatters,
-            keyboardAppearance: keyboardAppearance,
+            keyboardAppearance: widget.keyboardAppearance ?? mediaQuery.platformBrightness,
             keyboardType: widget.keyboardType,
             maxLines: widget.maxLines,
             minLines: widget.minLines,
             obscureText: widget.obscureText,
-            obscuringCharacter: widget.obscuringCharacter ?? themeProxy.obscuringCharacter,
+            obscuringCharacter: widget.obscuringCharacter ?? textFieldTheme.obscuringCharacter,
             paintCursorAboveText: true,
             readOnly: widget.readOnly,
             rendererIgnoresPointer: true,
@@ -488,7 +479,7 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
             scrollController: widget.scrollController,
             scrollPadding: widget.scrollPadding,
             scrollPhysics: widget.scrollPhysics,
-            selectionColor: _effectiveFocusNode.hasFocus ? selectionColor : null,
+            selectionColor: _effectiveFocusNode.hasFocus ? textFieldTheme.selectionColor : null,
             selectionControls: widget.enableInteractiveSelection ? textSelectionControls : null,
             selectionHeightStyle: widget.selectionHeightStyle,
             selectionWidthStyle: widget.selectionWidthStyle,
@@ -497,7 +488,7 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
             smartDashesType: widget.smartDashesType,
             smartQuotesType: widget.smartQuotesType,
             strutStyle: widget.strutStyle,
-            style: textStyle,
+            style: textFieldTheme.textStyle,
             textAlign: widget.textAlign,
             textCapitalization: widget.textCapitalization,
             textDirection: widget.textDirection,
@@ -527,9 +518,9 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
         ignoring: !widget.enabled,
         child: Container(
           decoration: BoxDecoration(
-            border: themeProxy.border,
+            border: textFieldTheme.border,
             borderRadius: appTheme.borderRadius,
-            color: themeProxy.backgroundColor,
+            color: textFieldTheme.backgroundColor,
           ),
           child: _selectionGestureDetectorBuilder.buildGestureDetector(
             behavior: HitTestBehavior.translucent,
@@ -537,7 +528,7 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
               alignment: Alignment(-1.0, _textAlignVertical.y),
               heightFactor: 1.0,
               widthFactor: 1.0,
-              child: _addTextDependentAttachments(paddedEditable, textStyle, placeholderStyle),
+              child: _addTextDependentAttachments(paddedEditable, textFieldTheme.textStyle, textFieldTheme.textPlaceholderStyle),
             ),
           ),
         ),

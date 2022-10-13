@@ -123,7 +123,7 @@ class CarrotMenuItem extends StatelessWidget {
             Expanded(
               child: DefaultTextStyle(
                 style: appTheme.typography.body1.copyWith(
-                  color: appTheme.typography.gray![800],
+                  color: appTheme.gray[800],
                   fontWeight: FontWeight.w600,
                 ),
                 child: label,

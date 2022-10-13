@@ -4,7 +4,7 @@ import '../../components/app.dart';
 import '../../components/drawer_gesture_detector.dart';
 import '../../components/scaffold.dart';
 import '../../routing/routing.dart';
-import '../../ui/theme.dart';
+import '../../theme/theme.dart';
 import '../app_view.dart';
 import '../settings.dart';
 
@@ -15,5 +15,6 @@ extension CarrotAppExtension on BuildContext {
   CarrotRouter get carrotRouter => CarrotRouter.of(this);
   CarrotScaffoldController get carrotScaffold => CarrotScaffold.of(this);
   CarrotAppSettings get carrotSettings => CarrotApp.of(this).settings;
-  CarrotTheme get carrotTheme => CarrotTheme.of(this);
+  CarrotThemeData get carrotTheme => CarrotTheme.of(this);
+  CarrotTypography get carrotTypography => CarrotTheme.of(this).typography;
 }

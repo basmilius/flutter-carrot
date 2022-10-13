@@ -86,7 +86,7 @@ class CarrotAvatar extends StatelessWidget {
           dimension: size,
           child: Center(
             child: DefaultTextStyle(
-              style: context.carrotTheme.typography.base.copyWith(
+              style: context.carrotTypography.base.copyWith(
                 color: swatch[500],
                 fontSize: size * 0.35,
                 fontWeight: FontWeight.w600,

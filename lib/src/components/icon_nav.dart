@@ -112,8 +112,9 @@ class _CarrotIconNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color iconColor = (isActive ? iconNav.iconColorActive : iconNav.iconColor) ?? context.carrotTheme.primary;
-    Color labelColor = (isActive ? iconNav.labelColorActive : iconNav.labelColor) ?? (isActive ? context.carrotTheme.primary : context.carrotTheme.gray[400]);
+    final carrotTheme = context.carrotTheme;
+    Color iconColor = (isActive ? iconNav.iconColorActive : iconNav.iconColor) ?? carrotTheme.primary;
+    Color labelColor = (isActive ? iconNav.labelColorActive : iconNav.labelColor) ?? (isActive ? carrotTheme.primary : carrotTheme.gray[400]);
 
     return Expanded(
       child: CarrotBounceTap(
@@ -158,7 +159,7 @@ class _CarrotIconNavItem extends StatelessWidget {
                       child: AnimatedDefaultTextStyle(
                         curve: iconNav.curve,
                         duration: iconNav.duration,
-                        style: context.carrotTheme.typography.body1.copyWith(
+                        style: carrotTheme.typography.body1.copyWith(
                           color: labelColor,
                           fontSize: 12,
                           overflow: TextOverflow.ellipsis,

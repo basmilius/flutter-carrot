@@ -110,9 +110,10 @@ class CarrotContainedButton extends StatelessWidget {
         color: palette[600],
       ),
       textStyle: textStyle ??
-          appTheme.typography.button.copyWith(
+          appTheme.typography.base.copyWith(
             color: palette[0],
             fontSize: size == CarrotButtonSize.tiny ? 14 : null,
+            height: 1.45,
           ),
       children: children,
     );

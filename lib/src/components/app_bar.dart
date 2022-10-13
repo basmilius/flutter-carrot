@@ -100,7 +100,7 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
         AnimatedDefaultTextStyle(
           curve: curve,
           duration: duration,
-          style: context.carrotTheme.typography.body2.copyWith(
+          style: context.carrotTypography.body2.copyWith(
             color: textColor,
             shadows: textShadow,
           ),

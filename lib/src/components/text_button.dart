@@ -151,9 +151,11 @@ class CarrotTextButton extends StatelessWidget {
         color: backgroundTap ?? background ?? appTheme.gray[50],
       ),
       textStyle: textStyle ??
-          appTheme.typography.button.copyWith(
-            color: foreground,
+          appTheme.typography.base.copyWith(
+            color: foreground ?? appTheme.gray[700],
             fontSize: size == CarrotButtonSize.tiny ? 14 : null,
+            fontWeight: FontWeight.w500,
+            height: 1.45,
           ),
       children: children,
     );

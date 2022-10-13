@@ -72,7 +72,7 @@ class CarrotNotice extends StatelessWidget {
         if (title != null) ...[
           DefaultTextStyle(
             style: appTheme.typography.headline6.copyWith(
-              color: palette[appTheme.darkMode ? 500 : 600],
+              color: palette[appTheme.isDark ? 500 : 600],
               height: 1.2,
             ),
             child: title!,
@@ -81,7 +81,7 @@ class CarrotNotice extends StatelessWidget {
         if (message != null) ...[
           DefaultTextStyle(
             style: appTheme.typography.body1.copyWith(
-              color: palette[appTheme.darkMode ? 300 : 900],
+              color: palette[appTheme.isDark ? 300 : 900],
               fontSize: 15,
               height: 1.2,
             ),
@@ -119,9 +119,9 @@ class CarrotNotice extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        border: isFluid ? Border.symmetric(horizontal: BorderSide(color: palette[appTheme.darkMode ? 800 : 200])) : null,
+        border: isFluid ? Border.symmetric(horizontal: BorderSide(color: palette[appTheme.isDark ? 800 : 200])) : null,
         borderRadius: radius,
-        color: isFluid || isSerious ? palette[appTheme.darkMode ? 900 : 100] : CarrotColors.transparent,
+        color: isFluid || isSerious ? palette[appTheme.isDark ? 900 : 100] : CarrotColors.transparent,
       ),
       child: Stack(
         children: [

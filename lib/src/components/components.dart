@@ -2,7 +2,6 @@ export 'filter/filter.dart';
 export 'primitive/primitive.dart';
 export 'scroll/scroll.dart';
 export 'sliver/sliver.dart';
-export 'theme/theme.dart';
 
 export 'app.dart';
 export 'app_bar.dart';

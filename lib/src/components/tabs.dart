@@ -25,6 +25,7 @@ class CarrotTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final carrotTheme = context.carrotTheme;
     final provider = _CarrotTabProvider.of(context);
     final active = provider.controller.animation.value.round() == provider.index;
 
@@ -33,8 +34,8 @@ class CarrotTab extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(9),
         child: CarrotBackgroundTap(
-          background: context.carrotTheme.gray[100].withOpacity(0),
-          backgroundTap: context.carrotTheme.gray[100],
+          background: carrotTheme.gray[100].withOpacity(0),
+          backgroundTap: carrotTheme.gray[100],
           duration: _kDefaultTabDuration,
           onTap: () => provider.controller.index = provider.index,
           child: Padding(
@@ -45,8 +46,8 @@ class CarrotTab extends StatelessWidget {
             child: AnimatedDefaultTextStyle(
               curve: _kDefaultTabCurve,
               duration: _kDefaultTabDuration,
-              style: context.carrotTheme.typography.body1.copyWith(
-                color: active ? context.carrotTheme.primary : context.carrotTheme.gray[600],
+              style: carrotTheme.typography.body1.copyWith(
+                color: active ? carrotTheme.primary : carrotTheme.gray[600],
                 fontWeight: FontWeight.w500,
               ),
               child: child,
@@ -599,12 +600,14 @@ class _CarrotTabIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final carrotTheme = context.carrotTheme;
+
     return CustomPaint(
       painter: _CarrotTabIndicatorPainter(
         offset: offset,
         width: width,
-        activeColor: context.carrotTheme.primary,
-        trackColor: context.carrotTheme.gray[50],
+        activeColor: carrotTheme.primary,
+        trackColor: carrotTheme.gray[50],
       ),
     );
   }

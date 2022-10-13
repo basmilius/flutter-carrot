@@ -104,9 +104,10 @@ class CarrotLinkButton extends StatelessWidget {
         color: appTheme.gray[100],
       ),
       textStyle: textStyle ??
-          appTheme.typography.button.copyWith(
+          appTheme.typography.base.copyWith(
             color: isPrimary ? appTheme.primary : null,
             fontSize: size == CarrotButtonSize.tiny ? 14 : null,
+            height: 1.45,
           ),
       children: children,
     );

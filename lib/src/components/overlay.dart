@@ -270,7 +270,7 @@ class _CarrotOverlayBase<T> extends State<CarrotOverlayBase> with SingleTickerPr
             FadeTransition(
               opacity: _animationScrimOpacity,
               child: CarrotScrim(
-                color: context.carrotTheme.scrimColor,
+                color: context.carrotTheme.defaults.scrim,
                 onTap: _onScrimTap,
               ),
             ),

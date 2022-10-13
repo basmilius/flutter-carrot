@@ -1,7 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import '../app/settings.dart';
-import '../ui/theme.dart';
+import '../theme/theme.dart';
 
 class CarrotApp extends StatelessWidget {
   final Widget child;
@@ -23,13 +24,15 @@ class CarrotApp extends StatelessWidget {
   final bool showPerformanceOverlay;
   final bool showSemanticsDebugger;
   final bool useInheritedMediaQuery;
-  final CarrotTheme theme;
+  final CarrotThemeData? theme;
+  final CarrotThemeData? themeDark;
 
   const CarrotApp({
     super.key,
     required this.child,
     required this.settings,
-    required this.theme,
+    this.theme,
+    this.themeDark,
     this.locale,
     this.localeResolutionCallback,
     this.localeListResolutionCallback,
@@ -46,18 +49,22 @@ class CarrotApp extends StatelessWidget {
     this.showDebugBanner = false,
     this.showPerformanceOverlay = false,
     this.showSemanticsDebugger = false,
-    this.useInheritedMediaQuery = false,
+    this.useInheritedMediaQuery = true,
   });
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _appBuilder(BuildContext context) {
+    final platformBrightness = MediaQuery.of(context).platformBrightness;
+    final effectiveTheme = platformBrightness == Brightness.light
+        ? (theme ?? CarrotThemeData.light())
+        : (themeDark ?? CarrotThemeData.dark());
+
     return ScrollNotificationObserver(
-      child: CarrotThemeProvider(
-        theme: theme,
+      child: CarrotTheme(
+        data: effectiveTheme,
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: WidgetsApp(
-            color: theme.primary,
+            color: effectiveTheme.primary,
             locale: locale,
             localizationsDelegates: localizationsDelegates,
             localeResolutionCallback: localeResolutionCallback,
@@ -76,16 +83,25 @@ class CarrotApp extends StatelessWidget {
             showSemanticsDebugger: showSemanticsDebugger,
             useInheritedMediaQuery: useInheritedMediaQuery,
             title: settings.title,
-            textStyle: theme.typography.body1,
+            textStyle: effectiveTheme.typography.body1,
             builder: (context, widget) => DefaultTextHeightBehavior(
-              textHeightBehavior: theme.typography.textHeightBehavior,
+              textHeightBehavior: effectiveTheme.typography.textHeightBehavior,
               child: DefaultTextStyle(
-                style: theme.typography.body1,
+                style: effectiveTheme.typography.body1,
                 child: child,
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MediaQuery.fromWindow(
+      child: Builder(
+        builder: _appBuilder,
       ),
     );
   }

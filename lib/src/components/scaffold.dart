@@ -189,7 +189,7 @@ class _CarrotScaffold extends State<CarrotScaffold> {
         ),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: context.carrotTheme.background,
+            color: context.carrotTheme.defaults.background,
           ),
           child: Stack(
             children: [
@@ -217,7 +217,7 @@ class _CarrotScaffold extends State<CarrotScaffold> {
                   align: _sheets[i].align,
                   axis: _sheets[i].axis,
                   hasFocus: i == _sheets.length - 1,
-                  scrimColor: _sheets[i].scrimColor ?? context.carrotTheme.scrimColor,
+                  scrimColor: _sheets[i].scrimColor ?? context.carrotTheme.defaults.scrim,
                   onClose: () => _removeSheet(_sheets[i]),
                   onOpen: () {},
                   child: StatefulBuilder(
