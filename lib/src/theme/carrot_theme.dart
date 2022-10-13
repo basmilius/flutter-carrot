@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import '../ui/ui.dart';
-
 import 'text_field_theme.dart';
 import 'typography.dart';
 
@@ -81,9 +80,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     brightness ??= Brightness.light;
     radius ??= const Radius.circular(12);
 
-    defaults ??= brightness == Brightness.light
-        ? CarrotThemeDataDefaults.light(gray)
-        : CarrotThemeDataDefaults.dark(gray);
+    defaults ??= brightness == Brightness.light ? CarrotThemeDataDefaults.light(gray) : CarrotThemeDataDefaults.dark(gray);
 
     typography ??= CarrotTypography(gray, primary);
 
@@ -98,9 +95,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       secondary: secondary,
     );
 
-    textFieldTheme ??= base.isLight
-        ? CarrotTextFieldThemeData.light(base)
-        : CarrotTextFieldThemeData.dark(base);
+    textFieldTheme ??= base.isLight ? CarrotTextFieldThemeData.light(base) : CarrotTextFieldThemeData.dark(base);
 
     return CarrotThemeData.raw(
       defaults: base.defaults,
@@ -231,23 +226,33 @@ class CarrotThemeDataDefaults {
   final Color background;
   final Color scrim;
 
-  const CarrotThemeDataDefaults({
+  const CarrotThemeDataDefaults.raw({
     required this.background,
     required this.scrim,
   });
 
-  factory CarrotThemeDataDefaults.dark(CarrotColor gray) => CarrotThemeDataDefaults(
-        background: gray[0],
-        scrim: gray[100].withOpacity(.75),
+  factory CarrotThemeDataDefaults.dark(
+    CarrotColor gray, {
+    Color? background,
+    Color? scrim,
+  }) =>
+      CarrotThemeDataDefaults.raw(
+        background: background ?? gray[0],
+        scrim: scrim ?? gray[100].withOpacity(.75),
       );
 
-  factory CarrotThemeDataDefaults.light(CarrotColor gray) => CarrotThemeDataDefaults(
-        background: gray[0],
-        scrim: gray[700].withOpacity(.75),
+  factory CarrotThemeDataDefaults.light(
+    CarrotColor gray, {
+    Color? background,
+    Color? scrim,
+  }) =>
+      CarrotThemeDataDefaults.raw(
+        background: background ?? gray[0],
+        scrim: scrim ?? gray[700].withOpacity(.75),
       );
 
   static CarrotThemeDataDefaults lerp(CarrotThemeDataDefaults a, CarrotThemeDataDefaults b, double t) {
-    return CarrotThemeDataDefaults(
+    return CarrotThemeDataDefaults.raw(
       background: Color.lerp(a.background, b.background, t)!,
       scrim: Color.lerp(a.scrim, b.scrim, t)!,
     );

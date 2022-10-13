@@ -59,7 +59,7 @@ class CarrotApp extends StatelessWidget {
         : (themeDark ?? CarrotThemeData.dark());
 
     return ScrollNotificationObserver(
-      child: CarrotTheme(
+      child: CarrotAnimatedTheme(
         data: effectiveTheme,
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
