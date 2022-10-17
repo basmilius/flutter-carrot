@@ -136,6 +136,7 @@ class CarrotCard extends StatelessWidget {
       borderColor: borderColor,
       borderRadius: borderRadius,
       borderWidth: borderWidth,
+      color: color,
       shadow: shadow,
       onTap: onTap,
       onTapDown: onTapDown,
