@@ -165,7 +165,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
   static CarrotThemeData lerp(CarrotThemeData a, CarrotThemeData b, double t) {
     final base = CarrotThemeDataBase.lerp(a, b, t);
 
-    return CarrotThemeData(
+    return CarrotThemeData.raw(
       defaults: base.defaults,
       typography: base.typography,
       brightness: base.brightness,
@@ -174,7 +174,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       gray: base.gray,
       primary: base.primary,
       secondary: base.secondary,
-      textFieldTheme: a.textFieldTheme,
+      textFieldTheme: CarrotTextFieldThemeData.lerp(a.textFieldTheme, b.textFieldTheme, t),
     );
   }
 }

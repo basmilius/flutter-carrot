@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/widgets.dart';
 
 import '../ui/ui.dart';
@@ -99,4 +101,17 @@ class CarrotTextFieldThemeData {
   factory CarrotTextFieldThemeData.light(CarrotThemeDataBase theme) => CarrotTextFieldThemeData(
         theme,
       );
+
+  static CarrotTextFieldThemeData lerp(CarrotTextFieldThemeData a, CarrotTextFieldThemeData b, double t) {
+    return CarrotTextFieldThemeData.raw(
+      backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t)!,
+      borderColor: Color.lerp(a.borderColor, b.borderColor, t)!,
+      borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t)!,
+      cursorColor: Color.lerp(a.cursorColor, b.cursorColor, t)!,
+      obscuringCharacter: t < .5 ? a.obscuringCharacter : b.obscuringCharacter,
+      selectionColor: Color.lerp(a.selectionColor, b.selectionColor, t)!,
+      textPlaceholderStyle: TextStyle.lerp(a.textPlaceholderStyle, b.textPlaceholderStyle, t)!,
+      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t)!,
+    );
+  }
 }

@@ -44,7 +44,10 @@ class CarrotTypography {
   factory CarrotTypography(
     CarrotColor gray,
     CarrotColor primary, {
-    TextStyle? base,
+    String fontFamily = 'system-ui',
+    double fontSize = 16.0,
+    FontWeight fontWeight = FontWeight.w400,
+    double height = 1.6,
     TextStyle? display1,
     TextStyle? display2,
     TextStyle? headline1,
@@ -60,7 +63,12 @@ class CarrotTypography {
     TextHeightBehavior? textHeightBehavior,
   }) {
     textHeightBehavior ??= _kDefaultTextHeightBehavior;
-    base ??= getBaseTextStyle();
+    final base = getBaseTextStyle(
+      fontFamily: fontFamily,
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      height: height,
+    );
 
     display1 ??= base.copyWith(
       color: gray[700],

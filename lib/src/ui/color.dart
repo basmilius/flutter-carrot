@@ -4,13 +4,13 @@ import 'package:flutter/rendering.dart';
 class CarrotColor extends Color {
   final Map<int, Color> _swatch;
 
-  const CarrotColor(int primary, this._swatch) : super(primary);
+  const CarrotColor(super.value, this._swatch);
 
   Color operator [](int index) {
     if (!_swatch.containsKey(index)) {
       throw FlutterError.fromParts(<DiagnosticsNode>[
         ErrorSummary(
-          'CarrotColorPalette.[] is called with a missing shade "$index".',
+          'CarrotColor.[] is called with a missing shade "$index".',
         ),
       ]);
     }

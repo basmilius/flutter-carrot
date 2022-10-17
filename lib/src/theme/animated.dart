@@ -6,7 +6,7 @@ import '../animation/animation.dart';
 import 'carrot_theme.dart';
 
 const _kDefaultCurve = CarrotCurves.swiftOutCurve;
-const _kDefaultDuration = Duration(milliseconds: 540);
+const _kDefaultDuration = Duration(milliseconds: 840);
 
 class CarrotAnimatedTheme extends ImplicitlyAnimatedWidget {
   final Widget child;
