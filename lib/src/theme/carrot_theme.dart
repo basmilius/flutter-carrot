@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import '../ui/ui.dart';
+import 'notice_theme.dart';
 import 'text_field_theme.dart';
 import 'typography.dart';
 
@@ -52,6 +53,7 @@ class CarrotTheme extends StatelessWidget {
 }
 
 class CarrotThemeData extends CarrotThemeDataBase {
+  final CarrotNoticeThemeData noticeTheme;
   final CarrotTextFieldThemeData textFieldTheme;
 
   const CarrotThemeData.raw({
@@ -63,6 +65,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     required super.gray,
     required super.primary,
     required super.secondary,
+    required this.noticeTheme,
     required this.textFieldTheme,
   });
 
@@ -75,6 +78,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotColor gray = CarrotColors.slate,
     CarrotColor primary = CarrotColors.blue,
     CarrotColor secondary = CarrotColors.purple,
+    CarrotNoticeThemeData? noticeTheme,
     CarrotTextFieldThemeData? textFieldTheme,
   }) {
     brightness ??= Brightness.light;
@@ -95,6 +99,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       secondary: secondary,
     );
 
+    noticeTheme ??= base.isLight ? CarrotNoticeThemeData.light(base) : CarrotNoticeThemeData.dark(base);
     textFieldTheme ??= base.isLight ? CarrotTextFieldThemeData.light(base) : CarrotTextFieldThemeData.dark(base);
 
     return CarrotThemeData.raw(
@@ -106,6 +111,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       gray: base.gray,
       primary: base.primary,
       secondary: base.secondary,
+      noticeTheme: noticeTheme,
       textFieldTheme: textFieldTheme,
     );
   }
@@ -118,6 +124,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotColor gray = CarrotColors.slate,
     CarrotColor primary = CarrotColors.blue,
     CarrotColor secondary = CarrotColors.purple,
+    CarrotNoticeThemeData? noticeTheme,
     CarrotTextFieldThemeData? textFieldTheme,
   }) =>
       CarrotThemeData(
@@ -129,6 +136,8 @@ class CarrotThemeData extends CarrotThemeDataBase {
         gray: gray,
         primary: primary,
         secondary: secondary,
+        noticeTheme: noticeTheme,
+        textFieldTheme: textFieldTheme,
       );
 
   factory CarrotThemeData.light({
@@ -139,6 +148,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotColor gray = CarrotColors.slate,
     CarrotColor primary = CarrotColors.blue,
     CarrotColor secondary = CarrotColors.purple,
+    CarrotNoticeThemeData? noticeTheme,
     CarrotTextFieldThemeData? textFieldTheme,
   }) =>
       CarrotThemeData(
@@ -150,6 +160,8 @@ class CarrotThemeData extends CarrotThemeDataBase {
         gray: gray,
         primary: primary,
         secondary: secondary,
+        noticeTheme: noticeTheme,
+        textFieldTheme: textFieldTheme,
       );
 
   factory CarrotThemeData.fallback() => CarrotThemeData.light();
@@ -174,6 +186,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       gray: base.gray,
       primary: base.primary,
       secondary: base.secondary,
+      noticeTheme: CarrotNoticeThemeData.lerp(a.noticeTheme, b.noticeTheme, t),
       textFieldTheme: CarrotTextFieldThemeData.lerp(a.textFieldTheme, b.textFieldTheme, t),
     );
   }

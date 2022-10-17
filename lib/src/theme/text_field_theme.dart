@@ -94,12 +94,50 @@ class CarrotTextFieldThemeData {
     );
   }
 
-  factory CarrotTextFieldThemeData.dark(CarrotThemeDataBase theme) => CarrotTextFieldThemeData(
+  factory CarrotTextFieldThemeData.dark(
+    CarrotThemeDataBase theme, {
+    Color? backgroundColor,
+    Color? borderColor,
+    double? borderWidth,
+    Color? cursorColor,
+    String? obscuringCharacter,
+    Color? selectionColor,
+    TextStyle? textPlaceholderStyle,
+    TextStyle? textStyle,
+  }) =>
+      CarrotTextFieldThemeData(
         theme,
+        backgroundColor: backgroundColor ?? theme.gray[50],
+        borderColor: borderColor,
+        borderWidth: borderWidth,
+        cursorColor: cursorColor,
+        obscuringCharacter: obscuringCharacter,
+        selectionColor: selectionColor,
+        textPlaceholderStyle: textPlaceholderStyle,
+        textStyle: textStyle,
       );
 
-  factory CarrotTextFieldThemeData.light(CarrotThemeDataBase theme) => CarrotTextFieldThemeData(
+  factory CarrotTextFieldThemeData.light(
+    CarrotThemeDataBase theme, {
+    Color? backgroundColor,
+    Color? borderColor,
+    double? borderWidth,
+    Color? cursorColor,
+    String? obscuringCharacter,
+    Color? selectionColor,
+    TextStyle? textPlaceholderStyle,
+    TextStyle? textStyle,
+  }) =>
+      CarrotTextFieldThemeData(
         theme,
+        backgroundColor: backgroundColor,
+        borderColor: borderColor,
+        borderWidth: borderWidth,
+        cursorColor: cursorColor,
+        obscuringCharacter: obscuringCharacter,
+        selectionColor: selectionColor,
+        textPlaceholderStyle: textPlaceholderStyle,
+        textStyle: textStyle,
       );
 
   static CarrotTextFieldThemeData lerp(CarrotTextFieldThemeData a, CarrotTextFieldThemeData b, double t) {

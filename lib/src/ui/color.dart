@@ -7,12 +7,16 @@ class CarrotColor extends Color {
   const CarrotColor(super.value, this._swatch);
 
   Color operator [](int index) {
-    if (!_swatch.containsKey(index)) {
-      throw FlutterError.fromParts(<DiagnosticsNode>[
-        ErrorSummary(
-          'CarrotColor.[] is called with a missing shade "$index".',
-        ),
-      ]);
+    assert(index >= 0 && index <= 900, 'CarrotColor only has shades between 0 and 900.');
+
+    if (index % 100 > 0) {
+      int lowerIndex = (index / 100).floor() * 100;
+      int upperIndex = (index / 100).ceil() * 100;
+
+      final a = _swatch[lowerIndex]!;
+      final b = _swatch[upperIndex]!;
+
+      return Color.lerp(a, b, (upperIndex - index) / 100)!;
     }
 
     return _swatch[index]!;

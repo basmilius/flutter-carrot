@@ -35,4 +35,5 @@ export 'switch.dart';
 export 'tabs.dart';
 export 'text_button.dart';
 export 'text_field.dart';
+export 'tonal_color_preview.dart';
 export 'typography.dart';

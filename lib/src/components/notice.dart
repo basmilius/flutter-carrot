@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../app/app.dart';
+import '../theme/theme.dart';
 import '../ui/ui.dart';
 
 import 'basic.dart';
@@ -8,10 +9,7 @@ import 'basic.dart';
 class CarrotNotice extends StatelessWidget {
   final Widget? child;
   final CarrotColor? color;
-  final bool isBordered;
   final bool isFluid;
-  final bool isSerious;
-  final List<BoxShadow> shadow;
   final Widget? icon;
   final Widget? message;
   final Widget? title;
@@ -20,49 +18,19 @@ class CarrotNotice extends StatelessWidget {
     super.key,
     this.color,
     this.child,
-    this.isBordered = true,
     this.isFluid = false,
-    this.isSerious = false,
-    this.shadow = CarrotShadows.none,
     this.icon,
     this.message,
     this.title,
   });
 
-  const CarrotNotice.serious({
-    super.key,
-    this.color,
-    this.child,
-    this.isBordered = true,
-    this.isFluid = false,
-    this.shadow = CarrotShadows.none,
-    this.icon,
-    this.message,
-    this.title,
-  }) : isSerious = true;
-
   @override
   Widget build(BuildContext context) {
-    var appTheme = context.carrotTheme;
+    final appTheme = context.carrotTheme;
+    final noticeTheme = CarrotNoticeTheme.of(context);
 
     final palette = color ?? appTheme.primary;
-    BorderRadius? radius;
-    BorderRadius lineRadius;
-
-    if (isFluid) {
-      radius = null;
-    } else {
-      radius = appTheme.borderRadius;
-    }
-
-    if (isFluid) {
-      lineRadius = const BorderRadius.only(
-        topRight: Radius.circular(3),
-        bottomRight: Radius.circular(3),
-      );
-    } else {
-      lineRadius = const BorderRadius.all(Radius.circular(3));
-    }
+    final radius = isFluid ? null : appTheme.borderRadius;
 
     Widget content = CarrotColumn(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -72,7 +40,7 @@ class CarrotNotice extends StatelessWidget {
         if (title != null) ...[
           DefaultTextStyle(
             style: appTheme.typography.headline6.copyWith(
-              color: palette[appTheme.isDark ? 500 : 600],
+              color: palette[noticeTheme.titleColorShade],
               height: 1.2,
             ),
             child: title!,
@@ -81,7 +49,7 @@ class CarrotNotice extends StatelessWidget {
         if (message != null) ...[
           DefaultTextStyle(
             style: appTheme.typography.body1.copyWith(
-              color: palette[appTheme.isDark ? 300 : 900],
+              color: palette[noticeTheme.foregroundColorShade],
               fontSize: 15,
               height: 1.2,
             ),
@@ -104,8 +72,8 @@ class CarrotNotice extends StatelessWidget {
         children: [
           DefaultTextStyle(
             style: appTheme.typography.body1.copyWith(
-              color: palette[900],
-              fontSize: 22,
+              color: palette[noticeTheme.iconColorShade],
+              fontSize: 20,
               height: 1.4,
             ),
             child: icon!,
@@ -119,39 +87,15 @@ class CarrotNotice extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        border: isFluid ? Border.symmetric(horizontal: BorderSide(color: palette[appTheme.isDark ? 800 : 200])) : null,
         borderRadius: radius,
-        color: isFluid || isSerious ? palette[appTheme.isDark ? 900 : 100] : CarrotColors.transparent,
+        color: palette[noticeTheme.backgroundColorShade],
       ),
-      child: Stack(
-        children: [
-          if (isBordered)
-            Positioned(
-              top: isSerious ? 15 : 6,
-              left: isSerious ? 12 : 0,
-              bottom: isSerious ? 15 : 6,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: lineRadius,
-                  color: palette[500],
-                ),
-                child: const SizedBox(width: 3),
-              ),
-            ),
-          Padding(
-            padding: EdgeInsets.only(
-              top: isFluid || isSerious ? 15 : 3,
-              left: isBordered
-                  ? (isSerious ? 24 : 15)
-                  : isFluid || isSerious
-                      ? 15
-                      : 0,
-              right: isFluid || isSerious ? 15 : 0,
-              bottom: isFluid || isSerious ? 15 : 3,
-            ),
-            child: body,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 18,
+          vertical: 15,
+        ),
+        child: body,
       ),
     );
   }
@@ -159,20 +103,14 @@ class CarrotNotice extends StatelessWidget {
   factory CarrotNotice.withButton({
     required Widget button,
     required CarrotColor color,
-    bool isBordered = true,
     bool isFluid = false,
-    bool isSerious = false,
-    List<BoxShadow> shadow = CarrotShadows.none,
     Widget? icon,
     Widget? message,
     Widget? title,
   }) {
     return CarrotNotice.withButtons(
       color: color,
-      isBordered: isBordered,
       isFluid: isFluid,
-      isSerious: isSerious,
-      shadow: shadow,
       icon: icon,
       message: message,
       title: title,
@@ -183,20 +121,14 @@ class CarrotNotice extends StatelessWidget {
   factory CarrotNotice.withButtons({
     required List<Widget> buttons,
     required CarrotColor color,
-    bool isBordered = true,
     bool isFluid = false,
-    bool isSerious = false,
-    List<BoxShadow> shadow = CarrotShadows.none,
     Widget? icon,
     Widget? message,
     Widget? title,
   }) {
     return CarrotNotice(
       color: color,
-      isBordered: isBordered,
       isFluid: isFluid,
-      isSerious: isSerious,
-      shadow: shadow,
       icon: icon,
       message: message,
       title: title,
