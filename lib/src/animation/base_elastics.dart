@@ -23,7 +23,7 @@ class ElasticInBuilder extends FadeInBuilder {
 class ElasticInOffsetBuilder extends FadeInOffsetBuilder {
   late Animation<double> _scale;
 
-  ElasticInOffsetBuilder(Offset fromOffset) : super(fromOffset);
+  ElasticInOffsetBuilder(super.fromOffset);
 
   @override
   Widget build(BuildContext context, Widget child) {

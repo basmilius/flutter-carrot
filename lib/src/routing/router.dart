@@ -7,7 +7,6 @@ import '../components/overlay.dart';
 import '../components/scaffold.dart';
 
 import 'overlay.dart';
-import 'route.dart';
 
 class CarrotRouter extends GoRouter {
   CarrotRouter({
@@ -20,14 +19,10 @@ class CarrotRouter extends GoRouter {
     super.refreshListenable,
     super.restorationScopeId,
     super.routerNeglect = false,
-    required List<RouteBase> routes,
-    CarrotRouteWidgetBuilder? errorBuilder,
-    CarrotRoutePageBuilder? errorPageBuilder,
-  }) : super(
-          routes: routes,
-          errorBuilder: errorBuilder,
-          errorPageBuilder: errorPageBuilder,
-        );
+    required super.routes,
+    super.errorBuilder,
+    super.errorPageBuilder,
+  });
 
   Future<T?> overlay<T>({
     required CarrotOverlayBaseBuilder<T> builder,

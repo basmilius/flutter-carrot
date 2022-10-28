@@ -268,8 +268,8 @@ class _CarrotTextSelectionToolbarItemsElement extends RenderObjectElement {
   _CarrotTextSelectionToolbarItems get widget => super.widget as _CarrotTextSelectionToolbarItems;
 
   _CarrotTextSelectionToolbarItemsElement(
-    _CarrotTextSelectionToolbarItems widget,
-  ) : super(widget);
+    _CarrotTextSelectionToolbarItems super.widget,
+  );
 
   void _mountChild(Widget widget, _CarrotTextSelectionToolbarItemsSlot slot) {
     final Element? oldChild = slotToChild[slot];

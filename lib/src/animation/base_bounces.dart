@@ -21,5 +21,5 @@ class BounceInBuilder extends FadeInBuilder {
 }
 
 class BounceInOffsetBuilder extends FadeInOffsetBuilder {
-  BounceInOffsetBuilder(Offset fromOffset) : super(fromOffset);
+  BounceInOffsetBuilder(super.fromOffset);
 }

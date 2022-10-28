@@ -12,19 +12,14 @@ typedef CarrotShellRouteWidgetBuilder = Widget Function(BuildContext, GoRouterSt
 
 class CarrotRoute extends GoRoute {
   CarrotRoute({
-    required CarrotRouteWidgetBuilder builder,
+    required CarrotRouteWidgetBuilder super.builder,
     required super.path,
-    CarrotRoutePageBuilder? pageBuilder,
-    CarrotRouteRedirect redirect = _noRedirect,
-    List<CarrotRoute> routes = const [],
+    super.pageBuilder,
+    CarrotRouteRedirect super.redirect = _noRedirect,
+    List<CarrotRoute> super.routes = const [],
     super.name,
     super.parentNavigatorKey,
-  }) : super(
-          builder: builder,
-          pageBuilder: pageBuilder,
-          redirect: redirect,
-          routes: routes,
-        );
+  });
 
   CarrotRoute.defaultTransition({
     required CarrotRouteWidgetBuilder builder,
@@ -49,12 +44,9 @@ class CarrotShellRoute extends ShellRoute {
   CarrotShellRoute({
     super.navigatorKey,
     super.routes,
-    CarrotShellRouteWidgetBuilder? builder,
-    CarrotShellRoutePageBuilder? pageBuilder,
-  }) : super(
-          builder: builder,
-          pageBuilder: pageBuilder,
-        );
+    super.builder,
+    super.pageBuilder,
+  });
 
   CarrotShellRoute.defaultTransition({
     super.navigatorKey,
