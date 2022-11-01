@@ -1,6 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 
+const _kKnownSwatches = [
+  0,
+  50,
+  100,
+  200,
+  300,
+  400,
+  500,
+  600,
+  700,
+  800,
+  900,
+];
+
 class CarrotColor extends Color {
   final Map<int, Color> _swatch;
 
@@ -9,17 +23,25 @@ class CarrotColor extends Color {
   Color operator [](int index) {
     assert(index >= 0 && index <= 900, 'CarrotColor only has shades between 0 and 900.');
 
-    if (index % 100 > 0) {
-      int lowerIndex = (index / 100).floor() * 100;
-      int upperIndex = (index / 100).ceil() * 100;
-
-      final a = _swatch[lowerIndex]!;
-      final b = _swatch[upperIndex]!;
-
-      return Color.lerp(a, b, (upperIndex - index) / 100)!;
+    if (_kKnownSwatches.contains(index)) {
+      return _swatch[index]!;
     }
 
-    return _swatch[index]!;
+    if (index < 50) {
+      return Color.lerp(_swatch[0]!, _swatch[50]!, index / 50)!;
+    }
+
+    if (index < 100) {
+      return Color.lerp(_swatch[50]!, _swatch[100]!, (index - 50) / 50)!;
+    }
+
+    int lowerIndex = (index / 100).floor() * 100;
+    int upperIndex = (index / 100).ceil() * 100;
+
+    final a = _swatch[lowerIndex]!;
+    final b = _swatch[upperIndex]!;
+
+    return Color.lerp(a, b, (upperIndex - index) / 100)!;
   }
 
   @override
