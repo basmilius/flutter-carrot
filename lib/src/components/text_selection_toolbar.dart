@@ -895,9 +895,7 @@ class _NullElement extends Element {
   _NullElement() : super(_NullWidget());
 
   @override
-  void performRebuild() {
-    super.performRebuild();
-  }
+  void performRebuild() {}
 }
 
 class _NullWidget extends Widget {

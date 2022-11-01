@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import '../app/extensions/extensions.dart';
@@ -58,7 +59,7 @@ class CarrotTextSelectionControls extends TextSelectionControls {
     BuildContext context,
     Rect globalEditableRegion,
     double textLineHeight,
-    Offset selectionMidpoint,
+    Offset position,
     List<TextSelectionPoint> endpoints,
     TextSelectionDelegate delegate,
     ClipboardStatusNotifier? clipboardStatus,
@@ -72,7 +73,7 @@ class CarrotTextSelectionControls extends TextSelectionControls {
       handleCopy: canCopy(delegate) ? () => handleCopy(delegate, clipboardStatus) : null,
       handlePaste: canPaste(delegate) ? () => handlePaste(delegate) : null,
       handleSelectAll: canSelectAll(delegate) ? () => handleSelectAll(delegate) : null,
-      selectionMidpoint: selectionMidpoint,
+      selectionMidpoint: position,
       textLineHeight: textLineHeight,
     );
   }
