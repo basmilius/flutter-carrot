@@ -53,6 +53,7 @@ class CarrotTheme extends StatelessWidget {
 }
 
 class CarrotThemeData extends CarrotThemeDataBase {
+  final bool isAnimating;
   final CarrotNoticeThemeData noticeTheme;
   final CarrotTextFieldThemeData textFieldTheme;
 
@@ -67,6 +68,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     required super.secondary,
     required this.noticeTheme,
     required this.textFieldTheme,
+    this.isAnimating = false,
   });
 
   factory CarrotThemeData({
@@ -178,6 +180,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     final base = CarrotThemeDataBase.lerp(a, b, t);
 
     return CarrotThemeData.raw(
+      isAnimating: t > 0 && t < 1,
       defaults: base.defaults,
       typography: base.typography,
       brightness: base.brightness,

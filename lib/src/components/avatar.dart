@@ -79,7 +79,7 @@ class CarrotAvatar extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        color: swatch[100],
+        color: swatch[context.carrotTheme.resolve(100, 900)],
       ),
       child: ClipOval(
         child: SizedBox.square(
@@ -87,7 +87,7 @@ class CarrotAvatar extends StatelessWidget {
           child: Center(
             child: DefaultTextStyle(
               style: context.carrotTypography.base.copyWith(
-                color: swatch[500],
+                color: swatch[context.carrotTheme.resolve(500, 400)],
                 fontSize: size * 0.35,
                 fontWeight: FontWeight.w600,
               ),

@@ -44,6 +44,10 @@ class CarrotIconNav extends StatefulWidget {
     this.onChanged,
   });
 
+  Duration _getDuration(BuildContext context) {
+    return context.carrotTheme.isAnimating ? Duration.zero : duration;
+  }
+
   @override
   createState() => _CarrotIconNav();
 }
@@ -63,7 +67,7 @@ class _CarrotIconNav extends State<CarrotIconNav> {
         boxShadow: widget.shadow,
         color: widget.color ?? context.carrotTheme.gray[0],
       ),
-      duration: widget.duration,
+      duration: widget._getDuration(context),
       padding: EdgeInsets.only(
         left: 15,
         right: 15,
@@ -116,6 +120,8 @@ class _CarrotIconNavItem extends StatelessWidget {
     Color iconColor = (isActive ? iconNav.iconColorActive : iconNav.iconColor) ?? carrotTheme.primary;
     Color labelColor = (isActive ? iconNav.labelColorActive : iconNav.labelColor) ?? (isActive ? carrotTheme.primary : carrotTheme.gray[400]);
 
+    final iconNavDuration = iconNav._getDuration(context);
+
     return Expanded(
       child: CarrotBounceTap(
         duration: const Duration(milliseconds: 240),
@@ -136,11 +142,11 @@ class _CarrotIconNavItem extends StatelessWidget {
                 children: [
                   AnimatedSlide(
                     curve: iconNav.curve,
-                    duration: iconNav.duration,
+                    duration: iconNavDuration,
                     offset: isActive || iconNav.isLabelAlwaysVisible ? Offset.zero : const Offset(0, .5),
                     child: AnimatedDefaultTextStyle(
                       curve: iconNav.curve,
-                      duration: iconNav.duration,
+                      duration: iconNavDuration,
                       style: TextStyle(
                         color: iconColor,
                         fontSize: 20,
@@ -150,15 +156,15 @@ class _CarrotIconNavItem extends StatelessWidget {
                   ),
                   AnimatedSlide(
                     curve: iconNav.curve,
-                    duration: iconNav.duration,
+                    duration: iconNavDuration,
                     offset: isActive || iconNav.isLabelAlwaysVisible ? Offset.zero : const Offset(0, 1),
                     child: AnimatedOpacity(
                       curve: iconNav.curve,
-                      duration: iconNav.duration,
+                      duration: iconNavDuration,
                       opacity: isActive || iconNav.isLabelAlwaysVisible ? 1 : 0,
                       child: AnimatedDefaultTextStyle(
                         curve: iconNav.curve,
-                        duration: iconNav.duration,
+                        duration: iconNavDuration,
                         style: carrotTheme.typography.body1.copyWith(
                           color: labelColor,
                           fontSize: 12,

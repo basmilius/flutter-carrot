@@ -50,6 +50,8 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localDuration = context.carrotTheme.isAnimating ? Duration.zero : duration;
+
     switch (systemOverlayStyle) {
       case CarrotAppBarSystemOverlayStyle.auto:
         SystemChrome.setSystemUIOverlayStyle(isTransparent || color.isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark);
@@ -73,7 +75,7 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
           Positioned.fill(
             child: CarrotAnimatedBackdropBlurContainer(
               curve: curve,
-              duration: duration,
+              duration: localDuration,
               sigmaX: isTransparent ? 0.0 : blur,
               sigmaY: isTransparent ? 0.0 : blur,
             ),
@@ -81,7 +83,7 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
         Positioned.fill(
           child: AnimatedOpacity(
             curve: curve,
-            duration: duration,
+            duration: localDuration,
             opacity: isTransparent ? 0 : 1,
             child: Container(
               decoration: BoxDecoration(
@@ -99,7 +101,7 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         AnimatedDefaultTextStyle(
           curve: curve,
-          duration: duration,
+          duration: localDuration,
           style: context.carrotTypography.body2.copyWith(
             color: textColor,
             shadows: textShadow,

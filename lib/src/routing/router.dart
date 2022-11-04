@@ -24,6 +24,8 @@ class CarrotRouter extends GoRouter {
     super.errorPageBuilder,
   });
 
+  NavigatorState? get navigator => routerDelegate.navigatorKey.currentState;
+
   Future<T?> overlay<T>({
     required CarrotOverlayBaseBuilder<T> builder,
     T? defaultValue,
