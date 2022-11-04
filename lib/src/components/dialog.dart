@@ -166,7 +166,6 @@ class CarrotDialogButton<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dialog = context.findAncestorStateOfType<_CarrotDialog>();
-    final theme = context.carrotTheme;
 
     assert(dialog != null);
 
@@ -182,7 +181,6 @@ class CarrotDialogButton<T> extends StatelessWidget {
 
     if (isPrimary) {
       return CarrotContainedButton(
-        color: theme.primary,
         size: buttonSize,
         onTap: onTap,
         children: children,

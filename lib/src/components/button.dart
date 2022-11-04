@@ -2,7 +2,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
-
 import 'basic.dart';
 import 'icon.dart';
 
@@ -12,6 +11,25 @@ enum CarrotButtonSize {
   medium,
   large,
 }
+
+const _paddings = {
+  CarrotButtonSize.tiny: EdgeInsets.symmetric(
+    horizontal: 12.0,
+    vertical: 6.0,
+  ),
+  CarrotButtonSize.small: EdgeInsets.symmetric(
+    horizontal: 15.0,
+    vertical: 9.0,
+  ),
+  CarrotButtonSize.medium: EdgeInsets.symmetric(
+    horizontal: 18.0,
+    vertical: 12.0,
+  ),
+  CarrotButtonSize.large: EdgeInsets.symmetric(
+    horizontal: 27.0,
+    vertical: 18.0,
+  ),
+};
 
 class CarrotButton extends StatefulWidget {
   final BoxDecoration decoration;
@@ -76,23 +94,7 @@ class _CarrotButton extends State<CarrotButton> with SingleTickerProviderStateMi
     if (widget.padding != null) {
       padding = widget.padding!;
     } else {
-      switch (widget.size) {
-        case CarrotButtonSize.tiny:
-          padding = const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0);
-          break;
-
-        case CarrotButtonSize.small:
-          padding = const EdgeInsets.symmetric(horizontal: 15.0, vertical: 9.0);
-          break;
-
-        case CarrotButtonSize.medium:
-          padding = const EdgeInsets.symmetric(horizontal: 18.0, vertical: 12.0);
-          break;
-
-        case CarrotButtonSize.large:
-          padding = const EdgeInsets.symmetric(horizontal: 27.0, vertical: 18.0);
-          break;
-      }
+      padding = _paddings[widget.size]!;
     }
 
     return padding;
@@ -153,24 +155,27 @@ class _CarrotButton extends State<CarrotButton> with SingleTickerProviderStateMi
 
     if (widget.icon != null) {
       children.insert(
-          0,
-          DefaultTextStyle(
-            style: iconTextStyle,
-            child: CarrotIcon(
-              glyph: widget.icon!,
-              style: widget.iconStyle,
-            ),
-          ));
+        0,
+        DefaultTextStyle(
+          style: iconTextStyle,
+          child: CarrotIcon(
+            glyph: widget.icon!,
+            style: widget.iconStyle,
+          ),
+        ),
+      );
     }
 
     if (widget.iconAfter != null) {
-      children.add(DefaultTextStyle(
-        style: iconTextStyle,
-        child: CarrotIcon(
-          glyph: widget.iconAfter!,
-          style: widget.iconAfterStyle,
+      children.add(
+        DefaultTextStyle(
+          style: iconTextStyle,
+          child: CarrotIcon(
+            glyph: widget.iconAfter!,
+            style: widget.iconAfterStyle,
+          ),
         ),
-      ));
+      );
     }
 
     _content = CarrotRow(

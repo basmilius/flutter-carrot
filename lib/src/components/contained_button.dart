@@ -1,28 +1,21 @@
 import 'package:flutter/widgets.dart';
 
 import '../app/app.dart';
-import '../ui/ui.dart';
-
+import '../theme/theme.dart';
 import 'button.dart';
 import 'icon.dart';
 
 class CarrotContainedButton extends StatelessWidget {
-  final BorderRadius? borderRadius;
   final List<Widget> children;
-  final CarrotColor? color;
   final Duration duration;
   final FocusNode? focusNode;
   final String? icon;
   final String? iconAfter;
   final CarrotIconStyle iconAfterStyle;
   final CarrotIconStyle iconStyle;
-  final EdgeInsets? padding;
   final double scale;
   final double scaleTap;
-  final List<BoxShadow> shadow;
-  final List<BoxShadow> shadowTap;
   final CarrotButtonSize size;
-  final TextStyle? textStyle;
   final GestureTapCallback? onTap;
   final GestureTapDownCallback? onTapDown;
   final GestureTapUpCallback? onTapUp;
@@ -31,21 +24,15 @@ class CarrotContainedButton extends StatelessWidget {
   const CarrotContainedButton({
     super.key,
     required this.children,
-    this.borderRadius,
-    this.color,
     this.duration = const Duration(milliseconds: 240),
     this.focusNode,
     this.icon,
     this.iconAfter,
     this.iconAfterStyle = CarrotIconStyle.regular,
     this.iconStyle = CarrotIconStyle.regular,
-    this.padding,
     this.scale = 1.0,
     this.scaleTap = .985,
-    this.shadow = CarrotShadows.small,
-    this.shadowTap = CarrotShadows.small,
     this.size = CarrotButtonSize.medium,
-    this.textStyle,
     this.onTap,
     this.onTapDown,
     this.onTapUp,
@@ -55,21 +42,15 @@ class CarrotContainedButton extends StatelessWidget {
   CarrotContainedButton.text({
     super.key,
     required Widget text,
-    this.borderRadius,
-    this.color,
     this.duration = const Duration(milliseconds: 240),
     this.focusNode,
     this.icon,
     this.iconAfter,
     this.iconAfterStyle = CarrotIconStyle.regular,
     this.iconStyle = CarrotIconStyle.regular,
-    this.padding,
     this.scale = 1.0,
     this.scaleTap = .985,
-    this.shadow = CarrotShadows.small,
-    this.shadowTap = CarrotShadows.small,
     this.size = CarrotButtonSize.medium,
-    this.textStyle,
     this.onTap,
     this.onTapDown,
     this.onTapUp,
@@ -78,9 +59,7 @@ class CarrotContainedButton extends StatelessWidget {
 
   @override
   build(BuildContext context) {
-    final appTheme = context.carrotTheme;
-    final palette = color ?? appTheme.primary;
-    final radius = borderRadius ?? appTheme.borderRadius;
+    final containedButtonTheme = CarrotContainedButtonTheme.of(context);
 
     return CarrotButton(
       duration: duration,
@@ -89,7 +68,7 @@ class CarrotContainedButton extends StatelessWidget {
       iconAfter: iconAfter,
       iconAfterStyle: iconAfterStyle,
       iconStyle: iconStyle,
-      padding: padding,
+      padding: containedButtonTheme.padding,
       scale: scale,
       scaleTap: scaleTap,
       size: size,
@@ -98,23 +77,23 @@ class CarrotContainedButton extends StatelessWidget {
       onTapUp: onTapUp,
       onTapCancel: onTapCancel,
       decoration: BoxDecoration(
-        border: Border.all(color: palette[600]),
-        borderRadius: radius,
-        boxShadow: shadow,
-        color: palette[500],
+        border: containedButtonTheme.border,
+        borderRadius: containedButtonTheme.borderRadius,
+        boxShadow: containedButtonTheme.shadow,
+        color: containedButtonTheme.backgroundColor,
       ),
       decorationTap: BoxDecoration(
-        border: Border.all(color: palette[700]),
-        borderRadius: radius,
-        boxShadow: shadowTap,
-        color: palette[600],
+        border: containedButtonTheme.borderActive,
+        borderRadius: containedButtonTheme.borderRadius,
+        boxShadow: containedButtonTheme.shadowActive,
+        color: containedButtonTheme.backgroundColorActive,
       ),
-      textStyle: textStyle ??
-          appTheme.typography.base.copyWith(
-            color: palette[0],
-            fontSize: size == CarrotButtonSize.tiny ? 14 : null,
-            height: 1.45,
-          ),
+      textStyle: context.carrotTypography.base.copyWith(
+        color: containedButtonTheme.color,
+        fontSize: size == CarrotButtonSize.tiny ? 14 : null,
+        fontWeight: containedButtonTheme.fontWeight,
+        height: 1.45,
+      ),
       children: children,
     );
   }

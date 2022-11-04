@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import '../ui/ui.dart';
+import 'contained_button_theme.dart';
 import 'notice_theme.dart';
 import 'text_field_theme.dart';
 import 'typography.dart';
@@ -54,6 +55,7 @@ class CarrotTheme extends StatelessWidget {
 
 class CarrotThemeData extends CarrotThemeDataBase {
   final bool isAnimating;
+  final CarrotContainedButtonThemeData containedButtonTheme;
   final CarrotNoticeThemeData noticeTheme;
   final CarrotTextFieldThemeData textFieldTheme;
 
@@ -66,6 +68,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     required super.gray,
     required super.primary,
     required super.secondary,
+    required this.containedButtonTheme,
     required this.noticeTheme,
     required this.textFieldTheme,
     this.isAnimating = false,
@@ -80,6 +83,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotColor gray = CarrotColors.slate,
     CarrotColor primary = CarrotColors.blue,
     CarrotColor secondary = CarrotColors.purple,
+    CarrotContainedButtonThemeData? containedButtonTheme,
     CarrotNoticeThemeData? noticeTheme,
     CarrotTextFieldThemeData? textFieldTheme,
   }) {
@@ -101,6 +105,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       secondary: secondary,
     );
 
+    containedButtonTheme ??= base.isLight ? CarrotContainedButtonThemeData.light(base) : CarrotContainedButtonThemeData.dark(base);
     noticeTheme ??= base.isLight ? CarrotNoticeThemeData.light(base) : CarrotNoticeThemeData.dark(base);
     textFieldTheme ??= base.isLight ? CarrotTextFieldThemeData.light(base) : CarrotTextFieldThemeData.dark(base);
 
@@ -113,6 +118,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       gray: base.gray,
       primary: base.primary,
       secondary: base.secondary,
+      containedButtonTheme: containedButtonTheme,
       noticeTheme: noticeTheme,
       textFieldTheme: textFieldTheme,
     );
@@ -126,6 +132,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotColor gray = CarrotColors.slate,
     CarrotColor primary = CarrotColors.blue,
     CarrotColor secondary = CarrotColors.purple,
+    CarrotContainedButtonThemeData? containedButtonTheme,
     CarrotNoticeThemeData? noticeTheme,
     CarrotTextFieldThemeData? textFieldTheme,
   }) =>
@@ -138,6 +145,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
         gray: gray,
         primary: primary,
         secondary: secondary,
+        containedButtonTheme: containedButtonTheme,
         noticeTheme: noticeTheme,
         textFieldTheme: textFieldTheme,
       );
@@ -150,6 +158,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotColor gray = CarrotColors.slate,
     CarrotColor primary = CarrotColors.blue,
     CarrotColor secondary = CarrotColors.purple,
+    CarrotContainedButtonThemeData? containedButtonTheme,
     CarrotNoticeThemeData? noticeTheme,
     CarrotTextFieldThemeData? textFieldTheme,
   }) =>
@@ -162,6 +171,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
         gray: gray,
         primary: primary,
         secondary: secondary,
+        containedButtonTheme: containedButtonTheme,
         noticeTheme: noticeTheme,
         textFieldTheme: textFieldTheme,
       );
@@ -189,6 +199,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       gray: base.gray,
       primary: base.primary,
       secondary: base.secondary,
+      containedButtonTheme: CarrotContainedButtonThemeData.lerp(a.containedButtonTheme, b.containedButtonTheme, t),
       noticeTheme: CarrotNoticeThemeData.lerp(a.noticeTheme, b.noticeTheme, t),
       textFieldTheme: CarrotTextFieldThemeData.lerp(a.textFieldTheme, b.textFieldTheme, t),
     );

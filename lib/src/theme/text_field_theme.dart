@@ -107,7 +107,7 @@ class CarrotTextFieldThemeData {
   }) =>
       CarrotTextFieldThemeData(
         theme,
-        backgroundColor: backgroundColor ?? theme.gray[50],
+        backgroundColor: backgroundColor ?? theme.gray[25],
         borderColor: borderColor,
         borderWidth: borderWidth,
         cursorColor: cursorColor,
