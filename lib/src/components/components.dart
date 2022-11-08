@@ -29,6 +29,7 @@ export 'overlay.dart';
 export 'scaffold.dart';
 export 'scroll_view.dart';
 export 'sheet.dart';
+export 'sheet_view.dart';
 export 'spacer.dart';
 export 'spinner.dart';
 export 'switch.dart';

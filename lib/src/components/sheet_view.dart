@@ -1,0 +1,243 @@
+import 'package:flutter/widgets.dart';
+
+import '../app/extensions/extensions.dart';
+import '../ui/ui.dart';
+import 'primitive/primitive.dart';
+import 'scroll/scrollbar.dart';
+import 'scroll_view.dart';
+
+typedef CarrotSheetViewBuilder = Widget Function(BuildContext, ScrollController);
+
+class CarrotSheetView extends StatefulWidget {
+  final Color? backgroundColor;
+  final CarrotSheetViewBuilder builder;
+  final WidgetBuilder? headerBuilder;
+
+  const CarrotSheetView({
+    super.key,
+    required this.builder,
+    this.backgroundColor,
+    this.headerBuilder,
+  });
+
+  factory CarrotSheetView.singleChildScrollView({
+    required WidgetBuilder builder,
+    Color? backgroundColor,
+    WidgetBuilder? headerBuilder,
+  }) =>
+      CarrotSheetView(
+        backgroundColor: backgroundColor,
+        headerBuilder: headerBuilder,
+        builder: (_, scrollController) => SingleChildScrollView(
+          controller: scrollController,
+          child: Builder(
+            builder: builder,
+          ),
+        ),
+      );
+
+  @override
+  createState() => CarrotSheetViewState();
+}
+
+class CarrotSheetViewState extends State<CarrotSheetView> {
+  Size _headerSize = Size.zero;
+
+  @override
+  void didUpdateWidget(CarrotSheetView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.headerBuilder == null) {
+      setState(() {
+        _headerSize = Size.zero;
+      });
+    }
+  }
+
+  void _onHeaderSizeChange(Size size) {
+    setState(() {
+      _headerSize = size;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RepaintBoundary(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: widget.backgroundColor,
+        ),
+        child: LayoutBuilder(
+          builder: (context, constraints) => Stack(
+            children: [
+              if (widget.headerBuilder != null)
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: CarrotSizeMeasureChild(
+                    onChange: _onHeaderSizeChange,
+                    child: Builder(
+                      builder: widget.headerBuilder!,
+                    ),
+                  ),
+                ),
+              Positioned.fill(
+                child: _CarrotSheetViewSheetScrollable(
+                  builder: widget.builder,
+                  constraints: constraints,
+                  headerSize: _headerSize,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CarrotSheetViewSheet extends StatelessWidget {
+  final Widget child;
+  final bool hasHeader;
+  final ScrollController scrollController;
+
+  const CarrotSheetViewSheet({
+    super.key,
+    required this.child,
+    required this.hasHeader,
+    required this.scrollController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.vertical(
+          top: context.carrotTheme.radius * 2,
+        ),
+        boxShadow: CarrotShadows.xl,
+        color: context.carrotTheme.gray[0],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.vertical(
+          top: context.carrotTheme.radius * 2,
+        ),
+        child: _CarrotSheetViewStack(
+          hasHeader: hasHeader,
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+
+class _CarrotSheetViewSheetScrollable extends StatefulWidget {
+  final CarrotSheetViewBuilder builder;
+  final BoxConstraints constraints;
+  final Size headerSize;
+
+  const _CarrotSheetViewSheetScrollable({
+    required this.builder,
+    required this.constraints,
+    required this.headerSize,
+  });
+
+  @override
+  createState() => _CarrotSheetViewSheetScrollableState();
+}
+
+class _CarrotSheetViewSheetScrollableState extends State<_CarrotSheetViewSheetScrollable> {
+  final backupScrollController = ScrollController();
+
+  double get minimumSizeFactor => 1 - widget.headerSize.height / widget.constraints.maxHeight;
+
+  Widget _buildSheet(BuildContext context, [ScrollController? scrollController]) {
+    scrollController ??= backupScrollController;
+
+    return CarrotSheetViewSheet(
+      hasHeader: widget.headerSize.height > 0,
+      scrollController: scrollController,
+      child: CarrotPrimaryScrollView(
+        scrollController: scrollController,
+        child: Builder(
+          builder: (context) => widget.builder(context, scrollController!),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (minimumSizeFactor == 1) {
+      return _buildSheet(context);
+    }
+
+    return DraggableScrollableSheet(
+      initialChildSize: minimumSizeFactor,
+      minChildSize: minimumSizeFactor,
+      maxChildSize: 1,
+      snap: false,
+      builder: _buildSheet,
+    );
+  }
+}
+
+class _CarrotSheetViewStack extends StatelessWidget {
+  final Widget child;
+  final bool hasHeader;
+
+  const _CarrotSheetViewStack({
+    required this.child,
+    required this.hasHeader,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (!hasHeader) {
+      return child;
+    }
+
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Positioned.fill(
+          child: child,
+        ),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 30,
+          child: IgnorePointer(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    context.carrotTheme.gray[0],
+                    context.carrotTheme.gray[0].withOpacity(0),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: 12,
+          height: 6,
+          width: 39,
+          child: IgnorePointer(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(3)),
+                color: context.carrotTheme.gray[200],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

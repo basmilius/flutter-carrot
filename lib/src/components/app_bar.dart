@@ -3,9 +3,8 @@ import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
 import '../app/app.dart';
-import '../ui/shadow.dart';
+import '../theme/theme.dart';
 
-import 'filter/backdrop_blur_container.dart';
 import 'app_bar_buttons.dart';
 
 enum CarrotAppBarSystemOverlayStyle {
@@ -16,15 +15,10 @@ enum CarrotAppBarSystemOverlayStyle {
 }
 
 class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final double blur;
-  final Color color;
   final Curve curve;
   final Duration duration;
   final bool isTransparent;
-  final List<BoxShadow> shadow;
   final CarrotAppBarSystemOverlayStyle systemOverlayStyle;
-  final Color? textColor;
-  final List<Shadow> textShadow;
   final List<Widget>? after;
   final List<Widget>? before;
   final Widget? title;
@@ -34,15 +28,10 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   const CarrotAppBar({
     super.key,
-    this.blur = 15.0,
-    this.color = const Color(0xFFFFFFFF),
     this.curve = CarrotCurves.swiftOutCurve,
     this.duration = const Duration(milliseconds: 540),
     this.isTransparent = false,
-    this.shadow = CarrotShadows.small,
     this.systemOverlayStyle = CarrotAppBarSystemOverlayStyle.auto,
-    this.textColor,
-    this.textShadow = const [],
     this.after,
     this.before,
     this.title,
@@ -50,11 +39,12 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appBarTheme = CarrotAppBarTheme.of(context);
     final localDuration = context.carrotTheme.isAnimating ? Duration.zero : duration;
 
     switch (systemOverlayStyle) {
       case CarrotAppBarSystemOverlayStyle.auto:
-        SystemChrome.setSystemUIOverlayStyle(isTransparent || color.isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark);
+        SystemChrome.setSystemUIOverlayStyle(isTransparent || appBarTheme.backgroundColor.isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark);
         break;
 
       case CarrotAppBarSystemOverlayStyle.light:
@@ -71,15 +61,6 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return Stack(
       children: [
-        if (blur > 0.0)
-          Positioned.fill(
-            child: CarrotAnimatedBackdropBlurContainer(
-              curve: curve,
-              duration: localDuration,
-              sigmaX: isTransparent ? 0.0 : blur,
-              sigmaY: isTransparent ? 0.0 : blur,
-            ),
-          ),
         Positioned.fill(
           child: AnimatedOpacity(
             curve: curve,
@@ -87,14 +68,9 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
             opacity: isTransparent ? 0 : 1,
             child: Container(
               decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: color.darken(.025),
-                    width: 1.0,
-                  ),
-                ),
-                boxShadow: shadow,
-                color: color,
+                border: appBarTheme.border,
+                boxShadow: appBarTheme.shadow,
+                color: appBarTheme.backgroundColor,
               ),
             ),
           ),
@@ -102,9 +78,8 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
         AnimatedDefaultTextStyle(
           curve: curve,
           duration: localDuration,
-          style: context.carrotTypography.body2.copyWith(
-            color: textColor,
-            shadows: textShadow,
+          style: context.carrotTypography.body1.copyWith(
+            color: appBarTheme.foregroundColor,
           ),
           child: _CarrotAppBarBody(
             after: after,
