@@ -9,23 +9,29 @@ class CarrotScrollView extends StatelessWidget {
   final bool isScrollbarVisible;
   final EdgeInsets? padding;
   final ScrollPhysics physics;
-  final ScrollController scrollController;
+  final ScrollController? scrollController;
+  final Axis scrollDirection;
   final EdgeInsets scrollPadding;
 
   const CarrotScrollView({
     super.key,
     required this.child,
-    required this.scrollController,
     this.isReversed = false,
     this.isScrollbarAlwaysVisible = false,
     this.isScrollbarVisible = true,
     this.padding,
     this.physics = const CarrotBouncingScrollPhysics(),
+    this.scrollController,
+    this.scrollDirection = Axis.vertical,
     this.scrollPadding = EdgeInsets.zero,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool effectivePrimary = this.scrollController == null && PrimaryScrollController.shouldInherit(context, scrollDirection);
+
+    final scrollController = effectivePrimary ? PrimaryScrollController.of(context) : this.scrollController;
+
     Widget scrollView = SingleChildScrollView(
       controller: scrollController,
       padding: padding,

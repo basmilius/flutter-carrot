@@ -10,7 +10,6 @@ import 'primitive/primitive.dart';
 import 'drawer_gesture_detector.dart';
 import 'dynamic_viewport_safe_area.dart';
 import 'scroll_view.dart';
-import 'sheet.dart';
 
 class CarrotScaffold extends StatefulWidget {
   final Widget child;
@@ -50,8 +49,6 @@ class CarrotScaffold extends StatefulWidget {
 }
 
 class _CarrotScaffold extends State<CarrotScaffold> {
-  final List<CarrotSheetEntry> _sheets = [];
-
   Size _appBarSize = Size.zero;
   Size _bottomBarSize = Size.zero;
   CarrotRouter? _router;
@@ -151,18 +148,6 @@ class _CarrotScaffold extends State<CarrotScaffold> {
     CarrotDrawerGestureDetector.of(context).open();
   }
 
-  void _removeSheet(CarrotSheetEntry entry) {
-    setState(() {
-      _sheets.remove(entry);
-    });
-  }
-
-  void _showSheet(CarrotSheetEntry entry) {
-    setState(() {
-      _sheets.add(entry);
-    });
-  }
-
   Tween<Rect?> _heroAnimationTween(Rect? begin, Rect? end) {
     return _CarrotScaffoldHeroTween(
       begin: begin,
@@ -181,8 +166,6 @@ class _CarrotScaffold extends State<CarrotScaffold> {
       scrollPosition: _scrollPosition,
       drawerCloseFunction: _drawerClose,
       drawerOpenFunction: _drawerOpen,
-      removeSheetFunction: _removeSheet,
-      showSheetFunction: _showSheet,
       child: HeroControllerScope(
         controller: HeroController(
           createRectTween: _heroAnimationTween,
@@ -193,7 +176,6 @@ class _CarrotScaffold extends State<CarrotScaffold> {
           ),
           child: Stack(
             children: [
-              // main body
               _CarrotScaffoldView(
                 drawer: widget.drawer,
                 drawerScrimColor: widget.drawerScrimColor,
@@ -210,22 +192,6 @@ class _CarrotScaffold extends State<CarrotScaffold> {
                   },
                 ),
               ),
-
-              // sheets
-              for (int i = 0; i < _sheets.length; ++i)
-                CarrotSheetGestureDetector(
-                  align: _sheets[i].align,
-                  axis: _sheets[i].axis,
-                  hasFocus: i == _sheets.length - 1,
-                  scrimColor: _sheets[i].scrimColor ?? context.carrotTheme.defaults.scrim,
-                  onClose: () => _removeSheet(_sheets[i]),
-                  onOpen: () {},
-                  child: StatefulBuilder(
-                    key: ValueKey(_sheets[i].hashCode),
-                    builder: (context, setState) => _sheets[i].builder(context, _sheets[i]),
-                  ),
-                ),
-
               _CarrotScaffoldReturnToTop(
                 scrollController: _scrollController,
               ),
@@ -494,8 +460,6 @@ class _CarrotScaffoldController extends InheritedWidget implements CarrotScaffol
 
   final _DrawerToggle drawerCloseFunction;
   final _DrawerToggle drawerOpenFunction;
-  final _SheetToggle removeSheetFunction;
-  final _SheetToggle showSheetFunction;
 
   const _CarrotScaffoldController({
     required super.child,
@@ -507,8 +471,6 @@ class _CarrotScaffoldController extends InheritedWidget implements CarrotScaffol
     required this.scrollPosition,
     required this.drawerCloseFunction,
     required this.drawerOpenFunction,
-    required this.removeSheetFunction,
-    required this.showSheetFunction,
   });
 
   @override
@@ -519,16 +481,6 @@ class _CarrotScaffoldController extends InheritedWidget implements CarrotScaffol
   @override
   void drawerOpen(BuildContext context) {
     drawerOpenFunction(context);
-  }
-
-  @override
-  void removeSheet(CarrotSheetEntry entry) {
-    removeSheetFunction(entry);
-  }
-
-  @override
-  void showSheet(CarrotSheetEntry entry) {
-    showSheetFunction(entry);
   }
 
   @override
@@ -563,7 +515,6 @@ class _CarrotScaffoldController extends InheritedWidget implements CarrotScaffol
 
 typedef _MeasureSizeCallback = void Function(Size);
 typedef _DrawerToggle = void Function(BuildContext);
-typedef _SheetToggle = void Function(CarrotSheetEntry);
 
 abstract class CarrotScaffoldController {
   Size get appBarSize;
@@ -581,8 +532,4 @@ abstract class CarrotScaffoldController {
   void drawerClose(BuildContext context);
 
   void drawerOpen(BuildContext context);
-
-  void removeSheet(CarrotSheetEntry entry);
-
-  void showSheet(CarrotSheetEntry entry);
 }

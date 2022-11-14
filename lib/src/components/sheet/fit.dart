@@ -1,0 +1,4 @@
+enum CarrotSheetFit {
+  expand,
+  loose,
+}

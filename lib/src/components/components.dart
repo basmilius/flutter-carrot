@@ -1,6 +1,7 @@
 export 'filter/filter.dart';
 export 'primitive/primitive.dart';
 export 'scroll/scroll.dart';
+export 'sheet/sheet.dart';
 export 'sliver/sliver.dart';
 
 export 'app.dart';
@@ -26,9 +27,10 @@ export 'masonry_grid.dart';
 export 'menu.dart';
 export 'notice.dart';
 export 'overlay.dart';
+export 'picker.dart';
 export 'scaffold.dart';
 export 'scroll_view.dart';
-export 'sheet.dart';
+export 'sheet_pane.dart';
 export 'sheet_view.dart';
 export 'spacer.dart';
 export 'spinner.dart';
