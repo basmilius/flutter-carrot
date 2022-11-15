@@ -26,6 +26,7 @@ const _swatches = [
 ];
 
 class CarrotAvatar extends StatelessWidget {
+  final BorderRadius? borderRadius;
   final ImageProvider<Object>? image;
   final String? letters;
   final double size;
@@ -34,6 +35,7 @@ class CarrotAvatar extends StatelessWidget {
 
   const CarrotAvatar({
     super.key,
+    this.borderRadius,
     this.color,
     this.size = _kDefaultAvatarSize,
     this.visual,
@@ -42,6 +44,7 @@ class CarrotAvatar extends StatelessWidget {
 
   const CarrotAvatar.image(this.image, {
     super.key,
+    this.borderRadius,
     this.color,
     this.size = _kDefaultAvatarSize,
   })  : letters = null,
@@ -49,6 +52,7 @@ class CarrotAvatar extends StatelessWidget {
 
   const CarrotAvatar.letters(this.letters, {
     super.key,
+    this.borderRadius,
     this.color,
     this.size = _kDefaultAvatarSize,
   })  : image = null,
@@ -76,12 +80,12 @@ class CarrotAvatar extends StatelessWidget {
       media = Container();
     }
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        color: swatch[context.carrotTheme.resolve(100, 900)],
-      ),
-      child: ClipOval(
+    return ClipRRect(
+      borderRadius: borderRadius ?? BorderRadius.circular(size),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: swatch[context.carrotTheme.resolve(100, 900)],
+        ),
         child: SizedBox.square(
           dimension: size,
           child: Center(
