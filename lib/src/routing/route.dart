@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'page.dart';
 
-typedef CarrotRouteNameGenerator = String? Function(BuildContext);
+typedef CarrotRouteNameGenerator = String? Function(BuildContext, GoRouterState);
 typedef CarrotRouteRedirect = String? Function(BuildContext, GoRouterState);
 typedef CarrotRoutePageBuilder = Page<dynamic> Function(BuildContext, GoRouterState);
 typedef CarrotRouteWidgetBuilder = Widget Function(BuildContext, GoRouterState);
@@ -32,7 +32,7 @@ class CarrotRoute extends GoRoute {
   }) : super(
           pageBuilder: (context, state) => CarrotRoutingPage<void>(
             key: state.pageKey,
-            name: nameGenerator?.call(context),
+            name: nameGenerator?.call(context, state),
             child: builder(context, state),
           ),
           redirect: redirect,
