@@ -1,3 +1,3 @@
-# Carrot
+# 🥕 Carrot
 
-A UI library for Flutter apps.
+Another take on a widget library for Flutter with an opiniated theme.
