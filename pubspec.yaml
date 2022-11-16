@@ -1,6 +1,6 @@
 name: carrot
 description: Another take on a widget library with an opiniated theme.
-version: 1.0.0-dev
+version: 1.0.0-dev.0
 homepage: https://github.com/basmilius/flutter-carrot
 
 environment:
