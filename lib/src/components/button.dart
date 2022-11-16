@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
+import '../app/extensions/extensions.dart';
 import 'basic.dart';
 import 'icon.dart';
 
@@ -138,8 +139,13 @@ class _CarrotButton extends State<CarrotButton> with SingleTickerProviderStateMi
   }
 
   void _initAnimation() {
-    _decorationAnimation = DecorationTween(begin: widget.decoration, end: widget.decorationTap).animate(CarrotSwiftOutCurveAnimation(parent: _animationController));
-    _scaleAnimation = Tween<double>(begin: widget.scale, end: widget.scaleTap).animate(CarrotSwiftOutCurveAnimation(parent: _animationController));
+    _decorationAnimation = DecorationTween(begin: widget.decoration, end: widget.decorationTap).animate(
+      _animationController.curved(CarrotCurves.swiftOutCurve),
+    );
+
+    _scaleAnimation = Tween<double>(begin: widget.scale, end: widget.scaleTap).animate(
+      _animationController.curved(CarrotCurves.swiftOutCurve),
+    );
   }
 
   void _initChildren() {

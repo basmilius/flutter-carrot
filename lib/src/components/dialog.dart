@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 
 import '../app/extensions/extensions.dart';
+import '../app/extensions/media_query.dart';
 import 'basic.dart';
 import 'button.dart';
 import 'contained_button.dart';
@@ -177,7 +178,7 @@ class CarrotDialogButton<T> extends StatelessWidget {
       Text(label),
     ];
 
-    final buttonSize = context.carrotAppView.isPhone ? CarrotButtonSize.small : CarrotButtonSize.medium;
+    final buttonSize = context.mediaQuery.isPhone ? CarrotButtonSize.small : CarrotButtonSize.medium;
 
     if (isPrimary) {
       return CarrotContainedButton(
@@ -208,7 +209,7 @@ class CarrotDialogButtons extends StatelessWidget {
     final theme = context.carrotTheme;
     final Widget content;
 
-    if (context.carrotAppView.isPhone) {
+    if (context.mediaQuery.isPhone) {
       content = CarrotColumn(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         gap: 6,

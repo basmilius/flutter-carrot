@@ -2,6 +2,9 @@ import 'package:flutter/animation.dart';
 
 import 'spring.dart';
 
+/// Predefined animation curves. The common one used in
+/// pretty much all of the animated widgets in Carrot
+/// is [CarrotCurves.swiftOutCurve].
 class CarrotCurves {
   static const accelerationCurve = Cubic(.4, .0, 1, 1);
   static const accelerationCurveReversed = FlippedCurve(Cubic(.4, .0, 1, 1));
@@ -65,6 +68,8 @@ class CarrotCurves {
   static const elasticOut = Curves.elasticOut;
   static const elasticInOut = Curves.elasticInOut;
 
+  /// Creates a spring with the given [mass], [stiffness] and the
+  /// [damping] coefficient.
   static CarrotSpring spring({
     double damping = 20,
     double stiffness = 180,
@@ -79,60 +84,20 @@ class CarrotCurves {
       );
 }
 
-class CarrotAccelerationCurveAnimation extends CurvedAnimation {
-  CarrotAccelerationCurveAnimation({
-    required super.parent,
-  }) : super(
-          curve: CarrotCurves.accelerationCurve,
-          reverseCurve: CarrotCurves.accelerationCurveReversed,
-        );
-}
-
-class CarrotDecelerationCurveAnimation extends CurvedAnimation {
-  CarrotDecelerationCurveAnimation({
-    required super.parent,
-  }) : super(
-          curve: CarrotCurves.decelerationCurve,
-          reverseCurve: CarrotCurves.decelerationCurveReversed,
-        );
-}
-
-class CarrotSharpCurveAnimation extends CurvedAnimation {
-  CarrotSharpCurveAnimation({
-    required super.parent,
-  }) : super(
-          curve: CarrotCurves.sharpCurve,
-          reverseCurve: CarrotCurves.sharpCurveReversed,
-        );
-}
-
-class CarrotStandardCurveAnimation extends CurvedAnimation {
-  CarrotStandardCurveAnimation({
-    required super.parent,
-  }) : super(
-          curve: CarrotCurves.standardCurve,
-          reverseCurve: CarrotCurves.standardCurveReversed,
-        );
-}
-
-class CarrotSwiftOutCurveAnimation extends CurvedAnimation {
-  CarrotSwiftOutCurveAnimation({
-    required super.parent,
-  }) : super(
-          curve: CarrotCurves.swiftOutCurve,
-          reverseCurve: CarrotCurves.swiftOutCurveReversed,
-        );
-}
-
+/// Implementation of [Tween] with a [Curve] attached to it.
 class CarrotCurveTween<T> extends Tween<T> {
   final Curve curve;
 
+  /// Creates a new [CarrotCurveTween] with the given [curve],
+  /// [begin] and [end] arguments.
   CarrotCurveTween({
     required this.curve,
     required super.begin,
     required super.end,
   });
 
+  /// Returns the value this variable has at the given animation
+  /// clock value.
   @override
   T lerp(double t) {
     if (begin is Rect && end is Rect) {
@@ -142,6 +107,8 @@ class CarrotCurveTween<T> extends Tween<T> {
     return super.lerp(t);
   }
 
+  /// Returns the interpolated value for the current value of the
+  /// given animation.
   @override
   T transform(double t) {
     if (t == 0.0 || t == 1.0) {

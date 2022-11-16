@@ -2,28 +2,6 @@ import 'package:flutter/widgets.dart';
 
 import 'base_fades.dart' show FadeInBuilder;
 
-Matrix4 makeMatrix4([double pv = 1.0]) => Matrix4(
-      1.0,
-      0.0,
-      0.0,
-      0.0,
-      //
-      0.0,
-      1.0,
-      0.0,
-      0.0,
-      //
-      0.0,
-      0.0,
-      1.0,
-      pv * 0.001,
-      //
-      0.0,
-      0.0,
-      0.0,
-      1.0,
-    );
-
 abstract class _FlipInBuilder extends FadeInBuilder {
   late Animation<double> rotation;
 
@@ -47,17 +25,39 @@ abstract class _FlipInBuilder extends FadeInBuilder {
 
 class FlipInXBuilder extends _FlipInBuilder {
   @override
-  transform() => makeMatrix4(1.0)..rotateX(rotation.value);
+  transform() => _makeMatrix4(1.0)..rotateX(rotation.value);
 }
 
 class FlipInYBuilder extends _FlipInBuilder {
   @override
-  transform() => makeMatrix4(1.0)..rotateY(rotation.value);
+  transform() => _makeMatrix4(1.0)..rotateY(rotation.value);
 }
 
 class FlipInXYBuilder extends _FlipInBuilder {
   @override
-  transform() => makeMatrix4(1.0)
+  transform() => _makeMatrix4(1.0)
     ..rotateX(rotation.value / -3)
     ..rotateY(rotation.value);
 }
+
+Matrix4 _makeMatrix4([double pv = 1.0]) => Matrix4(
+  1.0,
+  0.0,
+  0.0,
+  0.0,
+  //
+  0.0,
+  1.0,
+  0.0,
+  0.0,
+  //
+  0.0,
+  0.0,
+  1.0,
+  pv * 0.001,
+  //
+  0.0,
+  0.0,
+  0.0,
+  1.0,
+);

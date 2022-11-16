@@ -63,13 +63,13 @@ class CarrotPicker extends StatefulWidget {
 
 class CarrotPickerState extends State<CarrotPicker> with SingleTickerProviderStateMixin {
   final _scrollController = ScrollController();
-  late AnimationController _controller;
+  late AnimationController _animationController;
   late Animation<Offset> _offsetAnimation;
   late Animation<double> _opacityAnimation;
 
   @override
   void dispose() {
-    _controller.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -77,15 +77,20 @@ class CarrotPickerState extends State<CarrotPicker> with SingleTickerProviderSta
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
+    _animationController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
 
-    _offsetAnimation = Tween(begin: const Offset(.0, 1.0), end: Offset.zero).animate(CarrotSwiftOutCurveAnimation(parent: _controller));
-    _opacityAnimation = Tween(begin: .0, end: 1.0).animate(CarrotSwiftOutCurveAnimation(parent: _controller));
+    _offsetAnimation = Tween(begin: const Offset(.0, 1.0), end: Offset.zero).animate(
+      _animationController.curved(CarrotCurves.swiftOutCurve),
+    );
 
-    _controller.forward();
+    _opacityAnimation = Tween(begin: .0, end: 1.0).animate(
+      _animationController.curved(CarrotCurves.swiftOutCurve),
+    );
+
+    _animationController.forward();
   }
 
   void _close() {
@@ -93,7 +98,7 @@ class CarrotPickerState extends State<CarrotPicker> with SingleTickerProviderSta
   }
 
   Future<bool> _onWillPop() async {
-    await _controller.reverse();
+    await _animationController.reverse();
     return true;
   }
 

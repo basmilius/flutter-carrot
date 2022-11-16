@@ -5,16 +5,30 @@ import '../../components/drawer_gesture_detector.dart';
 import '../../components/scaffold.dart';
 import '../../routing/routing.dart';
 import '../../theme/theme.dart';
-import '../app_view.dart';
 import '../settings.dart';
 
 extension CarrotAppExtension on BuildContext {
+  /// Returns the containing [CarrotApp].
   CarrotApp get carrot => CarrotApp.of(this);
-  CarrotAppView get carrotAppView => CarrotAppView.of(this);
+
+  /// Returns the nearest [CarrotDrawerController].
   CarrotDrawerController get carrotDrawer => CarrotDrawerGestureDetector.of(this);
+
+  /// Returns the nearest [CarrotRouter].
   CarrotRouter get carrotRouter => CarrotRouter.of(this);
+
+  /// Returns the nearest [CarrotScaffoldController].
   CarrotScaffoldController get carrotScaffold => CarrotScaffold.of(this);
+
+  /// Returns the [CarrotAppSettings].
   CarrotAppSettings get carrotSettings => CarrotApp.of(this).settings;
+
+  /// Returns the nearest [CarrotTheme].
   CarrotThemeData get carrotTheme => CarrotTheme.of(this);
+
+  /// Returns the [CarrotTypography] of the nearest [CarrotTheme].
   CarrotTypography get carrotTypography => CarrotTheme.of(this).typography;
+
+  /// Returns the [MediaQueryData] of the view.
+  MediaQueryData get mediaQuery => MediaQuery.of(this);
 }

@@ -8,7 +8,7 @@ import 'base_fades.dart';
 import 'base_flips.dart';
 import 'curve.dart';
 
-typedef CarrotBasicAnimationControllerBuilder = Function(AnimationController);
+typedef CarrotBasicAnimationControllerBuilder = void Function(AnimationController);
 typedef CarrotBasicAnimationCreatorBuilder = CarrotBasicAnimationBuilder Function();
 
 const _kDefaultDuration = Duration(milliseconds: 300);

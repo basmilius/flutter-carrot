@@ -2,13 +2,14 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import '../animation/animation.dart';
+import '../app/extensions/extensions.dart';
 
 Widget _transitionBuilder(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
   final reverse = animation.status == AnimationStatus.completed;
   final controller = reverse ? secondaryAnimation : animation;
 
   return CarrotRoutingTransition(
-    controller: CarrotSwiftOutCurveAnimation(parent: controller),
+    controller: controller.curved(CarrotCurves.swiftOutCurve),
     reverse: reverse,
     child: child,
   );

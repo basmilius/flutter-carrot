@@ -2,13 +2,13 @@ import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
 import '../app/app.dart';
+import '../app/extensions/media_query.dart';
 import '../routing/routing.dart';
 import '../typedefs/typedefs.dart';
 import '../ui/color.dart';
-
-import 'primitive/primitive.dart';
 import 'drawer_gesture_detector.dart';
 import 'dynamic_viewport_safe_area.dart';
+import 'primitive/primitive.dart';
 import 'scroll_view.dart';
 
 class CarrotScaffold extends StatefulWidget {
@@ -271,32 +271,26 @@ class _CarrotScaffoldView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appView = context.carrotAppView;
-
-    switch (appView.state) {
-      case CarrotAppViewState.phone:
-        return _CarrotScaffoldViewPhone(
-          drawer: drawer,
-          drawerScrimColor: drawerScrimColor,
-          drawerWidth: drawerWidth,
-          child: child,
-        );
-
-      case CarrotAppViewState.tablet:
-        return _CarrotScaffoldViewTablet(
-          drawer: drawer,
-          drawerScrimColor: drawerScrimColor,
-          drawerWidth: drawerWidth,
-          child: child,
-        );
-
-      case CarrotAppViewState.tabletLarge:
-        return _CarrotScaffoldViewTabletLarge(
-          drawer: drawer,
-          drawerWidth: drawerWidth,
-          child: child,
-        );
-    }
+    return context.mediaQuery.builderForAppView(
+      context,
+      phoneBuilder: (context) => _CarrotScaffoldViewPhone(
+        drawer: drawer,
+        drawerScrimColor: drawerScrimColor,
+        drawerWidth: drawerWidth,
+        child: child,
+      ),
+      tabletBuilder: (context) => _CarrotScaffoldViewTablet(
+        drawer: drawer,
+        drawerScrimColor: drawerScrimColor,
+        drawerWidth: drawerWidth,
+        child: child,
+      ),
+      tabletLargeBuilder: (context) => _CarrotScaffoldViewTabletLarge(
+        drawer: drawer,
+        drawerWidth: drawerWidth,
+        child: child,
+      ),
+    );
   }
 }
 
