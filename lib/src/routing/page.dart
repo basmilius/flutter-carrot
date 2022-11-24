@@ -19,12 +19,15 @@ class CarrotRoutingPage<T> extends CustomTransitionPage<T> {
   const CarrotRoutingPage({
     super.key,
     required super.child,
+    super.arguments,
+    super.maintainState,
     super.name,
+    super.opaque,
+    super.restorationId,
+    super.transitionDuration = const Duration(milliseconds: 450),
+    super.transitionsBuilder = _transitionBuilder,
     Duration duration = const Duration(milliseconds: 450),
-  }) : super(
-          transitionDuration: duration,
-          transitionsBuilder: _transitionBuilder,
-        );
+  });
 }
 
 class CarrotRoutingTransition extends StatefulWidget {
