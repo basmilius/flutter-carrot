@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
 
+import '../components/components.dart';
 import '../ui/ui.dart';
 import 'carrot_theme.dart';
 
@@ -40,6 +41,7 @@ class CarrotTextFieldThemeData {
   final double borderWidth;
   final Color cursorColor;
   final String obscuringCharacter;
+  final CarrotTextFieldPlaceholderVisibility placeholderVisibility;
   final Color selectionColor;
   final TextStyle textPlaceholderStyle;
   final TextStyle textStyle;
@@ -55,6 +57,7 @@ class CarrotTextFieldThemeData {
     required this.borderWidth,
     required this.cursorColor,
     required this.obscuringCharacter,
+    required this.placeholderVisibility,
     required this.selectionColor,
     required this.textPlaceholderStyle,
     required this.textStyle,
@@ -67,6 +70,7 @@ class CarrotTextFieldThemeData {
     double? borderWidth,
     Color? cursorColor,
     String? obscuringCharacter,
+    CarrotTextFieldPlaceholderVisibility? placeholderVisibility,
     Color? selectionColor,
     TextStyle? textPlaceholderStyle,
     TextStyle? textStyle,
@@ -76,6 +80,7 @@ class CarrotTextFieldThemeData {
     borderWidth ??= 1.0;
     cursorColor ??= theme.primary[500];
     obscuringCharacter ??= '•';
+    placeholderVisibility ??= CarrotTextFieldPlaceholderVisibility.always;
     selectionColor ??= theme.primary[100];
     textPlaceholderStyle ??= theme.typography.body1.copyWith(
       color: theme.gray[600].withOpacity(theme.isDark ? 1 : .5),
@@ -88,6 +93,7 @@ class CarrotTextFieldThemeData {
       borderWidth: borderWidth,
       cursorColor: cursorColor,
       obscuringCharacter: obscuringCharacter,
+      placeholderVisibility: placeholderVisibility,
       selectionColor: selectionColor,
       textPlaceholderStyle: textPlaceholderStyle,
       textStyle: textStyle,
@@ -101,6 +107,7 @@ class CarrotTextFieldThemeData {
     double? borderWidth,
     Color? cursorColor,
     String? obscuringCharacter,
+    CarrotTextFieldPlaceholderVisibility? placeholderVisibility,
     Color? selectionColor,
     TextStyle? textPlaceholderStyle,
     TextStyle? textStyle,
@@ -112,6 +119,7 @@ class CarrotTextFieldThemeData {
         borderWidth: borderWidth,
         cursorColor: cursorColor,
         obscuringCharacter: obscuringCharacter,
+        placeholderVisibility: placeholderVisibility,
         selectionColor: selectionColor,
         textPlaceholderStyle: textPlaceholderStyle,
         textStyle: textStyle,
@@ -124,6 +132,7 @@ class CarrotTextFieldThemeData {
     double? borderWidth,
     Color? cursorColor,
     String? obscuringCharacter,
+    CarrotTextFieldPlaceholderVisibility? placeholderVisibility,
     Color? selectionColor,
     TextStyle? textPlaceholderStyle,
     TextStyle? textStyle,
@@ -135,6 +144,7 @@ class CarrotTextFieldThemeData {
         borderWidth: borderWidth,
         cursorColor: cursorColor,
         obscuringCharacter: obscuringCharacter,
+        placeholderVisibility: placeholderVisibility,
         selectionColor: selectionColor,
         textPlaceholderStyle: textPlaceholderStyle,
         textStyle: textStyle,
@@ -147,6 +157,7 @@ class CarrotTextFieldThemeData {
       borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t)!,
       cursorColor: Color.lerp(a.cursorColor, b.cursorColor, t)!,
       obscuringCharacter: t < .5 ? a.obscuringCharacter : b.obscuringCharacter,
+      placeholderVisibility: t < .5 ? a.placeholderVisibility : b.placeholderVisibility,
       selectionColor: Color.lerp(a.selectionColor, b.selectionColor, t)!,
       textPlaceholderStyle: TextStyle.lerp(a.textPlaceholderStyle, b.textPlaceholderStyle, t)!,
       textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t)!,

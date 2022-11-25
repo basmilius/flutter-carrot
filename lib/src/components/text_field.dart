@@ -9,7 +9,7 @@ import '../animation/animation.dart';
 import '../app/extensions/extensions.dart';
 import '../theme/theme.dart';
 import '../ui/ui.dart';
-
+import 'components.dart';
 import 'scroll/scroll.dart';
 import 'text_selection.dart';
 
@@ -18,6 +18,12 @@ const int _horizontalCursorOffsetPixels = -2;
 enum CarrotTextFieldOverlayVisibility {
   never,
   editing,
+  notEditing,
+  always,
+}
+
+enum CarrotTextFieldPlaceholderVisibility {
+  never,
   notEditing,
   always,
 }
@@ -52,7 +58,6 @@ class CarrotTextField extends StatefulWidget {
   final String? obscuringCharacter;
   final EdgeInsetsGeometry padding;
   final String? placeholder;
-  final TextStyle? placeholderStyle;
   final Widget? prefix;
   final CarrotTextFieldOverlayVisibility prefixVisibility;
   final bool readOnly;
@@ -118,7 +123,6 @@ class CarrotTextField extends StatefulWidget {
       vertical: 15.0,
     ),
     this.placeholder,
-    this.placeholderStyle,
     this.prefix,
     this.prefixVisibility = CarrotTextFieldOverlayVisibility.always,
     this.readOnly = false,
@@ -268,59 +272,99 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
     }
   }
 
-  Widget _addTextDependentAttachments(Widget editableText, TextStyle textStyle, TextStyle placeholderStyle) {
+  bool _isPlaceholderShown(CarrotTextFieldThemeData theme, TextEditingValue value) {
+    if (widget.placeholder == null) {
+      return false;
+    }
+
+    switch (theme.placeholderVisibility) {
+      case CarrotTextFieldPlaceholderVisibility.never:
+        return false;
+
+      case CarrotTextFieldPlaceholderVisibility.notEditing:
+        return value.text.isEmpty;
+
+      case CarrotTextFieldPlaceholderVisibility.always:
+        return true;
+    }
+  }
+
+  bool _isPlaceholderStatic(CarrotTextFieldThemeData theme, TextEditingValue value) {
+    if (widget.placeholder == null) {
+      return true;
+    }
+
+    switch (theme.placeholderVisibility) {
+      case CarrotTextFieldPlaceholderVisibility.never:
+      case CarrotTextFieldPlaceholderVisibility.notEditing:
+        return true;
+
+      case CarrotTextFieldPlaceholderVisibility.always:
+        return value.text.isEmpty;
+    }
+  }
+
+  Widget _addTextDependentAttachments(Widget editableText, CarrotTextFieldThemeData theme) {
     if (!_hasDecoration) {
       return editableText;
     }
 
     const curve = CarrotCurves.swiftOutCurve;
-    const duration = Duration(milliseconds: 210);
+    const duration = Duration(milliseconds: 180);
 
     return ValueListenableBuilder<TextEditingValue>(
-        valueListenable: _effectiveController,
-        child: editableText,
-        builder: (context, text, child) {
-          return Row(children: [
+      valueListenable: _effectiveController,
+      child: editableText,
+      builder: (context, text, child) {
+        return Row(
+          children: [
             if (_shouldShowAttachmentPrefix(text)) widget.prefix!,
             Expanded(
-              child: Stack(children: [
-                if (widget.placeholder != null)
-                  Padding(
-                    padding: widget.padding,
-                    child: AnimatedSlide(
-                      curve: curve,
-                      duration: duration,
-                      offset: text.text.isEmpty ? Offset.zero : const Offset(0, -.25),
-                      child: AnimatedScale(
-                        alignment: Alignment.topLeft,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: Padding(
+                      padding: widget.padding,
+                      child: AnimatedOpacity(
                         curve: curve,
                         duration: duration,
-                        scale: text.text.isEmpty ? 1 : .75,
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: Text(
-                            widget.placeholder!,
-                            maxLines: widget.maxLines,
-                            overflow: TextOverflow.ellipsis,
-                            style: placeholderStyle,
-                            textAlign: widget.textAlign,
+                        opacity: _isPlaceholderShown(theme, text) ? 1 : .0,
+                        child: AnimatedSlide(
+                          curve: curve,
+                          duration: duration,
+                          offset: _isPlaceholderStatic(theme, text) ? Offset.zero : const Offset(0, -.25),
+                          child: AnimatedScale(
+                            alignment: Alignment.topLeft,
+                            curve: curve,
+                            duration: duration,
+                            scale: _isPlaceholderStatic(theme, text) ? 1 : .75,
+                            child: Text(
+                              widget.placeholder!,
+                              maxLines: widget.maxLines,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textPlaceholderStyle,
+                              textAlign: widget.textAlign,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                AnimatedSlide(
-                  curve: curve,
-                  duration: duration,
-                  offset: widget.placeholder == null || text.text.isEmpty ? Offset.zero : const Offset(0, .15),
-                  child: child!,
-                ),
-              ]),
+                  AnimatedSlide(
+                    curve: curve,
+                    duration: duration,
+                    offset: !_isPlaceholderShown(theme, text) || _isPlaceholderStatic(theme, text) ? Offset.zero : const Offset(0, .15),
+                    child: child!,
+                  ),
+                ],
+              ),
             ),
             if (_shouldShowAttachmentSuffix(text)) widget.suffix!,
             if (_shouldShowAttachmentClearButton(text)) const Text("clear"),
-          ]);
-        });
+          ],
+        );
+      },
+    );
   }
 
   void _createLocalController([TextEditingValue? value]) {
@@ -492,6 +536,7 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
             textAlign: widget.textAlign,
             textCapitalization: widget.textCapitalization,
             textDirection: widget.textDirection,
+            textHeightBehavior: context.carrotTypography.textHeightBehavior,
             textInputAction: widget.textInputAction,
             toolbarOptions: widget.toolbarOptions,
             onChanged: widget.onChanged,
@@ -528,7 +573,7 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
               alignment: Alignment(-1.0, _textAlignVertical.y),
               heightFactor: 1.0,
               widthFactor: 1.0,
-              child: _addTextDependentAttachments(paddedEditable, textFieldTheme.textStyle, textFieldTheme.textPlaceholderStyle),
+              child: _addTextDependentAttachments(paddedEditable, textFieldTheme),
             ),
           ),
         ),
