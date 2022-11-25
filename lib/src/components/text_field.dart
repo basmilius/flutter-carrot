@@ -55,8 +55,6 @@ class CarrotTextField extends StatefulWidget {
   final int? maxLines;
   final int? minLines;
   final bool obscureText;
-  final String? obscuringCharacter;
-  final EdgeInsetsGeometry padding;
   final String? placeholder;
   final Widget? prefix;
   final CarrotTextFieldOverlayVisibility prefixVisibility;
@@ -117,11 +115,6 @@ class CarrotTextField extends StatefulWidget {
     this.maxLines,
     this.minLines,
     this.obscureText = false,
-    this.obscuringCharacter,
-    this.padding = const EdgeInsets.symmetric(
-      horizontal: 18.0,
-      vertical: 15.0,
-    ),
     this.placeholder,
     this.prefix,
     this.prefixVisibility = CarrotTextFieldOverlayVisibility.always,
@@ -150,7 +143,18 @@ class CarrotTextField extends StatefulWidget {
   })  : keyboardType = keyboardType ?? (maxLines == 1 ? TextInputType.text : TextInputType.multiline),
         smartDashesType = smartDashesType ?? (obscureText ? SmartDashesType.disabled : SmartDashesType.enabled),
         smartQuotesType = smartQuotesType ?? (obscureText ? SmartQuotesType.disabled : SmartQuotesType.enabled),
-        toolbarOptions = toolbarOptions ?? (obscureText ? const ToolbarOptions(selectAll: true, paste: true) : const ToolbarOptions(selectAll: true, cut: true, copy: true, paste: true));
+        toolbarOptions = toolbarOptions ??
+            (obscureText
+                ? const ToolbarOptions(
+                    selectAll: true,
+                    paste: true,
+                  )
+                : const ToolbarOptions(
+                    selectAll: true,
+                    cut: true,
+                    copy: true,
+                    paste: true,
+                  ));
 
   @override
   createState() => _CarrotTextField();
@@ -324,7 +328,7 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
                 children: [
                   Positioned.fill(
                     child: Padding(
-                      padding: widget.padding,
+                      padding: theme.padding,
                       child: AnimatedOpacity(
                         curve: curve,
                         duration: duration,
@@ -332,7 +336,7 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
                         child: AnimatedSlide(
                           curve: curve,
                           duration: duration,
-                          offset: _isPlaceholderStatic(theme, text) ? Offset.zero : const Offset(0, -.25),
+                          offset: _isPlaceholderStatic(theme, text) ? Offset.zero : const Offset(0, -.35),
                           child: AnimatedScale(
                             alignment: Alignment.topLeft,
                             curve: curve,
@@ -340,7 +344,6 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
                             scale: _isPlaceholderStatic(theme, text) ? 1 : .75,
                             child: Text(
                               widget.placeholder!,
-                              maxLines: widget.maxLines,
                               overflow: TextOverflow.ellipsis,
                               style: theme.textPlaceholderStyle,
                               textAlign: widget.textAlign,
@@ -353,7 +356,7 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
                   AnimatedSlide(
                     curve: curve,
                     duration: duration,
-                    offset: !_isPlaceholderShown(theme, text) || _isPlaceholderStatic(theme, text) ? Offset.zero : const Offset(0, .15),
+                    offset: !_isPlaceholderShown(theme, text) || _isPlaceholderStatic(theme, text) ? Offset.zero : const Offset(0, .2),
                     child: child!,
                   ),
                 ],
@@ -485,7 +488,7 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
     final textFieldTheme = CarrotTextFieldTheme.of(context);
 
     final Widget paddedEditable = Padding(
-      padding: widget.padding,
+      padding: textFieldTheme.padding,
       child: RepaintBoundary(
         child: UnmanagedRestorationScope(
           bucket: bucket,
@@ -515,7 +518,7 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
             maxLines: widget.maxLines,
             minLines: widget.minLines,
             obscureText: widget.obscureText,
-            obscuringCharacter: widget.obscuringCharacter ?? textFieldTheme.obscuringCharacter,
+            obscuringCharacter: textFieldTheme.obscuringCharacter,
             paintCursorAboveText: true,
             readOnly: widget.readOnly,
             rendererIgnoresPointer: true,
@@ -562,6 +565,10 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
       child: IgnorePointer(
         ignoring: !widget.enabled,
         child: Container(
+          alignment: Alignment.center,
+          constraints: const BoxConstraints(
+            minHeight: 54,
+          ),
           decoration: BoxDecoration(
             border: textFieldTheme.border,
             borderRadius: appTheme.borderRadius,
