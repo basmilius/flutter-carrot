@@ -1,5 +1,6 @@
 import 'dart:ui' show BoxHeightStyle, BoxWidthStyle;
 
+import 'package:flutter/cupertino.dart' show cupertinoTextSelectionControls;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +12,6 @@ import '../theme/theme.dart';
 import '../ui/ui.dart';
 import 'components.dart';
 import 'scroll/scroll.dart';
-import 'text_selection.dart';
 
 const int _horizontalCursorOffsetPixels = -2;
 
@@ -471,7 +471,7 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
     final appTheme = context.carrotTheme;
     final mediaQuery = MediaQuery.of(context);
 
-    TextSelectionControls? textSelectionControls = widget.textSelectionControls ?? CarrotTextSelectionControls();
+    TextSelectionControls? textSelectionControls = widget.textSelectionControls ?? cupertinoTextSelectionControls;
 
     final List<TextInputFormatter> formatters = [
       ...?widget.formatters,
