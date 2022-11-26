@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import '../animation/animation.dart';
 import '../app/extensions/extensions.dart';
 import 'primitive/primitive.dart';
+import 'scroll_view.dart';
 
 typedef CarrotTabChangeCallback = void Function(int index);
 
@@ -223,7 +224,7 @@ class _CarrotTabViewState extends State<CarrotTabView> {
   late PageController _pageController;
   CarrotTabController? _tabController;
   late List<Widget> _children;
-  late List<Widget> _childrenWithKey;
+  final Map<int, Size> _sizes = {};
   int? _currentIndex;
   int _warpUnderwayCount = 0;
 
@@ -287,6 +288,16 @@ class _CarrotTabViewState extends State<CarrotTabView> {
     }
   }
 
+  void _handleChildSizeChanged(int childIndex, Size size) {
+    if (size.height == 0) {
+      return;
+    }
+
+    setState(() {
+      _sizes[childIndex] = size;
+    });
+  }
+
   bool _handleScrollNotification(ScrollNotification notification) {
     if (_warpUnderwayCount > 0) {
       return false;
@@ -319,8 +330,9 @@ class _CarrotTabViewState extends State<CarrotTabView> {
   }
 
   void _updateChildren() {
-    _children = widget.children;
-    _childrenWithKey = KeyedSubtree.ensureUniqueKeysForList(_children);
+    setState(() {
+      _children = widget.children;
+    });
   }
 
   void _updateController() {
@@ -360,14 +372,14 @@ class _CarrotTabViewState extends State<CarrotTabView> {
     assert((_currentIndex! - previousIndex).abs() > 1);
 
     final initialPage = _currentIndex! > previousIndex ? _currentIndex! - 1 : _currentIndex! + 1;
-    final originalChildren = _childrenWithKey;
+    final originalChildren = _children;
 
     setState(() {
       ++_warpUnderwayCount;
-      _childrenWithKey = List<Widget>.of(_childrenWithKey, growable: false);
-      final temp = _childrenWithKey[initialPage];
-      _childrenWithKey[initialPage] = _childrenWithKey[previousIndex];
-      _childrenWithKey[previousIndex] = temp;
+      _children = List<Widget>.of(_children, growable: false);
+      final temp = _children[initialPage];
+      _children[initialPage] = _children[previousIndex];
+      _children[previousIndex] = temp;
     });
 
     _pageController.jumpToPage(initialPage);
@@ -393,9 +405,21 @@ class _CarrotTabViewState extends State<CarrotTabView> {
       if (widget.children != _children) {
         _updateChildren();
       } else {
-        _childrenWithKey = originalChildren;
+        _children = originalChildren;
       }
     });
+  }
+
+  Widget _buildView(BuildContext context, int index) {
+    return ExcludeFocus(
+      excluding: index != _currentIndex,
+      child: CarrotScrollView(
+        child: CarrotSizeMeasureChild(
+          onChange: (size) => _handleChildSizeChanged(index, size),
+          child: _children[index],
+        ),
+      ),
+    );
   }
 
   @override
@@ -405,13 +429,19 @@ class _CarrotTabViewState extends State<CarrotTabView> {
       duration: widget.controller.animationDuration,
       child: NotificationListener<ScrollNotification>(
         onNotification: _handleScrollNotification,
-        child: PageView(
-          controller: _pageController,
-          clipBehavior: widget.clipBehavior,
-          dragStartBehavior: widget.dragStartBehavior,
-          physics: const NeverScrollableScrollPhysics(),
-          // physics: const PageScrollPhysics().applyTo(widget.physics),
-          children: _childrenWithKey,
+        child: LayoutBuilder(
+          builder: (context, constraints) => SizedBox(
+            height: math.min(constraints.maxHeight, _sizes[_currentIndex]?.height ?? 0),
+            child: PageView.builder(
+              controller: _pageController,
+              clipBehavior: widget.clipBehavior,
+              dragStartBehavior: widget.dragStartBehavior,
+              physics: const NeverScrollableScrollPhysics(),
+              // physics: const PageScrollPhysics().applyTo(widget.physics),
+              itemBuilder: _buildView,
+              itemCount: _children.length,
+            ),
+          ),
         ),
       ),
     );
