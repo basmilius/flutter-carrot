@@ -12,7 +12,7 @@ enum CarrotAppBarButtonLabelStyle {
   after,
 }
 
-class CarrotAppBarButton extends StatefulWidget {
+class CarrotAppBarButton extends StatelessWidget {
   final Curve curve;
   final Duration duration;
   final Widget icon;
@@ -31,30 +31,21 @@ class CarrotAppBarButton extends StatefulWidget {
   });
 
   @override
-  createState() => _CarrotAppBarButton();
-}
-
-class _CarrotAppBarButton extends State<CarrotAppBarButton> {
-  bool _isPressed = false;
-
-  @override
   Widget build(BuildContext context) {
     final appTheme = context.carrotTheme;
     final defaultStyle = DefaultTextStyle.of(context);
 
-    return CarrotBounceTap(
-      onTap: widget.onTap,
-      onDown: () => setState(() => _isPressed = true),
-      onUp: () => setState(() => _isPressed = false),
+    return CarrotBounceTapBuilder(
+      onTap: onTap,
       scale: .85,
-      child: Semantics(
-        label: widget.label,
+      builder: (context, isTapDown) => Semantics(
+        label: label,
         child: AnimatedContainer(
-          curve: widget.curve,
-          duration: widget.duration,
+          curve: curve,
+          duration: duration,
           decoration: BoxDecoration(
             borderRadius: appTheme.borderRadius,
-            color: (defaultStyle.style.color ?? appTheme.gray[700]).withOpacity(_isPressed ? 0.1 : 0.0),
+            color: (defaultStyle.style.color ?? appTheme.gray[700]).withOpacity(isTapDown ? 0.1 : 0.0),
           ),
           padding: const EdgeInsets.all(9),
           child: DefaultTextStyle(
@@ -66,17 +57,17 @@ class _CarrotAppBarButton extends State<CarrotAppBarButton> {
             ),
             child: CarrotRow(
               children: [
-                if (widget.labelStyle == CarrotAppBarButtonLabelStyle.before)
+                if (labelStyle == CarrotAppBarButtonLabelStyle.before)
                   Text(
-                    widget.label,
+                    label,
                     style: appTheme.typography.headline6.copyWith(
                       fontSize: 12,
                     ),
                   ),
-                widget.icon,
-                if (widget.labelStyle == CarrotAppBarButtonLabelStyle.after)
+                icon,
+                if (labelStyle == CarrotAppBarButtonLabelStyle.after)
                   Text(
-                    widget.label,
+                    label,
                     style: appTheme.typography.headline6.copyWith(
                       fontSize: 12,
                     ),

@@ -2,11 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
 import '../app/app.dart';
-import '../ui/color.dart';
 import '../routing/routing.dart';
-import '../typedefs/typedefs.dart';
-
+import '../ui/color.dart';
 import 'primitive/primitive.dart';
+
+typedef CarrotDrawerOpenChangedCallback = void Function(bool);
 
 const double _drawerEdgeDetect = 15.0;
 const Duration _drawerSettleDuration = Duration(milliseconds: 246);
@@ -33,7 +33,7 @@ class CarrotDrawerGestureDetector extends StatefulWidget {
   final double drawerWidth;
   final bool isOpen;
   final Color? scrimColor;
-  final CarrotBooleanChangedCallback? onOpenChanged;
+  final CarrotDrawerOpenChangedCallback? onOpenChanged;
 
   const CarrotDrawerGestureDetector({
     super.key,
@@ -48,10 +48,10 @@ class CarrotDrawerGestureDetector extends StatefulWidget {
   });
 
   @override
-  createState() => _CarrotDrawerGestureDetector();
+  createState() => _CarrotDrawerGestureDetectorState();
 
   static CarrotDrawerController of(BuildContext context) {
-    final state = context.findAncestorStateOfType<_CarrotDrawerGestureDetector>();
+    final state = context.findAncestorStateOfType<_CarrotDrawerGestureDetectorState>();
 
     if (state == null) {
       throw FlutterError.fromParts(<DiagnosticsNode>[
@@ -65,7 +65,7 @@ class CarrotDrawerGestureDetector extends StatefulWidget {
   }
 }
 
-class _CarrotDrawerGestureDetector extends State<CarrotDrawerGestureDetector> with SingleTickerProviderStateMixin implements CarrotDrawerController {
+class _CarrotDrawerGestureDetectorState extends State<CarrotDrawerGestureDetector> with SingleTickerProviderStateMixin implements CarrotDrawerController {
   final GlobalKey _drawerKey = GlobalKey();
   final GlobalKey _drawerGestureDetectorKey = GlobalKey();
 

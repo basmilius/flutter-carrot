@@ -18,7 +18,7 @@ class CarrotBodySafeArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    EdgeInsetsGeometry padding = context.safeAreaReal.add(extraPadding);
+    final padding = context.safeAreaReal.add(extraPadding);
 
     return Padding(
       padding: padding.add(EdgeInsets.only(

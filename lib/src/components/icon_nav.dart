@@ -3,15 +3,12 @@ import 'package:flutter/widgets.dart';
 import '../animation/animation.dart';
 import '../app/app.dart';
 import '../ui/ui.dart';
-
-import 'filter/filter.dart';
-import 'primitive/primitive.dart';
 import 'basic.dart';
+import 'primitive/primitive.dart';
 
 typedef CarrotIconNavChanged = void Function(int);
 
 class CarrotIconNav extends StatefulWidget {
-  final double blur;
   final Color? color;
   final Curve curve;
   final Duration duration;
@@ -30,7 +27,6 @@ class CarrotIconNav extends StatefulWidget {
     super.key,
     required this.items,
     this.activeIndex,
-    this.blur = .0,
     this.color,
     this.curve = CarrotCurves.swiftOutCurve,
     this.duration = const Duration(milliseconds: 390),
@@ -59,9 +55,7 @@ class _CarrotIconNav extends State<CarrotIconNav> {
 
   @override
   Widget build(BuildContext context) {
-    return CarrotBackdropBlurContainer(
-      sigmaX: widget.blur,
-      sigmaY: widget.blur,
+    return AnimatedContainer(
       curve: widget.curve,
       decoration: BoxDecoration(
         boxShadow: widget.shadow,
@@ -132,50 +126,51 @@ class _CarrotIconNavItem extends StatelessWidget {
             color: CarrotColors.transparent,
           ),
           child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 6,
-                vertical: 12,
-              ),
-              child: CarrotColumn(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                gap: 3,
-                children: [
-                  AnimatedSlide(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 6,
+              vertical: 12,
+            ),
+            child: CarrotColumn(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              gap: 3,
+              children: [
+                AnimatedSlide(
+                  curve: iconNav.curve,
+                  duration: iconNavDuration,
+                  offset: isActive || iconNav.isLabelAlwaysVisible ? Offset.zero : const Offset(0, .5),
+                  child: AnimatedDefaultTextStyle(
                     curve: iconNav.curve,
                     duration: iconNavDuration,
-                    offset: isActive || iconNav.isLabelAlwaysVisible ? Offset.zero : const Offset(0, .5),
+                    style: TextStyle(
+                      color: iconColor,
+                      fontSize: 20,
+                    ),
+                    child: item.icon,
+                  ),
+                ),
+                AnimatedSlide(
+                  curve: iconNav.curve,
+                  duration: iconNavDuration,
+                  offset: isActive || iconNav.isLabelAlwaysVisible ? Offset.zero : const Offset(0, 1),
+                  child: AnimatedOpacity(
+                    curve: iconNav.curve,
+                    duration: iconNavDuration,
+                    opacity: isActive || iconNav.isLabelAlwaysVisible ? 1 : 0,
                     child: AnimatedDefaultTextStyle(
                       curve: iconNav.curve,
                       duration: iconNavDuration,
-                      style: TextStyle(
-                        color: iconColor,
-                        fontSize: 20,
+                      style: carrotTheme.typography.body1.copyWith(
+                        color: labelColor,
+                        fontSize: 12,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      child: item.icon,
+                      child: item.label,
                     ),
                   ),
-                  AnimatedSlide(
-                    curve: iconNav.curve,
-                    duration: iconNavDuration,
-                    offset: isActive || iconNav.isLabelAlwaysVisible ? Offset.zero : const Offset(0, 1),
-                    child: AnimatedOpacity(
-                      curve: iconNav.curve,
-                      duration: iconNavDuration,
-                      opacity: isActive || iconNav.isLabelAlwaysVisible ? 1 : 0,
-                      child: AnimatedDefaultTextStyle(
-                        curve: iconNav.curve,
-                        duration: iconNavDuration,
-                        style: carrotTheme.typography.body1.copyWith(
-                          color: labelColor,
-                          fontSize: 12,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        child: item.label,
-                      ),
-                    ),
-                  ),
-                ],
-              )),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

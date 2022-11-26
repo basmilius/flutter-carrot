@@ -162,6 +162,33 @@ class CarrotTextFieldThemeData {
         textStyle: textStyle,
       );
 
+  CarrotTextFieldThemeData copyWith(
+    CarrotThemeDataBase theme, {
+    Color? backgroundColor,
+    Color? borderColor,
+    double? borderWidth,
+    Color? cursorColor,
+    String? obscuringCharacter,
+    EdgeInsets? padding,
+    CarrotTextFieldPlaceholderVisibility? placeholderVisibility,
+    Color? selectionColor,
+    TextStyle? textPlaceholderStyle,
+    TextStyle? textStyle,
+  }) =>
+      CarrotTextFieldThemeData(
+        theme,
+        backgroundColor: backgroundColor ?? this.backgroundColor,
+        borderColor: borderColor ?? this.borderColor,
+        borderWidth: borderWidth ?? this.borderWidth,
+        cursorColor: cursorColor ?? this.cursorColor,
+        obscuringCharacter: obscuringCharacter ?? this.obscuringCharacter,
+        padding: padding ?? this.padding,
+        placeholderVisibility: placeholderVisibility ?? this.placeholderVisibility,
+        selectionColor: selectionColor ?? this.selectionColor,
+        textPlaceholderStyle: textPlaceholderStyle ?? this.textPlaceholderStyle,
+        textStyle: textStyle ?? this.textStyle,
+      );
+
   static CarrotTextFieldThemeData lerp(CarrotTextFieldThemeData a, CarrotTextFieldThemeData b, double t) {
     return CarrotTextFieldThemeData.raw(
       backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t)!,

@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 
 import '../components/overlay.dart';
 import '../components/scaffold.dart';
-
 import 'overlay.dart';
 
 class CarrotRouter extends GoRouter {

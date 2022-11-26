@@ -11,10 +11,10 @@ class CarrotChangeNotifierBuilder<T extends Listenable> extends StatefulWidget {
   });
 
   @override
-  createState() => _CarrotChangeNotifierBuilder<T>();
+  createState() => _CarrotChangeNotifierBuilderState<T>();
 }
 
-class _CarrotChangeNotifierBuilder<T extends Listenable> extends State<CarrotChangeNotifierBuilder<T>> {
+class _CarrotChangeNotifierBuilderState<T extends Listenable> extends State<CarrotChangeNotifierBuilder<T>> {
   @override
   void initState() {
     super.initState();

@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
-
 import 'carrot_theme.dart';
 
 const _kDefaultCurve = CarrotCurves.swiftOutCurve;

@@ -17,10 +17,10 @@ class CarrotExpandable extends StatefulWidget {
   });
 
   @override
-  createState() => _CarrotExpandable();
+  createState() => _CarrotExpandableState();
 }
 
-class _CarrotExpandable extends State<CarrotExpandable> with SingleTickerProviderStateMixin {
+class _CarrotExpandableState extends State<CarrotExpandable> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _heightTween;
 

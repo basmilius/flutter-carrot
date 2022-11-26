@@ -70,10 +70,10 @@ class CarrotTabBar extends StatefulWidget {
   });
 
   @override
-  createState() => _CarrotTabBar();
+  createState() => _CarrotTabBarState();
 }
 
-class _CarrotTabBar extends State<CarrotTabBar> with SingleTickerProviderStateMixin {
+class _CarrotTabBarState extends State<CarrotTabBar> with SingleTickerProviderStateMixin {
   final Map<int, Size> _tabSizes = {};
 
   double get height => _tabSizes.isEmpty ? 90 : _tabSizes.values.map((e) => e.height).reduce(math.max);
@@ -216,10 +216,10 @@ class CarrotTabView extends StatefulWidget {
   });
 
   @override
-  createState() => _CarrotTabView();
+  createState() => _CarrotTabViewState();
 }
 
-class _CarrotTabView extends State<CarrotTabView> {
+class _CarrotTabViewState extends State<CarrotTabView> {
   late PageController _pageController;
   CarrotTabController? _tabController;
   late List<Widget> _children;

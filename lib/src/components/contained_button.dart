@@ -1,100 +1,73 @@
-import 'package:flutter/widgets.dart';
+part of 'button.dart';
 
-import '../app/app.dart';
-import '../theme/theme.dart';
-import 'button.dart';
-import 'icon.dart';
-
-class CarrotContainedButton extends StatelessWidget {
-  final List<Widget> children;
-  final Duration duration;
-  final FocusNode? focusNode;
-  final String? icon;
-  final String? iconAfter;
-  final CarrotIconStyle iconAfterStyle;
-  final CarrotIconStyle iconStyle;
-  final double scale;
-  final double scaleTap;
-  final CarrotButtonSize size;
-  final GestureTapCallback? onTap;
-  final GestureTapDownCallback? onTapDown;
-  final GestureTapUpCallback? onTapUp;
-  final GestureTapCancelCallback? onTapCancel;
-
+class CarrotContainedButton extends _CarrotButton {
   const CarrotContainedButton({
     super.key,
-    required this.children,
-    this.duration = const Duration(milliseconds: 240),
-    this.focusNode,
-    this.icon,
-    this.iconAfter,
-    this.iconAfterStyle = CarrotIconStyle.regular,
-    this.iconStyle = CarrotIconStyle.regular,
-    this.scale = 1.0,
-    this.scaleTap = .985,
-    this.size = CarrotButtonSize.medium,
-    this.onTap,
-    this.onTapDown,
-    this.onTapUp,
-    this.onTapCancel,
+    required super.children,
+    super.curve,
+    super.duration,
+    super.focusNode,
+    super.icon,
+    super.iconAfter,
+    super.size,
+    super.onTap,
   });
+
+  CarrotContainedButton.icon({
+    super.key,
+    required CarrotIcon icon,
+    super.curve,
+    super.duration,
+    super.focusNode,
+    super.size,
+    super.onTap,
+  }) : super(
+          children: [icon],
+          icon: null,
+          iconAfter: null,
+          type: _CarrotButtonType.icon,
+        );
 
   CarrotContainedButton.text({
     super.key,
     required Widget text,
-    this.duration = const Duration(milliseconds: 240),
-    this.focusNode,
-    this.icon,
-    this.iconAfter,
-    this.iconAfterStyle = CarrotIconStyle.regular,
-    this.iconStyle = CarrotIconStyle.regular,
-    this.scale = 1.0,
-    this.scaleTap = .985,
-    this.size = CarrotButtonSize.medium,
-    this.onTap,
-    this.onTapDown,
-    this.onTapUp,
-    this.onTapCancel,
-  }) : children = [text];
+    super.curve,
+    super.duration,
+    super.focusNode,
+    super.icon,
+    super.iconAfter,
+    super.size,
+    super.onTap,
+  }) : super(
+          children: [text],
+        );
 
   @override
-  build(BuildContext context) {
+  _CarrotButtonStyle _getStyle(BuildContext context) {
     final containedButtonTheme = CarrotContainedButtonTheme.of(context);
 
-    return CarrotButton(
-      duration: duration,
-      focusNode: focusNode,
-      icon: icon,
-      iconAfter: iconAfter,
-      iconAfterStyle: iconAfterStyle,
-      iconStyle: iconStyle,
-      padding: containedButtonTheme.padding,
-      scale: scale,
-      scaleTap: scaleTap,
-      size: size,
-      onTap: onTap,
-      onTapDown: onTapDown,
-      onTapUp: onTapUp,
-      onTapCancel: onTapCancel,
+    return _CarrotButtonStyle(
       decoration: BoxDecoration(
         border: containedButtonTheme.border,
         borderRadius: containedButtonTheme.borderRadius,
         boxShadow: containedButtonTheme.shadow,
         color: containedButtonTheme.backgroundColor,
       ),
-      decorationTap: BoxDecoration(
+      decorationActive: BoxDecoration(
         border: containedButtonTheme.borderActive,
         borderRadius: containedButtonTheme.borderRadius,
         boxShadow: containedButtonTheme.shadowActive,
         color: containedButtonTheme.backgroundColorActive,
       ),
+      iconAfterStyle: containedButtonTheme.iconAfterStyle,
+      iconStyle: containedButtonTheme.iconStyle,
+      padding: containedButtonTheme.padding,
       textStyle: context.carrotTypography.base.copyWith(
         color: containedButtonTheme.color,
         fontSize: size == CarrotButtonSize.tiny ? 14 : null,
         fontWeight: containedButtonTheme.fontWeight,
         height: 1.45,
       ),
-      children: children,
     );
   }
 }

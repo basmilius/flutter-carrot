@@ -157,10 +157,10 @@ class CarrotTextField extends StatefulWidget {
                   ));
 
   @override
-  createState() => _CarrotTextField();
+  createState() => _CarrotTextFieldState();
 }
 
-class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveClientMixin<CarrotTextField>, RestorationMixin implements AutofillClient, TextSelectionGestureDetectorBuilderDelegate {
+class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAliveClientMixin<CarrotTextField>, RestorationMixin implements AutofillClient, TextSelectionGestureDetectorBuilderDelegate {
   RestorableTextEditingController? _controller;
   final GlobalKey _clearGlobalKey = GlobalKey();
   FocusNode? _focusNode;
@@ -590,24 +590,23 @@ class _CarrotTextField extends State<CarrotTextField> with AutomaticKeepAliveCli
 }
 
 class _CarrotTextFieldSelectionGestureDetectorBuilder extends TextSelectionGestureDetectorBuilder {
-  final _CarrotTextField _state;
+  final _CarrotTextFieldState state;
 
   _CarrotTextFieldSelectionGestureDetectorBuilder({
-    required _CarrotTextField state,
-  })  : _state = state,
-        super(delegate: state);
+    required this.state,
+  }) : super(delegate: state);
 
   @override
   void onDragSelectionEnd(DragEndDetails details) {
-    _state._requestKeyboard();
+    state._requestKeyboard();
   }
 
   @override
   void onSingleTapUp(TapUpDetails details) {
     editableText.hideToolbar();
 
-    if (_state._clearGlobalKey.currentContext != null) {
-      final RenderBox renderBox = _state._clearGlobalKey.currentContext!.findRenderObject()! as RenderBox;
+    if (state._clearGlobalKey.currentContext != null) {
+      final RenderBox renderBox = state._clearGlobalKey.currentContext!.findRenderObject()! as RenderBox;
       final Offset localOffset = renderBox.globalToLocal(details.globalPosition);
       if (renderBox.hitTest(BoxHitTestResult(), position: localOffset)) {
         return;
@@ -616,7 +615,7 @@ class _CarrotTextFieldSelectionGestureDetectorBuilder extends TextSelectionGestu
 
     super.onSingleTapUp(details);
 
-    _state._requestKeyboard();
-    _state.widget.onTap?.call();
+    state._requestKeyboard();
+    state.widget.onTap?.call();
   }
 }

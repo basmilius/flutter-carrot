@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 
 import '../app/app.dart';
 import '../ui/shadow.dart';
-
 import 'primitive/bounce_tap.dart';
 
 enum CarrotCardMediaAlignment {

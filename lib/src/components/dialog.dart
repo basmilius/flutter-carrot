@@ -6,12 +6,10 @@ import '../app/extensions/extensions.dart';
 import '../app/extensions/media_query.dart';
 import 'basic.dart';
 import 'button.dart';
-import 'contained_button.dart';
 import 'overlay.dart';
 import 'primitive/primitive.dart';
 import 'scroll/scroll.dart';
 import 'scroll_view.dart';
-import 'text_button.dart';
 
 typedef CarrotDialogWidgetBuilder = Widget? Function(BuildContext, ScrollController, Size, Size);
 
@@ -41,7 +39,7 @@ class CarrotDialog<T> extends StatefulWidget {
   });
 
   @override
-  createState() => _CarrotDialog();
+  createState() => _CarrotDialogState();
 
   Widget? buildContent(BuildContext context, ScrollController scrollController, Size headerSize, Size footerSize) {
     if (contentBuilder != null) {
@@ -72,7 +70,7 @@ class CarrotDialog<T> extends StatefulWidget {
   }
 }
 
-class _CarrotDialog extends State<CarrotDialog> {
+class _CarrotDialogState extends State<CarrotDialog> {
   Size _footerSize = Size.zero;
   Size _headerSize = Size.zero;
 
@@ -166,7 +164,7 @@ class CarrotDialogButton<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dialog = context.findAncestorStateOfType<_CarrotDialog>();
+    final dialog = context.findAncestorStateOfType<_CarrotDialogState>();
 
     assert(dialog != null);
 

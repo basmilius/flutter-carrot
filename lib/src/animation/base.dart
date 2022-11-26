@@ -44,7 +44,7 @@ class CarrotBasicAnimation<T extends CarrotBasicAnimationBuilder> extends Statef
   });
 
   @override
-  createState() => _CarrotBasicAnimation();
+  createState() => _CarrotBasicAnimationState();
 
   factory CarrotBasicAnimation.bounceIn({
     bool animate = true,
@@ -293,7 +293,7 @@ class CarrotBasicAnimation<T extends CarrotBasicAnimationBuilder> extends Statef
       );
 }
 
-class _CarrotBasicAnimation<T extends CarrotBasicAnimationBuilder> extends State<CarrotBasicAnimation<T>> with SingleTickerProviderStateMixin {
+class _CarrotBasicAnimationState<T extends CarrotBasicAnimationBuilder> extends State<CarrotBasicAnimation<T>> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late CarrotBasicAnimationBuilder _builder;
 
@@ -371,7 +371,7 @@ class _CarrotBasicAnimation<T extends CarrotBasicAnimationBuilder> extends State
   }
 
   void _onAnimationStatusChanged(AnimationStatus status) {
-    switch(status) {
+    switch (status) {
       case AnimationStatus.dismissed:
         break;
 

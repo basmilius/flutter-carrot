@@ -21,10 +21,10 @@ class CarrotMasonryGrid extends StatefulWidget {
         assert(mainAxisSpacing >= 0);
 
   @override
-  createState() => _CarrotMasonryGrid();
+  createState() => _CarrotMasonryGridState();
 }
 
-class _CarrotMasonryGrid extends State<CarrotMasonryGrid> {
+class _CarrotMasonryGridState extends State<CarrotMasonryGrid> {
   int _renderId = 0;
   final Map<int, GlobalKey> _childKeys = {};
 
@@ -117,12 +117,13 @@ class _CarrotMasonryGrid extends State<CarrotMasonryGrid> {
         ? List.generate(
             widget.columns,
             (index) => Expanded(
-                  child: Column(
-                    key: _columnKeys[index],
-                    crossAxisAlignment: widget.crossAxisAlignment,
-                    children: _columnItems[index],
-                  ),
-                ))
+              child: Column(
+                key: _columnKeys[index],
+                crossAxisAlignment: widget.crossAxisAlignment,
+                children: _columnItems[index],
+              ),
+            ),
+          )
         : List.generate(
             widget.columns + (widget.columns - 1),
             (index) => index.isEven
@@ -135,7 +136,8 @@ class _CarrotMasonryGrid extends State<CarrotMasonryGrid> {
                   )
                 : SizedBox(
                     width: widget.crossAxisSpacing,
-                  ));
+                  ),
+          );
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -32,34 +32,34 @@ class CarrotBackgroundTap extends StatefulWidget {
 }
 
 class _CarrotBackgroundTapState extends State<CarrotBackgroundTap> {
-  bool get canTap {
+  bool get _canTap {
     return widget.onTap != null;
   }
 
-  bool isTapDown = false;
+  bool _isTapDown = false;
 
   void _onPanDown(DragDownDetails details) {
-    if (!canTap) {
+    if (!_canTap) {
       return;
     }
 
     setState(() {
-      isTapDown = true;
+      _isTapDown = true;
     });
   }
 
   void _onPanEndOrCancel([DragEndDetails? details]) {
-    if (!canTap) {
+    if (!_canTap) {
       return;
     }
 
     setState(() {
-      isTapDown = false;
+      _isTapDown = false;
     });
   }
 
   void _onTap() {
-    if (!canTap) {
+    if (!_canTap) {
       return;
     }
 
@@ -78,7 +78,7 @@ class _CarrotBackgroundTapState extends State<CarrotBackgroundTap> {
       onTapUp: widget.onTapUp,
       onTapCancel: widget.onTapCancel,
       child: AnimatedContainer(
-        color: isTapDown ? (widget.backgroundTap ?? widget.background) : widget.background,
+        color: _isTapDown ? (widget.backgroundTap ?? widget.background) : widget.background,
         curve: widget.curve,
         duration: widget.duration,
         child: widget.child,

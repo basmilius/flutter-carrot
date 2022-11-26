@@ -1,16 +1,26 @@
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
 import '../app/extensions/extensions.dart';
+import '../theme/theme.dart';
 import 'basic.dart';
 import 'icon.dart';
+import 'primitive/primitive.dart';
+
+part 'contained_button.dart';
+part 'link_button.dart';
+part 'text_button.dart';
 
 enum CarrotButtonSize {
   tiny,
   small,
   medium,
   large,
+}
+
+enum _CarrotButtonType {
+  icon,
+  normal,
 }
 
 const _paddings = {
@@ -32,58 +42,40 @@ const _paddings = {
   ),
 };
 
-class CarrotButton extends StatefulWidget {
-  final BoxDecoration decoration;
-  final BoxDecoration decorationTap;
+abstract class _CarrotButton extends StatefulWidget {
+  final _CarrotButtonType type;
+  final Curve curve;
   final List<Widget> children;
   final Duration duration;
   final FocusNode? focusNode;
   final String? icon;
   final String? iconAfter;
-  final CarrotIconStyle iconAfterStyle;
-  final CarrotIconStyle iconStyle;
-  final EdgeInsets? padding;
-  final double scale;
-  final double scaleTap;
   final CarrotButtonSize size;
-  final TextStyle textStyle;
   final GestureTapCallback? onTap;
-  final GestureTapDownCallback? onTapDown;
-  final GestureTapUpCallback? onTapUp;
-  final GestureTapCancelCallback? onTapCancel;
 
-  const CarrotButton({
+  const _CarrotButton({
     super.key,
-    required this.decoration,
-    required this.decorationTap,
     required this.children,
-    required this.duration,
+    this.type = _CarrotButtonType.normal,
+    this.curve = CarrotCurves.swiftOutCurve,
+    this.duration = const Duration(milliseconds: 210),
     this.focusNode,
     this.icon,
     this.iconAfter,
-    this.iconAfterStyle = CarrotIconStyle.regular,
-    this.iconStyle = CarrotIconStyle.regular,
-    this.padding,
-    this.scale = 1.0,
-    this.scaleTap = .985,
     this.size = CarrotButtonSize.medium,
-    this.textStyle = const TextStyle(),
     this.onTap,
-    this.onTapDown,
-    this.onTapUp,
-    this.onTapCancel,
   });
 
+  @protected
+  _CarrotButtonStyle _getStyle(BuildContext context);
+
   @override
-  createState() => _CarrotButton();
+  createState() => _CarrotButtonState();
 }
 
-class _CarrotButton extends State<CarrotButton> with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<Decoration> _decorationAnimation;
-  late Animation<double> _scaleAnimation;
-
+class _CarrotButtonState extends State<_CarrotButton> with SingleTickerProviderStateMixin {
   late Widget _content;
+  late _CarrotButtonStyle _style;
 
   bool get _canTap {
     return widget.onTap != null;
@@ -92,60 +84,36 @@ class _CarrotButton extends State<CarrotButton> with SingleTickerProviderStateMi
   EdgeInsets get _padding {
     EdgeInsets padding = EdgeInsets.zero;
 
-    if (widget.padding != null) {
-      padding = widget.padding!;
+    if (_style.padding != null) {
+      padding = _style.padding!;
     } else {
       padding = _paddings[widget.size]!;
+    }
+
+    if (widget.type == _CarrotButtonType.icon) {
+      padding = EdgeInsets.all(padding.top);
     }
 
     return padding;
   }
 
   @override
-  void didUpdateWidget(CarrotButton oldWidget) {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _initStyle();
+    _initChildren();
+  }
+
+  @override
+  void didUpdateWidget(_CarrotButton oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    final didChangeChildren = oldWidget.children != widget.children || oldWidget.icon != widget.icon || oldWidget.iconAfter != widget.iconAfter || oldWidget.iconAfterStyle != widget.iconAfterStyle || oldWidget.iconStyle != widget.iconStyle;
+    final didChangeChildren = oldWidget.children != widget.children || oldWidget.icon != widget.icon || oldWidget.iconAfter != widget.iconAfter;
 
     if (didChangeChildren) {
       _initChildren();
     }
-
-    if (oldWidget.duration != widget.duration) {
-      _animationController.duration = widget.duration;
-      _initAnimation();
-    }
-
-    if (oldWidget.decoration != widget.decoration || oldWidget.decorationTap != widget.decorationTap) {
-      _initAnimation();
-      _initChildren();
-    }
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _animationController = AnimationController(duration: widget.duration, vsync: this);
-
-    _initAnimation();
-    _initChildren();
-  }
-
-  void _initAnimation() {
-    _decorationAnimation = DecorationTween(begin: widget.decoration, end: widget.decorationTap).animate(
-      _animationController.curved(CarrotCurves.swiftOutCurve),
-    );
-
-    _scaleAnimation = Tween<double>(begin: widget.scale, end: widget.scaleTap).animate(
-      _animationController.curved(CarrotCurves.swiftOutCurve),
-    );
   }
 
   void _initChildren() {
@@ -155,7 +123,7 @@ class _CarrotButton extends State<CarrotButton> with SingleTickerProviderStateMi
           ))
     ];
 
-    final iconTextStyle = widget.textStyle.copyWith(
+    final iconTextStyle = _style.textStyle.copyWith(
       fontSize: widget.size == CarrotButtonSize.tiny ? 16 : 21,
     );
 
@@ -166,7 +134,7 @@ class _CarrotButton extends State<CarrotButton> with SingleTickerProviderStateMi
           style: iconTextStyle,
           child: CarrotIcon(
             glyph: widget.icon!,
-            style: widget.iconStyle,
+            style: _style.iconStyle,
           ),
         ),
       );
@@ -178,7 +146,7 @@ class _CarrotButton extends State<CarrotButton> with SingleTickerProviderStateMi
           style: iconTextStyle,
           child: CarrotIcon(
             glyph: widget.iconAfter!,
-            style: widget.iconAfterStyle,
+            style: _style.iconAfterStyle,
           ),
         ),
       );
@@ -193,75 +161,52 @@ class _CarrotButton extends State<CarrotButton> with SingleTickerProviderStateMi
     );
   }
 
-  void _onTap() {
-    HapticFeedback.selectionClick();
-    widget.onTap?.call();
-  }
-
-  void _onTapDown() {
-    if (!_canTap) {
-      return;
-    }
-
-    _animationController.forward();
-  }
-
-  void _onTapUp() {
-    if (!_canTap) {
-      return;
-    }
-
-    _animationController.reverse();
-  }
-
-  void _onPanCancel() {
-    _onTapUp();
-  }
-
-  void _onPanDown(DragDownDetails details) {
-    _onTapDown();
-  }
-
-  void _onPanEnd(DragEndDetails details) {
-    _onTapUp();
+  void _initStyle() {
+    _style = widget._getStyle(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      child: GestureDetector(
-        onPanDown: _onPanDown,
-        onPanEnd: _onPanEnd,
-        onPanCancel: _onPanCancel,
-        onTap: _onTap,
-        onTapDown: widget.onTapDown,
-        onTapUp: widget.onTapUp,
-        onTapCancel: widget.onTapCancel,
-        child: Focus(
+      child: CarrotBounceTapBuilder(
+        onTap: widget.onTap,
+        builder: (context, isTapDown) => Focus(
           canRequestFocus: _canTap,
           focusNode: widget.focusNode,
-          child: AnimatedBuilder(
-              animation: _animationController,
-              child: Padding(
-                padding: _padding,
-                child: DefaultTextStyle(
-                  style: widget.textStyle.copyWith(
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  child: _content,
+          child: AnimatedContainer(
+            curve: widget.curve,
+            duration: widget.duration,
+            decoration: isTapDown ? _style.decorationActive : _style.decoration,
+            child: Padding(
+              padding: _padding,
+              child: DefaultTextStyle(
+                style: _style.textStyle.copyWith(
+                  overflow: TextOverflow.ellipsis,
                 ),
+                child: _content,
               ),
-              builder: (context, child) {
-                return Transform.scale(
-                  scale: _scaleAnimation.value,
-                  child: DecoratedBox(
-                    decoration: _decorationAnimation.value,
-                    child: child,
-                  ),
-                );
-              }),
+            ),
+          ),
         ),
       ),
     );
   }
+}
+
+class _CarrotButtonStyle {
+  final BoxDecoration decoration;
+  final BoxDecoration decorationActive;
+  final CarrotIconStyle iconAfterStyle;
+  final CarrotIconStyle iconStyle;
+  final EdgeInsets? padding;
+  final TextStyle textStyle;
+
+  const _CarrotButtonStyle({
+    required this.decoration,
+    required this.decorationActive,
+    required this.iconAfterStyle,
+    required this.iconStyle,
+    required this.padding,
+    required this.textStyle,
+  });
 }

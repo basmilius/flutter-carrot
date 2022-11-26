@@ -4,18 +4,20 @@ import '../animation/animation.dart';
 import '../app/app.dart';
 import '../app/extensions/media_query.dart';
 import '../routing/routing.dart';
-import '../typedefs/typedefs.dart';
 import '../ui/color.dart';
 import 'drawer_gesture_detector.dart';
 import 'dynamic_viewport_safe_area.dart';
 import 'primitive/primitive.dart';
 import 'scroll_view.dart';
 
+typedef _MeasureSizeCallback = void Function(Size);
+typedef _DrawerToggle = void Function(BuildContext);
+
 class CarrotScaffold extends StatefulWidget {
   final Widget child;
   final PreferredSizeWidget? appBar;
   final PreferredSizeWidget? bottomBar;
-  final CarrotLayoutBuilder? drawer;
+  final LayoutWidgetBuilder? drawer;
   final Color? drawerScrimColor;
   final double drawerWidth;
   final CarrotRouter? router;
@@ -31,7 +33,7 @@ class CarrotScaffold extends StatefulWidget {
   }) : router = null;
 
   @override
-  createState() => _CarrotScaffold();
+  createState() => _CarrotScaffoldState();
 
   static CarrotScaffoldController of(BuildContext context) {
     var state = context.dependOnInheritedWidgetOfExactType<_CarrotScaffoldController>();
@@ -48,7 +50,7 @@ class CarrotScaffold extends StatefulWidget {
   }
 }
 
-class _CarrotScaffold extends State<CarrotScaffold> {
+class _CarrotScaffoldState extends State<CarrotScaffold> {
   Size _appBarSize = Size.zero;
   Size _bottomBarSize = Size.zero;
   CarrotRouter? _router;
@@ -258,7 +260,7 @@ class _CarrotScaffoldBody extends StatelessWidget {
 
 class _CarrotScaffoldView extends StatelessWidget {
   final Widget child;
-  final CarrotLayoutBuilder? drawer;
+  final LayoutWidgetBuilder? drawer;
   final Color? drawerScrimColor;
   final double drawerWidth;
 
@@ -296,7 +298,7 @@ class _CarrotScaffoldView extends StatelessWidget {
 
 class _CarrotScaffoldViewPhone extends StatelessWidget {
   final Widget child;
-  final CarrotLayoutBuilder? drawer;
+  final LayoutWidgetBuilder? drawer;
   final Color? drawerScrimColor;
   final double drawerWidth;
 
@@ -328,7 +330,7 @@ class _CarrotScaffoldViewPhone extends StatelessWidget {
 
 class _CarrotScaffoldViewTablet extends StatelessWidget {
   final Widget child;
-  final CarrotLayoutBuilder? drawer;
+  final LayoutWidgetBuilder? drawer;
   final Color? drawerScrimColor;
   final double drawerWidth;
 
@@ -360,7 +362,7 @@ class _CarrotScaffoldViewTablet extends StatelessWidget {
 
 class _CarrotScaffoldViewTabletLarge extends StatelessWidget {
   final Widget child;
-  final CarrotLayoutBuilder? drawer;
+  final LayoutWidgetBuilder? drawer;
   final double drawerWidth;
 
   const _CarrotScaffoldViewTabletLarge({
@@ -506,9 +508,6 @@ class _CarrotScaffoldController extends InheritedWidget implements CarrotScaffol
     return false;
   }
 }
-
-typedef _MeasureSizeCallback = void Function(Size);
-typedef _DrawerToggle = void Function(BuildContext);
 
 abstract class CarrotScaffoldController {
   Size get appBarSize;

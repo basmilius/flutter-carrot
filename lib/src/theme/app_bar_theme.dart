@@ -96,6 +96,21 @@ class CarrotAppBarThemeData {
     );
   }
 
+  CarrotAppBarThemeData copyWith(
+    CarrotThemeDataBase theme, {
+    Color? backgroundColor,
+    Color? foregroundColor,
+    Border? border,
+    List<BoxShadow>? shadow,
+  }) =>
+      CarrotAppBarThemeData(
+        theme,
+        backgroundColor: backgroundColor ?? this.backgroundColor,
+        foregroundColor: foregroundColor ?? this.foregroundColor,
+        border: border ?? this.border,
+        shadow: shadow ?? this.shadow,
+      );
+
   static CarrotAppBarThemeData lerp(CarrotAppBarThemeData a, CarrotAppBarThemeData b, double t) {
     return CarrotAppBarThemeData.raw(
       backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t)!,

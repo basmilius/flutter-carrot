@@ -3,7 +3,9 @@ import 'package:flutter/widgets.dart';
 
 import '../../animation/animation.dart';
 
-class CarrotBounceTap extends StatefulWidget {
+typedef CarrotBounceTapWidgetBuilder = Widget Function(BuildContext, bool);
+
+class CarrotBounceTap extends StatelessWidget {
   final Widget child;
   final Curve curve;
   final Duration duration;
@@ -11,9 +13,9 @@ class CarrotBounceTap extends StatefulWidget {
   final Function? onDown;
   final Function? onUp;
   final GestureTapCallback? onTap;
+  final GestureTapCancelCallback? onTapCancel;
   final GestureTapDownCallback? onTapDown;
   final GestureTapUpCallback? onTapUp;
-  final GestureTapCancelCallback? onTapCancel;
 
   const CarrotBounceTap({
     super.key,
@@ -30,11 +32,54 @@ class CarrotBounceTap extends StatefulWidget {
   });
 
   @override
-  createState() => _CarrotBounceTapState();
+  Widget build(BuildContext context) {
+    return CarrotBounceTapBuilder(
+      builder: (context, _) => child,
+      curve: curve,
+      duration: duration,
+      scale: scale,
+      onDown: onDown,
+      onUp: onUp,
+      onTap: onTap,
+      onTapCancel: onTapCancel,
+      onTapDown: onTapDown,
+      onTapUp: onTapUp,
+    );
+  }
 }
 
-class _CarrotBounceTapState extends State<CarrotBounceTap> {
-  bool get canTap => widget.onTap != null;
+class CarrotBounceTapBuilder extends StatefulWidget {
+  final CarrotBounceTapWidgetBuilder builder;
+  final Curve curve;
+  final Duration duration;
+  final double scale;
+  final Function? onDown;
+  final Function? onUp;
+  final GestureTapCallback? onTap;
+  final GestureTapDownCallback? onTapDown;
+  final GestureTapUpCallback? onTapUp;
+  final GestureTapCancelCallback? onTapCancel;
+
+  const CarrotBounceTapBuilder({
+    super.key,
+    required this.builder,
+    this.curve = CarrotCurves.swiftOutCurve,
+    this.duration = const Duration(milliseconds: 90),
+    this.scale = .985,
+    this.onDown,
+    this.onUp,
+    this.onTap,
+    this.onTapDown,
+    this.onTapUp,
+    this.onTapCancel,
+  });
+
+  @override
+  createState() => _CarrotBounceTapBuilderState();
+}
+
+class _CarrotBounceTapBuilderState extends State<CarrotBounceTapBuilder> {
+  bool get _canTap => widget.onTap != null;
 
   bool _isTapDown = false;
 
@@ -44,7 +89,7 @@ class _CarrotBounceTapState extends State<CarrotBounceTap> {
   }
 
   void _onPanDown(DragDownDetails details) {
-    if (!canTap) {
+    if (!_canTap) {
       return;
     }
 
@@ -56,7 +101,7 @@ class _CarrotBounceTapState extends State<CarrotBounceTap> {
   }
 
   void _onPanEndOrCancel([DragEndDetails? details]) {
-    if (!canTap) {
+    if (!_canTap) {
       return;
     }
 
@@ -82,7 +127,9 @@ class _CarrotBounceTapState extends State<CarrotBounceTap> {
         curve: widget.curve,
         duration: widget.duration,
         scale: _isTapDown ? widget.scale : 1,
-        child: widget.child,
+        child: Builder(
+          builder: (context) => widget.builder(context, _isTapDown),
+        ),
       ),
     );
   }

@@ -28,8 +28,7 @@ class CarrotScrollView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool effectivePrimary = this.scrollController == null && PrimaryScrollController.shouldInherit(context, scrollDirection);
-
+    final effectivePrimary = this.scrollController == null && PrimaryScrollController.shouldInherit(context, scrollDirection);
     final scrollController = effectivePrimary ? PrimaryScrollController.of(context) : this.scrollController;
 
     Widget scrollView = SingleChildScrollView(

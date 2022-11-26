@@ -2,10 +2,9 @@ import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
 import '../app/extensions/extensions.dart';
-
-import 'primitive/primitive.dart';
 import 'basic.dart';
 import 'icon.dart';
+import 'primitive/primitive.dart';
 
 class CarrotMenu extends StatelessWidget {
   final List<Widget> children;

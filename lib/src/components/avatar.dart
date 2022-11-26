@@ -42,7 +42,8 @@ class CarrotAvatar extends StatelessWidget {
   })  : image = null,
         letters = null;
 
-  const CarrotAvatar.image(this.image, {
+  const CarrotAvatar.image(
+    this.image, {
     super.key,
     this.borderRadius,
     this.color,
@@ -50,7 +51,8 @@ class CarrotAvatar extends StatelessWidget {
   })  : letters = null,
         visual = null;
 
-  const CarrotAvatar.letters(this.letters, {
+  const CarrotAvatar.letters(
+    this.letters, {
     super.key,
     this.borderRadius,
     this.color,

@@ -24,10 +24,10 @@ class CarrotSpinner extends StatefulWidget {
   });
 
   @override
-  createState() => _CarrotSpinner();
+  createState() => _CarrotSpinnerState();
 }
 
-class _CarrotSpinner extends State<CarrotSpinner> with SingleTickerProviderStateMixin {
+class _CarrotSpinnerState extends State<CarrotSpinner> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _strokeAnimation;
 

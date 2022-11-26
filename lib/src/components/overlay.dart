@@ -4,9 +4,8 @@ import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
 import '../app/extensions/extensions.dart';
-
-import 'primitive/primitive.dart';
 import 'dynamic_viewport_safe_area.dart';
+import 'primitive/primitive.dart';
 
 const _kAnimationDuration = Duration(milliseconds: 540);
 
@@ -37,7 +36,7 @@ class CarrotOverlay<T> extends StatefulWidget {
   });
 
   @override
-  createState() => _CarrotOverlay<T>();
+  createState() => _CarrotOverlayState<T>();
 
   static OverlayEntry entry<T>({
     Key? key,
@@ -67,7 +66,7 @@ class CarrotOverlay<T> extends StatefulWidget {
   }
 }
 
-class _CarrotOverlay<T> extends State<CarrotOverlay<T>> with SingleTickerProviderStateMixin {
+class _CarrotOverlayState<T> extends State<CarrotOverlay<T>> with SingleTickerProviderStateMixin {
   final GlobalKey contentKey = GlobalKey(debugLabel: "carrot/overlay:content");
 
   late AnimationController _animationController;
@@ -87,9 +86,7 @@ class _CarrotOverlay<T> extends State<CarrotOverlay<T>> with SingleTickerProvide
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(duration: _kAnimationDuration, vsync: this)
-      ..addStatusListener(_handleAnimationStatusChange);
-
+    _animationController = AnimationController(duration: _kAnimationDuration, vsync: this)..addStatusListener(_handleAnimationStatusChange);
     _scrollController = ScrollController();
 
     open();
@@ -144,11 +141,13 @@ class _CarrotOverlay<T> extends State<CarrotOverlay<T>> with SingleTickerProvide
       dismissible: widget.dismissible,
       builder: (close) => Builder(
         key: contentKey,
-        builder: (context) => widget.builder(CarrotOverlayBag(
-          close: close,
-          completer: widget.completer,
-          scrollController: _scrollController,
-        )),
+        builder: (context) => widget.builder(
+          CarrotOverlayBag(
+            close: close,
+            completer: widget.completer,
+            scrollController: _scrollController,
+          ),
+        ),
       ),
     );
   }
@@ -183,10 +182,10 @@ class CarrotOverlayBase<T> extends StatefulWidget {
   });
 
   @override
-  createState() => _CarrotOverlayBase<T>();
+  createState() => _CarrotOverlayBaseState<T>();
 }
 
-class _CarrotOverlayBase<T> extends State<CarrotOverlayBase> with SingleTickerProviderStateMixin {
+class _CarrotOverlayBaseState<T> extends State<CarrotOverlayBase> with SingleTickerProviderStateMixin {
   final GlobalKey contentKey = GlobalKey(debugLabel: "carrot/overlay:base");
 
   @override

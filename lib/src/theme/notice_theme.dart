@@ -103,6 +103,21 @@ class CarrotNoticeThemeData {
     );
   }
 
+  CarrotNoticeThemeData copyWith(
+    CarrotThemeDataBase theme, {
+    int? backgroundColorShade,
+    int? foregroundColorShade,
+    int? iconColorShade,
+    int? titleColorShade,
+  }) =>
+      CarrotNoticeThemeData(
+        theme,
+        backgroundColorShade: backgroundColorShade ?? this.backgroundColorShade,
+        foregroundColorShade: foregroundColorShade ?? this.foregroundColorShade,
+        iconColorShade: iconColorShade ?? this.iconColorShade,
+        titleColorShade: titleColorShade ?? this.titleColorShade,
+      );
+
   static CarrotNoticeThemeData lerp(CarrotNoticeThemeData a, CarrotNoticeThemeData b, double t) {
     return CarrotNoticeThemeData.raw(
       backgroundColorShade: lerpDouble(a.backgroundColorShade, b.backgroundColorShade, t)!.toInt(),

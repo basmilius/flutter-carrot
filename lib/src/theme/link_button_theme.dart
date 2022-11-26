@@ -6,36 +6,36 @@ import '../components/components.dart';
 import '../ui/ui.dart';
 import 'carrot_theme.dart';
 
-class CarrotContainedButtonTheme extends InheritedTheme {
-  final CarrotContainedButtonThemeData data;
+class CarrotLinkButtonTheme extends InheritedTheme {
+  final CarrotLinkButtonThemeData data;
 
-  const CarrotContainedButtonTheme({
+  const CarrotLinkButtonTheme({
     super.key,
     required super.child,
     required this.data,
   });
 
   @override
-  bool updateShouldNotify(CarrotContainedButtonTheme oldWidget) {
+  bool updateShouldNotify(CarrotLinkButtonTheme oldWidget) {
     return data != oldWidget.data;
   }
 
   @override
   Widget wrap(BuildContext context, Widget child) {
-    return CarrotContainedButtonTheme(
+    return CarrotLinkButtonTheme(
       data: data,
       child: child,
     );
   }
 
-  static CarrotContainedButtonThemeData of(BuildContext context) {
-    final containedButtonTheme = context.dependOnInheritedWidgetOfExactType<CarrotContainedButtonTheme>();
+  static CarrotLinkButtonThemeData of(BuildContext context) {
+    final linkButtonTheme = context.dependOnInheritedWidgetOfExactType<CarrotLinkButtonTheme>();
 
-    return containedButtonTheme?.data ?? CarrotTheme.of(context).containedButtonTheme;
+    return linkButtonTheme?.data ?? CarrotTheme.of(context).linkButtonTheme;
   }
 }
 
-class CarrotContainedButtonThemeData {
+class CarrotLinkButtonThemeData {
   final Color backgroundColor;
   final Color backgroundColorActive;
   final Color borderColor;
@@ -60,7 +60,7 @@ class CarrotContainedButtonThemeData {
         width: borderWidth,
       );
 
-  const CarrotContainedButtonThemeData.raw({
+  const CarrotLinkButtonThemeData.raw({
     required this.backgroundColor,
     required this.backgroundColorActive,
     required this.borderColor,
@@ -76,7 +76,7 @@ class CarrotContainedButtonThemeData {
     this.padding,
   });
 
-  factory CarrotContainedButtonThemeData(
+  factory CarrotLinkButtonThemeData(
     CarrotThemeDataBase theme, {
     Color? backgroundColor,
     Color? backgroundColorActive,
@@ -92,20 +92,20 @@ class CarrotContainedButtonThemeData {
     List<BoxShadow>? shadow,
     List<BoxShadow>? shadowActive,
   }) {
-    backgroundColor ??= theme.primary[500];
-    backgroundColorActive ??= theme.primary[600];
-    borderColor ??= theme.primary[600];
-    borderColorActive ??= theme.primary[700];
+    backgroundColor ??= theme.gray[100].withOpacity(.0);
+    backgroundColorActive ??= theme.gray[100];
+    borderColor ??= backgroundColor;
+    borderColorActive ??= backgroundColorActive;
     borderRadius ??= theme.borderRadius;
-    borderWidth ??= 1.0;
-    color ??= theme.primary[0];
+    borderWidth ??= .0;
+    color ??= theme.gray[700];
     fontWeight ??= FontWeight.w600;
     iconAfterStyle ??= CarrotIconStyle.regular;
     iconStyle ??= CarrotIconStyle.regular;
-    shadow ??= CarrotShadows.small;
-    shadowActive ??= CarrotShadows.small;
+    shadow ??= CarrotShadows.none;
+    shadowActive ??= CarrotShadows.none;
 
-    return CarrotContainedButtonThemeData.raw(
+    return CarrotLinkButtonThemeData.raw(
       backgroundColor: backgroundColor,
       backgroundColorActive: backgroundColorActive,
       borderColor: borderColor,
@@ -122,7 +122,7 @@ class CarrotContainedButtonThemeData {
     );
   }
 
-  factory CarrotContainedButtonThemeData.dark(
+  factory CarrotLinkButtonThemeData.dark(
     CarrotThemeDataBase theme, {
     Color? backgroundColor,
     Color? backgroundColorActive,
@@ -138,40 +138,7 @@ class CarrotContainedButtonThemeData {
     List<BoxShadow>? shadow,
     List<BoxShadow>? shadowActive,
   }) =>
-      CarrotContainedButtonThemeData(
-        theme,
-        backgroundColor: backgroundColor ?? theme.primary[400],
-        backgroundColorActive: backgroundColorActive ?? theme.primary[500],
-        borderColor: borderColor ?? theme.primary[500],
-        borderColorActive: borderColorActive ?? theme.primary[600],
-        borderRadius: borderRadius,
-        borderWidth: borderWidth,
-        color: color ?? theme.primary[900],
-        fontWeight: fontWeight,
-        iconAfterStyle: iconAfterStyle,
-        iconStyle: iconStyle,
-        padding: padding,
-        shadow: shadow,
-        shadowActive: shadowActive,
-      );
-
-  factory CarrotContainedButtonThemeData.light(
-    CarrotThemeDataBase theme, {
-    Color? backgroundColor,
-    Color? backgroundColorActive,
-    Color? borderColor,
-    Color? borderColorActive,
-    BorderRadius? borderRadius,
-    double? borderWidth,
-    Color? color,
-    FontWeight? fontWeight,
-    CarrotIconStyle? iconAfterStyle,
-    CarrotIconStyle? iconStyle,
-    EdgeInsets? padding,
-    List<BoxShadow>? shadow,
-    List<BoxShadow>? shadowActive,
-  }) =>
-      CarrotContainedButtonThemeData(
+      CarrotLinkButtonThemeData(
         theme,
         backgroundColor: backgroundColor,
         backgroundColorActive: backgroundColorActive,
@@ -188,7 +155,7 @@ class CarrotContainedButtonThemeData {
         shadowActive: shadowActive,
       );
 
-  CarrotContainedButtonThemeData copyWith(
+  factory CarrotLinkButtonThemeData.light(
     CarrotThemeDataBase theme, {
     Color? backgroundColor,
     Color? backgroundColorActive,
@@ -204,7 +171,40 @@ class CarrotContainedButtonThemeData {
     List<BoxShadow>? shadow,
     List<BoxShadow>? shadowActive,
   }) =>
-      CarrotContainedButtonThemeData(
+      CarrotLinkButtonThemeData(
+        theme,
+        backgroundColor: backgroundColor,
+        backgroundColorActive: backgroundColorActive,
+        borderColor: borderColor,
+        borderColorActive: borderColorActive,
+        borderRadius: borderRadius,
+        borderWidth: borderWidth,
+        color: color,
+        fontWeight: fontWeight,
+        iconAfterStyle: iconAfterStyle,
+        iconStyle: iconStyle,
+        padding: padding,
+        shadow: shadow,
+        shadowActive: shadowActive,
+      );
+
+  CarrotLinkButtonThemeData copyWith(
+    CarrotThemeDataBase theme, {
+    Color? backgroundColor,
+    Color? backgroundColorActive,
+    Color? borderColor,
+    Color? borderColorActive,
+    BorderRadius? borderRadius,
+    double? borderWidth,
+    Color? color,
+    FontWeight? fontWeight,
+    CarrotIconStyle? iconAfterStyle,
+    CarrotIconStyle? iconStyle,
+    EdgeInsets? padding,
+    List<BoxShadow>? shadow,
+    List<BoxShadow>? shadowActive,
+  }) =>
+      CarrotLinkButtonThemeData(
         theme,
         backgroundColor: backgroundColor ?? this.backgroundColor,
         backgroundColorActive: backgroundColorActive ?? this.backgroundColorActive,
@@ -221,8 +221,8 @@ class CarrotContainedButtonThemeData {
         shadowActive: shadowActive ?? this.shadowActive,
       );
 
-  static CarrotContainedButtonThemeData lerp(CarrotContainedButtonThemeData a, CarrotContainedButtonThemeData b, double t) {
-    return CarrotContainedButtonThemeData.raw(
+  static CarrotLinkButtonThemeData lerp(CarrotLinkButtonThemeData a, CarrotLinkButtonThemeData b, double t) {
+    return CarrotLinkButtonThemeData.raw(
       backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t)!,
       backgroundColorActive: Color.lerp(a.backgroundColorActive, b.backgroundColorActive, t)!,
       borderColor: Color.lerp(a.borderColor, b.borderColor, t)!,

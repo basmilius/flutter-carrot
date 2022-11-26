@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import '../app/app.dart';
 import '../theme/theme.dart';
 import '../ui/ui.dart';
-
 import 'basic.dart';
 
 class CarrotNotice extends StatelessWidget {

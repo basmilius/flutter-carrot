@@ -84,21 +84,21 @@ class _CarrotSwitchState extends State<CarrotSwitch> {
           color: widget.value ? (widget.color ?? context.carrotTheme.primary) : context.carrotTheme.gray[100],
         ),
         child: SizedBox(
-            height: 30,
-            width: 48,
-            child: Stack(
-              children: [
-                AnimatedPositioned(
-                  curve: _kCurve,
-                  duration: _kDuration,
-                  top: 3,
-                  left: _x,
-                  child: _Toggle(
-                    isPressed: _isPressed,
-                  ),
+          height: 30,
+          width: 48,
+          child: Stack(
+            children: [
+              AnimatedPositioned(
+                curve: _kCurve,
+                duration: _kDuration,
+                top: 3,
+                left: _x,
+                child: _Toggle(
+                  isPressed: _isPressed,
                 ),
-              ],
-            )
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -110,7 +110,7 @@ class _Toggle extends StatelessWidget {
 
   const _Toggle({
     required this.isPressed,
-});
+  });
 
   @override
   Widget build(BuildContext context) {

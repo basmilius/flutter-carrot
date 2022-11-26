@@ -1,14 +1,14 @@
 import 'package:provider/provider.dart';
 
-import '../typedefs/typedefs.dart';
-
 import 'reactive_model.dart';
+
+typedef CarrotReactiveModelCreator<T> = T Function();
 
 class CarrotReactiveModelProvider<T extends CarrotReactiveModel> extends ChangeNotifierProvider<T> {
   CarrotReactiveModelProvider({
     super.key,
     super.child,
-    required CarrotInstanceBuilder<T> create,
+    required CarrotReactiveModelCreator<T> create,
   }) : super(
           create: (_) => create(),
         );

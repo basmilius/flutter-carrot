@@ -28,7 +28,7 @@ class CarrotPicker extends StatefulWidget {
   });
 
   @override
-  createState() => CarrotPickerState();
+  createState() => _CarrotPickerState();
 
   static void show(
     BuildContext context, {
@@ -61,7 +61,7 @@ class CarrotPicker extends StatefulWidget {
   }
 }
 
-class CarrotPickerState extends State<CarrotPicker> with SingleTickerProviderStateMixin {
+class _CarrotPickerState extends State<CarrotPicker> with SingleTickerProviderStateMixin {
   final _scrollController = ScrollController();
   late AnimationController _animationController;
   late Animation<Offset> _offsetAnimation;

@@ -47,10 +47,10 @@ class CarrotScrollbar extends RawScrollbar {
         );
 
   @override
-  createState() => _CarrotScrollbar();
+  createState() => _CarrotScrollbarState();
 }
 
-class _CarrotScrollbar extends RawScrollbarState<CarrotScrollbar> {
+class _CarrotScrollbarState extends RawScrollbarState<CarrotScrollbar> {
   late AnimationController _thicknessAnimationController;
 
   double _pressStartAxisPosition = 0.0;
