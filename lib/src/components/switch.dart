@@ -1,8 +1,9 @@
+import 'dart:math' as math;
+
 import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
-import '../app/extensions/extensions.dart';
-import '../ui/ui.dart';
+import '../theme/theme.dart';
 
 typedef CarrotSwitchChangedCallback = void Function(bool);
 
@@ -10,7 +11,6 @@ const _kCurve = CarrotCurves.swiftOutCurve;
 const _kDuration = Duration(milliseconds: 210);
 
 class CarrotSwitch extends StatefulWidget {
-  final CarrotColor? color;
   final bool value;
   final CarrotSwitchChangedCallback onChanged;
 
@@ -18,7 +18,6 @@ class CarrotSwitch extends StatefulWidget {
     super.key,
     required this.value,
     required this.onChanged,
-    this.color,
   });
 
   @override
@@ -27,22 +26,23 @@ class CarrotSwitch extends StatefulWidget {
 
 class _CarrotSwitchState extends State<CarrotSwitch> {
   bool _isPressed = false;
-  double _x = 0;
 
-  @override
-  void didUpdateWidget(CarrotSwitch oldWidget) {
-    super.didUpdateWidget(oldWidget);
+  bool get _isActive => widget.value;
 
-    setState(() {
-      _x = widget.value ? 21 : 3;
-    });
+  double get _toggleSize {
+    final switchTheme = CarrotSwitchTheme.of(context);
+    final lowestSize = math.min(switchTheme.size.height, switchTheme.size.width);
+    return lowestSize - switchTheme.toggleMargin * 2;
   }
 
-  @override
-  void initState() {
-    super.initState();
+  double get _toggleX {
+    final switchTheme = CarrotSwitchTheme.of(context);
 
-    _x = widget.value ? 21 : 3;
+    if (_isActive) {
+      return switchTheme.size.width - switchTheme.toggleMargin * 2 - _toggleSize;
+    }
+
+    return 0;
   }
 
   void _onPanEnd(DragEndDetails details) {
@@ -62,14 +62,17 @@ class _CarrotSwitchState extends State<CarrotSwitch> {
       return;
     }
 
+    final switchTheme = CarrotSwitchTheme.of(context);
+
     setState(() {
-      _x = details.localPosition.dx >= 24 ? 21 : 3;
-      widget.onChanged(_x == 21);
+      widget.onChanged(details.localPosition.dx >= switchTheme.size.width / 2);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final switchTheme = CarrotSwitchTheme.of(context);
+
     return GestureDetector(
       onPanEnd: _onPanEnd,
       onPanStart: _onPanStart,
@@ -80,20 +83,23 @@ class _CarrotSwitchState extends State<CarrotSwitch> {
         curve: _kCurve,
         duration: _kDuration,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: widget.value ? (widget.color ?? context.carrotTheme.primary) : context.carrotTheme.gray[100],
+          borderRadius: switchTheme.borderRadius,
+          color: widget.value ? switchTheme.backgroundColorActive : switchTheme.backgroundColor,
         ),
-        child: SizedBox(
-          height: 30,
-          width: 48,
+        child: SizedBox.fromSize(
+          size: switchTheme.size,
           child: Stack(
+            clipBehavior: Clip.none,
             children: [
               AnimatedPositioned(
                 curve: _kCurve,
                 duration: _kDuration,
-                top: 3,
-                left: _x,
+                top: switchTheme.toggleMargin,
+                left: switchTheme.toggleMargin + _toggleX,
+                height: _toggleSize,
+                width: _toggleSize,
                 child: _Toggle(
+                  isActive: widget.value,
                   isPressed: _isPressed,
                 ),
               ),
@@ -106,24 +112,26 @@ class _CarrotSwitchState extends State<CarrotSwitch> {
 }
 
 class _Toggle extends StatelessWidget {
+  final bool isActive;
   final bool isPressed;
 
   const _Toggle({
+    required this.isActive,
     required this.isPressed,
   });
 
   @override
   Widget build(BuildContext context) {
+    final switchTheme = CarrotSwitchTheme.of(context);
+
     return AnimatedContainer(
       curve: _kCurve,
       duration: _kDuration,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: isPressed ? CarrotShadows.large : CarrotShadows.small,
-        color: context.carrotTheme.gray[0],
+        borderRadius: switchTheme.toggleBorderRadius,
+        boxShadow: isPressed ? switchTheme.toggleShadowPressed : switchTheme.toggleShadow,
+        color: isActive ? switchTheme.toggleColorActive : switchTheme.toggleColor,
       ),
-      height: 24,
-      width: 24,
     );
   }
 }

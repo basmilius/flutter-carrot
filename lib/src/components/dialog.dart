@@ -8,7 +8,6 @@ import 'basic.dart';
 import 'button.dart';
 import 'overlay.dart';
 import 'primitive/primitive.dart';
-import 'scroll/scroll.dart';
 import 'scroll_view.dart';
 
 typedef CarrotDialogWidgetBuilder = Widget? Function(BuildContext, ScrollController, Size, Size);
