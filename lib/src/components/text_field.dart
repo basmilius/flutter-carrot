@@ -1,6 +1,5 @@
 import 'dart:ui' show BoxHeightStyle, BoxWidthStyle;
 
-import 'package:flutter/cupertino.dart' show cupertinoTextSelectionControls;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +11,7 @@ import '../theme/theme.dart';
 import '../ui/ui.dart';
 import 'components.dart';
 import 'scroll/scroll.dart';
+import 'text_selection.dart';
 
 const int _horizontalCursorOffsetPixels = -2;
 
@@ -162,7 +162,7 @@ class CarrotTextField extends StatefulWidget {
 
 class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAliveClientMixin<CarrotTextField>, RestorationMixin implements AutofillClient, TextSelectionGestureDetectorBuilderDelegate {
   RestorableTextEditingController? _controller;
-  final GlobalKey _clearGlobalKey = GlobalKey();
+  final _clearGlobalKey = GlobalKey();
   FocusNode? _focusNode;
   bool _showSelectionHandles = false;
 
@@ -187,7 +187,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
   }
 
   @override
-  final GlobalKey<EditableTextState> editableTextKey = GlobalKey();
+  final editableTextKey = GlobalKey<EditableTextState>();
 
   @override
   String get autofillId => _editableText.autofillId;
@@ -474,7 +474,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
     final appTheme = context.carrotTheme;
     final mediaQuery = MediaQuery.of(context);
 
-    TextSelectionControls? textSelectionControls = widget.textSelectionControls ?? cupertinoTextSelectionControls;
+    TextSelectionControls? textSelectionControls = widget.textSelectionControls ?? carrotTextSelectionControls;
 
     final List<TextInputFormatter> formatters = [
       ...?widget.formatters,
@@ -562,25 +562,28 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
 
               _requestKeyboard();
             },
-      child: IgnorePointer(
-        ignoring: !widget.enabled,
-        child: Container(
-          alignment: Alignment.center,
-          constraints: const BoxConstraints(
-            minHeight: 54,
-          ),
-          decoration: BoxDecoration(
-            border: textFieldTheme.border,
-            borderRadius: appTheme.borderRadius,
-            color: textFieldTheme.backgroundColor,
-          ),
-          child: _selectionGestureDetectorBuilder.buildGestureDetector(
-            behavior: HitTestBehavior.translucent,
-            child: Align(
-              alignment: Alignment(-1.0, _textAlignVertical.y),
-              heightFactor: 1.0,
-              widthFactor: 1.0,
-              child: _addTextDependentAttachments(paddedEditable, textFieldTheme),
+      child: ExcludeFocus(
+        excluding: !widget.enabled,
+        child: IgnorePointer(
+          ignoring: !widget.enabled,
+          child: Container(
+            alignment: Alignment.center,
+            constraints: const BoxConstraints(
+              minHeight: 54,
+            ),
+            decoration: BoxDecoration(
+              border: textFieldTheme.border,
+              borderRadius: appTheme.borderRadius,
+              color: textFieldTheme.backgroundColor,
+            ),
+            child: _selectionGestureDetectorBuilder.buildGestureDetector(
+              behavior: HitTestBehavior.translucent,
+              child: Align(
+                alignment: Alignment(-1.0, _textAlignVertical.y),
+                heightFactor: 1.0,
+                widthFactor: 1.0,
+                child: _addTextDependentAttachments(paddedEditable, textFieldTheme),
+              ),
             ),
           ),
         ),

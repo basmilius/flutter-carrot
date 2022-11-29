@@ -3,8 +3,9 @@ import 'package:flutter/widgets.dart';
 
 import '../app/settings.dart';
 import '../theme/theme.dart';
+import 'scroll/scroll.dart';
 
-class CarrotApp extends StatelessWidget {
+class CarrotApp extends StatefulWidget {
   final Widget child;
   final Locale? locale;
   final LocaleResolutionCallback? localeResolutionCallback;
@@ -52,59 +53,8 @@ class CarrotApp extends StatelessWidget {
     this.useInheritedMediaQuery = true,
   });
 
-  Widget _appBuilder(BuildContext context) {
-    final platformBrightness = MediaQuery.of(context).platformBrightness;
-    final effectiveTheme = platformBrightness == Brightness.light
-        ? (theme ?? CarrotThemeData.light())
-        : (themeDark ?? CarrotThemeData.dark());
-
-    return ScrollNotificationObserver(
-      child: CarrotAnimatedTheme(
-        data: effectiveTheme,
-        child: GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: WidgetsApp(
-            color: effectiveTheme.primary,
-            locale: locale,
-            localizationsDelegates: localizationsDelegates,
-            localeResolutionCallback: localeResolutionCallback,
-            localeListResolutionCallback: localeListResolutionCallback,
-            supportedLocales: supportedLocales,
-            actions: actions,
-            shortcuts: shortcuts,
-            navigatorObservers: navigatorObservers,
-            restorationScopeId: restorationScopeId,
-            checkerboardOffscreenLayers: checkerboardOffscreenLayers,
-            checkerboardRasterCacheImages: checkerboardRasterCacheImages,
-            debugShowCheckedModeBanner: showDebugBanner,
-            debugShowWidgetInspector: debugShowWidgetInspector,
-            inspectorSelectButtonBuilder: inspectorSelectButtonBuilder,
-            showPerformanceOverlay: showPerformanceOverlay,
-            showSemanticsDebugger: showSemanticsDebugger,
-            useInheritedMediaQuery: useInheritedMediaQuery,
-            title: settings.title,
-            textStyle: effectiveTheme.typography.body1,
-            builder: (context, widget) => DefaultTextHeightBehavior(
-              textHeightBehavior: effectiveTheme.typography.textHeightBehavior,
-              child: DefaultTextStyle(
-                style: effectiveTheme.typography.body1,
-                child: child,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
-  Widget build(BuildContext context) {
-    return MediaQuery.fromWindow(
-      child: Builder(
-        builder: _appBuilder,
-      ),
-    );
-  }
+  createState() => _CarrotAppState();
 
   static CarrotApp of(BuildContext context) {
     CarrotApp? instance = context.findAncestorWidgetOfExactType<CarrotApp>();
@@ -118,5 +68,67 @@ class CarrotApp extends StatelessWidget {
     }
 
     return instance;
+  }
+}
+
+class _CarrotAppState extends State<CarrotApp> {
+  Widget _appBuilder(BuildContext context) {
+    final platformBrightness = MediaQuery.of(context).platformBrightness;
+    final effectiveTheme = platformBrightness == Brightness.light ? (widget.theme ?? CarrotThemeData.light()) : (widget.themeDark ?? CarrotThemeData.dark());
+
+    return CarrotAnimatedTheme(
+      data: effectiveTheme,
+      child: DefaultSelectionStyle(
+        cursorColor: effectiveTheme.primary,
+        selectionColor: effectiveTheme.primary,
+        child: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: WidgetsApp(
+            key: GlobalObjectKey(this),
+            color: effectiveTheme.primary,
+            locale: widget.locale,
+            localizationsDelegates: widget.localizationsDelegates,
+            localeResolutionCallback: widget.localeResolutionCallback,
+            localeListResolutionCallback: widget.localeListResolutionCallback,
+            supportedLocales: widget.supportedLocales,
+            actions: widget.actions,
+            shortcuts: widget.shortcuts,
+            navigatorObservers: widget.navigatorObservers,
+            restorationScopeId: widget.restorationScopeId,
+            checkerboardOffscreenLayers: widget.checkerboardOffscreenLayers,
+            checkerboardRasterCacheImages: widget.checkerboardRasterCacheImages,
+            debugShowCheckedModeBanner: widget.showDebugBanner,
+            debugShowWidgetInspector: widget.debugShowWidgetInspector,
+            inspectorSelectButtonBuilder: widget.inspectorSelectButtonBuilder,
+            showPerformanceOverlay: widget.showPerformanceOverlay,
+            showSemanticsDebugger: widget.showSemanticsDebugger,
+            useInheritedMediaQuery: widget.useInheritedMediaQuery,
+            title: widget.settings.title,
+            textStyle: effectiveTheme.typography.body1,
+            builder: (context, _) => DefaultTextHeightBehavior(
+              textHeightBehavior: effectiveTheme.typography.textHeightBehavior,
+              child: DefaultTextStyle(
+                style: effectiveTheme.typography.body1,
+                child: widget.child,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScrollNotificationObserver(
+      child: ScrollConfiguration(
+        behavior: const CarrotScrollBehavior(),
+        child: MediaQuery.fromWindow(
+          child: Builder(
+            builder: _appBuilder,
+          ),
+        ),
+      ),
+    );
   }
 }

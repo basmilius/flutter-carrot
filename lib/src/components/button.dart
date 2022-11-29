@@ -8,6 +8,7 @@ import 'icon.dart';
 import 'primitive/primitive.dart';
 
 part 'contained_button.dart';
+part 'custom_button.dart';
 part 'link_button.dart';
 part 'text_button.dart';
 
