@@ -18,8 +18,8 @@ const Duration _scrollbarFadeDuration = Duration(milliseconds: 240);
 const Duration _scrollbarResizeDuration = Duration(milliseconds: 120);
 
 const Color _scrollbarColor = CupertinoDynamicColor.withBrightness(
-  color: Color(0x80FFFFFF),
-  darkColor: Color(0x59000000),
+  color: Color(0x59000000),
+  darkColor: Color(0x80FFFFFF),
 );
 
 class CarrotScrollbar extends RawScrollbar {

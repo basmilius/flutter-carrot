@@ -39,6 +39,8 @@ class CarrotSheetView extends StatefulWidget {
 }
 
 class CarrotSheetViewState extends State<CarrotSheetView> {
+  final _headerKey = GlobalKey(debugLabel: 'sheet_view:header');
+
   Size _headerSize = Size.zero;
 
   @override
@@ -65,30 +67,31 @@ class CarrotSheetViewState extends State<CarrotSheetView> {
         decoration: BoxDecoration(
           color: widget.backgroundColor,
         ),
-        child: LayoutBuilder(
-          builder: (context, constraints) => Stack(
-            children: [
-              if (widget.headerBuilder != null)
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: CarrotSizeMeasureChild(
-                    onChange: _onHeaderSizeChange,
-                    child: Builder(
-                      builder: widget.headerBuilder!,
-                    ),
+        child: Stack(
+          children: [
+            if (widget.headerBuilder != null)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: CarrotSizeMeasureChild(
+                  onChange: _onHeaderSizeChange,
+                  child: Builder(
+                    key: _headerKey,
+                    builder: widget.headerBuilder!,
                   ),
                 ),
-              Positioned.fill(
-                child: _CarrotSheetViewSheetScrollable(
+              ),
+            Positioned.fill(
+              child: LayoutBuilder(
+                builder: (context, constraints) => _CarrotSheetViewSheetScrollable(
                   builder: widget.builder,
                   constraints: constraints,
                   headerSize: _headerSize,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

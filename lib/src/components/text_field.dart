@@ -9,7 +9,7 @@ import '../animation/animation.dart';
 import '../app/extensions/extensions.dart';
 import '../theme/theme.dart';
 import '../ui/ui.dart';
-import 'components.dart';
+import 'form/form.dart';
 import 'scroll/scroll.dart';
 import 'text_selection.dart';
 
@@ -18,12 +18,6 @@ const int _horizontalCursorOffsetPixels = -2;
 enum CarrotTextFieldOverlayVisibility {
   never,
   editing,
-  notEditing,
-  always,
-}
-
-enum CarrotTextFieldPlaceholderVisibility {
-  never,
   notEditing,
   always,
 }
@@ -276,38 +270,6 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
     }
   }
 
-  bool _isPlaceholderShown(CarrotTextFieldThemeData theme, TextEditingValue value) {
-    if (widget.placeholder == null) {
-      return false;
-    }
-
-    switch (theme.placeholderVisibility) {
-      case CarrotTextFieldPlaceholderVisibility.never:
-        return false;
-
-      case CarrotTextFieldPlaceholderVisibility.notEditing:
-        return value.text.isEmpty;
-
-      case CarrotTextFieldPlaceholderVisibility.always:
-        return true;
-    }
-  }
-
-  bool _isPlaceholderStatic(CarrotTextFieldThemeData theme, TextEditingValue value) {
-    if (widget.placeholder == null) {
-      return true;
-    }
-
-    switch (theme.placeholderVisibility) {
-      case CarrotTextFieldPlaceholderVisibility.never:
-      case CarrotTextFieldPlaceholderVisibility.notEditing:
-        return true;
-
-      case CarrotTextFieldPlaceholderVisibility.always:
-        return value.text.isEmpty;
-    }
-  }
-
   Widget _addTextDependentAttachments(Widget editableText, CarrotTextFieldThemeData theme) {
     if (!_hasDecoration) {
       return editableText;
@@ -332,33 +294,17 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
                       child: AnimatedOpacity(
                         curve: curve,
                         duration: duration,
-                        opacity: _isPlaceholderShown(theme, text) ? 1 : .0,
-                        child: AnimatedSlide(
-                          curve: curve,
-                          duration: duration,
-                          offset: _isPlaceholderStatic(theme, text) ? Offset.zero : const Offset(0, -.35),
-                          child: AnimatedScale(
-                            alignment: Alignment.topLeft,
-                            curve: curve,
-                            duration: duration,
-                            scale: _isPlaceholderStatic(theme, text) ? 1 : .75,
-                            child: Text(
-                              widget.placeholder!,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textPlaceholderStyle,
-                              textAlign: widget.textAlign,
-                            ),
-                          ),
+                        opacity: text.text.isEmpty ? 1 : .0,
+                        child: Text(
+                          widget.placeholder!,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textPlaceholderStyle,
+                          textAlign: widget.textAlign,
                         ),
                       ),
                     ),
                   ),
-                  AnimatedSlide(
-                    curve: curve,
-                    duration: duration,
-                    offset: !_isPlaceholderShown(theme, text) || _isPlaceholderStatic(theme, text) ? Offset.zero : const Offset(0, .2),
-                    child: child!,
-                  ),
+                  child!,
                 ],
               ),
             ),
@@ -471,7 +417,6 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
 
     assert(debugCheckHasDirectionality(context));
 
-    final appTheme = context.carrotTheme;
     final mediaQuery = MediaQuery.of(context);
 
     TextSelectionControls? textSelectionControls = widget.textSelectionControls ?? carrotTextSelectionControls;
@@ -551,41 +496,24 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
       ),
     );
 
-    return Semantics(
+    return CarrotFormField(
       enabled: widget.enabled,
       onTap: !widget.enabled || widget.readOnly
           ? null
           : () {
-              if (!_effectiveController.selection.isValid) {
-                _effectiveController.selection = TextSelection.collapsed(offset: _effectiveController.text.length);
-              }
+        if (!_effectiveController.selection.isValid) {
+          _effectiveController.selection = TextSelection.collapsed(offset: _effectiveController.text.length);
+        }
 
-              _requestKeyboard();
-            },
-      child: ExcludeFocus(
-        excluding: !widget.enabled,
-        child: IgnorePointer(
-          ignoring: !widget.enabled,
-          child: Container(
-            alignment: Alignment.center,
-            constraints: const BoxConstraints(
-              minHeight: 54,
-            ),
-            decoration: BoxDecoration(
-              border: textFieldTheme.border,
-              borderRadius: appTheme.borderRadius,
-              color: textFieldTheme.backgroundColor,
-            ),
-            child: _selectionGestureDetectorBuilder.buildGestureDetector(
-              behavior: HitTestBehavior.translucent,
-              child: Align(
-                alignment: Alignment(-1.0, _textAlignVertical.y),
-                heightFactor: 1.0,
-                widthFactor: 1.0,
-                child: _addTextDependentAttachments(paddedEditable, textFieldTheme),
-              ),
-            ),
-          ),
+        _requestKeyboard();
+      },
+      child: _selectionGestureDetectorBuilder.buildGestureDetector(
+        behavior: HitTestBehavior.translucent,
+        child: Align(
+          alignment: Alignment(-1.0, _textAlignVertical.y),
+          heightFactor: 1.0,
+          widthFactor: 1.0,
+          child: _addTextDependentAttachments(paddedEditable, textFieldTheme),
         ),
       ),
     );

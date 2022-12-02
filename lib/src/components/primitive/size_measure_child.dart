@@ -47,3 +47,53 @@ class _CarrotSizeMeasureChildRenderObject extends RenderProxyBox {
     });
   }
 }
+
+class CarrotSizeMeasureInheritedSize extends InheritedWidget {
+  final Size size;
+
+  const CarrotSizeMeasureInheritedSize({
+    super.key,
+    required super.child,
+    required this.size,
+  });
+
+  @override
+  bool updateShouldNotify(CarrotSizeMeasureInheritedSize oldWidget) {
+    return oldWidget.size != size;
+  }
+}
+
+class CarrotSizeMeasureProvider extends StatefulWidget {
+  final WidgetBuilder builder;
+
+  const CarrotSizeMeasureProvider({
+    super.key,
+    required this.builder,
+  });
+
+  @override
+  createState() => CarrotSizeMeasureProviderState();
+}
+
+class CarrotSizeMeasureProviderState extends State<CarrotSizeMeasureProvider> {
+  Size _size = Size.zero;
+
+  void _onChange(Size size) {
+    setState(() {
+      _size = size;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CarrotSizeMeasureChild(
+      onChange: _onChange,
+      child: CarrotSizeMeasureInheritedSize(
+        size: _size,
+        child: Builder(
+          builder: widget.builder,
+        ),
+      ),
+    );
+  }
+}

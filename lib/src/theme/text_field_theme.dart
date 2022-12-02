@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
 
-import '../components/components.dart';
 import '../ui/ui.dart';
 import 'carrot_theme.dart';
 
@@ -42,7 +41,6 @@ class CarrotTextFieldThemeData {
   final Color cursorColor;
   final String obscuringCharacter;
   final EdgeInsets padding;
-  final CarrotTextFieldPlaceholderVisibility placeholderVisibility;
   final Color selectionColor;
   final TextStyle textPlaceholderStyle;
   final TextStyle textStyle;
@@ -59,7 +57,6 @@ class CarrotTextFieldThemeData {
     required this.cursorColor,
     required this.obscuringCharacter,
     required this.padding,
-    required this.placeholderVisibility,
     required this.selectionColor,
     required this.textPlaceholderStyle,
     required this.textStyle,
@@ -73,7 +70,6 @@ class CarrotTextFieldThemeData {
     Color? cursorColor,
     String? obscuringCharacter,
     EdgeInsets? padding,
-    CarrotTextFieldPlaceholderVisibility? placeholderVisibility,
     Color? selectionColor,
     TextStyle? textPlaceholderStyle,
     TextStyle? textStyle,
@@ -84,10 +80,9 @@ class CarrotTextFieldThemeData {
     cursorColor ??= theme.primary[500];
     obscuringCharacter ??= '•';
     padding ??= const EdgeInsets.symmetric(
-      horizontal: 18,
+      horizontal: 15,
       vertical: 9,
     );
-    placeholderVisibility ??= CarrotTextFieldPlaceholderVisibility.always;
     selectionColor ??= theme.primary[100];
     textPlaceholderStyle ??= theme.typography.body1.copyWith(
       color: theme.gray[600].withOpacity(theme.isDark ? 1 : .5),
@@ -101,7 +96,6 @@ class CarrotTextFieldThemeData {
       cursorColor: cursorColor,
       obscuringCharacter: obscuringCharacter,
       padding: padding,
-      placeholderVisibility: placeholderVisibility,
       selectionColor: selectionColor,
       textPlaceholderStyle: textPlaceholderStyle,
       textStyle: textStyle,
@@ -116,7 +110,6 @@ class CarrotTextFieldThemeData {
     Color? cursorColor,
     String? obscuringCharacter,
     EdgeInsets? padding,
-    CarrotTextFieldPlaceholderVisibility? placeholderVisibility,
     Color? selectionColor,
     TextStyle? textPlaceholderStyle,
     TextStyle? textStyle,
@@ -129,7 +122,6 @@ class CarrotTextFieldThemeData {
         cursorColor: cursorColor,
         obscuringCharacter: obscuringCharacter,
         padding: padding,
-        placeholderVisibility: placeholderVisibility,
         selectionColor: selectionColor,
         textPlaceholderStyle: textPlaceholderStyle,
         textStyle: textStyle,
@@ -143,7 +135,6 @@ class CarrotTextFieldThemeData {
     Color? cursorColor,
     String? obscuringCharacter,
     EdgeInsets? padding,
-    CarrotTextFieldPlaceholderVisibility? placeholderVisibility,
     Color? selectionColor,
     TextStyle? textPlaceholderStyle,
     TextStyle? textStyle,
@@ -156,7 +147,6 @@ class CarrotTextFieldThemeData {
         cursorColor: cursorColor,
         obscuringCharacter: obscuringCharacter,
         padding: padding,
-        placeholderVisibility: placeholderVisibility,
         selectionColor: selectionColor,
         textPlaceholderStyle: textPlaceholderStyle,
         textStyle: textStyle,
@@ -170,7 +160,6 @@ class CarrotTextFieldThemeData {
     Color? cursorColor,
     String? obscuringCharacter,
     EdgeInsets? padding,
-    CarrotTextFieldPlaceholderVisibility? placeholderVisibility,
     Color? selectionColor,
     TextStyle? textPlaceholderStyle,
     TextStyle? textStyle,
@@ -183,7 +172,6 @@ class CarrotTextFieldThemeData {
         cursorColor: cursorColor ?? this.cursorColor,
         obscuringCharacter: obscuringCharacter ?? this.obscuringCharacter,
         padding: padding ?? this.padding,
-        placeholderVisibility: placeholderVisibility ?? this.placeholderVisibility,
         selectionColor: selectionColor ?? this.selectionColor,
         textPlaceholderStyle: textPlaceholderStyle ?? this.textPlaceholderStyle,
         textStyle: textStyle ?? this.textStyle,
@@ -197,7 +185,6 @@ class CarrotTextFieldThemeData {
       cursorColor: Color.lerp(a.cursorColor, b.cursorColor, t)!,
       obscuringCharacter: t < .5 ? a.obscuringCharacter : b.obscuringCharacter,
       padding: EdgeInsets.lerp(a.padding, b.padding, t)!,
-      placeholderVisibility: t < .5 ? a.placeholderVisibility : b.placeholderVisibility,
       selectionColor: Color.lerp(a.selectionColor, b.selectionColor, t)!,
       textPlaceholderStyle: TextStyle.lerp(a.textPlaceholderStyle, b.textPlaceholderStyle, t)!,
       textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t)!,
