@@ -3,7 +3,8 @@ import 'package:flutter/widgets.dart';
 import '../app/app.dart';
 import '../theme/theme.dart';
 import '../ui/ui.dart';
-import 'basic.dart';
+import 'column.dart';
+import 'row.dart';
 
 class CarrotNotice extends StatelessWidget {
   final Widget? child;

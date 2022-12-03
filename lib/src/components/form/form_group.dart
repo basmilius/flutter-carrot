@@ -1,17 +1,22 @@
 import 'package:flutter/widgets.dart';
 
 import '../../app/extensions/extensions.dart';
-import '../basic.dart';
+import '../column.dart';
+import 'form_group_addition.dart';
 
 class CarrotFormGroup extends StatelessWidget {
   final Widget child;
-  final bool optional;
+  final Widget? error;
+  final Widget? hint;
   final Widget label;
+  final bool optional;
 
   const CarrotFormGroup({
     super.key,
     required this.child,
     required this.label,
+    this.error,
+    this.hint,
     this.optional = false,
   });
 
@@ -24,21 +29,47 @@ class CarrotFormGroup extends StatelessWidget {
       gap: 9,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        CarrotRow(
-          gap: 9,
-          children: [
-            DefaultTextStyle(
-              style: carrotTheme.typography.headline6,
-              child: label,
+        DefaultTextStyle(
+          style: carrotTheme.typography.headline6.copyWith(
+            fontSize: 14.0,
+          ),
+          child: Text.rich(
+            TextSpan(
+              children: [
+                if (label is Text)
+                  TextSpan(
+                    text: (label as Text).data,
+                  ),
+                if (label is! Text)
+                  WidgetSpan(
+                    child: label,
+                  ),
+                if (optional)
+                  TextSpan(
+                    text: ' (optional)',
+                    style: carrotTheme.typography.body2.copyWith(
+                      fontSize: 14.0,
+                    ),
+                  ),
+              ],
             ),
-            if (optional)
-              DefaultTextStyle(
-                style: carrotTheme.typography.body2,
-                child: const Text('(optional)'), // todo(Bas): translations
-              ),
-          ],
+            style: carrotTheme.typography.headline6.copyWith(
+              fontSize: 14.0,
+            ),
+          ),
         ),
         child,
+        if (error != null)
+          CarrotFormGroupAddition(
+            color: carrotTheme.error,
+            icon: 'circle-exclamation',
+            message: error!,
+          ),
+        if (hint != null)
+          CarrotFormGroupAddition(
+            icon: 'circle-info',
+            message: hint!,
+          ),
       ],
     );
   }

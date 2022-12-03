@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../ui/ui.dart';
-import 'basic.dart';
+import 'row.dart';
 
 class CarrotTonalColorPreview extends StatelessWidget {
   final CarrotTonalColor tones;

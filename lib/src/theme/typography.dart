@@ -197,7 +197,7 @@ class CarrotTypography {
       subtitle1: TextStyle.lerp(a.subtitle1, b.subtitle1, t)!,
       subtitle2: TextStyle.lerp(a.subtitle2, b.subtitle2, t)!,
       body1: TextStyle.lerp(a.body1, b.body1, t)!,
-      body2: TextStyle.lerp(a.body2, b.subtitle2, t)!,
+      body2: TextStyle.lerp(a.body2, b.body2, t)!,
       textHeightBehavior: t < .5 ? a.textHeightBehavior : b.textHeightBehavior,
     );
   }

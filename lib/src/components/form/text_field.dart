@@ -5,13 +5,13 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import '../animation/animation.dart';
-import '../app/extensions/extensions.dart';
-import '../theme/theme.dart';
-import '../ui/ui.dart';
-import 'form/form.dart';
-import 'scroll/scroll.dart';
-import 'text_selection.dart';
+import '../../animation/animation.dart';
+import '../../app/extensions/extensions.dart';
+import '../../theme/theme.dart';
+import '../../ui/ui.dart';
+import '../scroll/scroll.dart';
+import '../text_selection.dart';
+import 'form_field.dart';
 
 const int _horizontalCursorOffsetPixels = -2;
 
@@ -501,12 +501,12 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
       onTap: !widget.enabled || widget.readOnly
           ? null
           : () {
-        if (!_effectiveController.selection.isValid) {
-          _effectiveController.selection = TextSelection.collapsed(offset: _effectiveController.text.length);
-        }
+              if (!_effectiveController.selection.isValid) {
+                _effectiveController.selection = TextSelection.collapsed(offset: _effectiveController.text.length);
+              }
 
-        _requestKeyboard();
-      },
+              _requestKeyboard();
+            },
       child: _selectionGestureDetectorBuilder.buildGestureDetector(
         behavior: HitTestBehavior.translucent,
         child: Align(

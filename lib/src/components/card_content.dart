@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../app/app.dart';
-import 'basic.dart';
+import 'column.dart';
 
 class CarrotCardContent extends StatelessWidget {
   final Widget? body;
