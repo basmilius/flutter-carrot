@@ -219,23 +219,19 @@ class _CarrotTextSelectionControlsToolbar extends State<CarrotTextSelectionContr
     }
 
     if (widget.handleCut != null) {
-      /// todo(Bas): localize
-      addToolbarButton("Cut", widget.handleCut!);
+      addToolbarButton(context.carrotStrings.editorCut, widget.handleCut!);
     }
 
     if (widget.handleCopy != null) {
-      /// todo(Bas): localize
-      addToolbarButton("Copy", widget.handleCopy!);
+      addToolbarButton(context.carrotStrings.editorCopy, widget.handleCopy!);
     }
 
     if (widget.handlePaste != null && _clipboardStatus.value == ClipboardStatus.pasteable) {
-      /// todo(Bas): localize
-      addToolbarButton("Paste", widget.handlePaste!);
+      addToolbarButton(context.carrotStrings.editorPaste, widget.handlePaste!);
     }
 
     if (widget.handleSelectAll != null) {
-      /// todo(Bas): localize
-      addToolbarButton("Select All", widget.handleSelectAll!);
+      addToolbarButton(context.carrotStrings.editorSelectAll, widget.handleSelectAll!);
     }
 
     if (items.isEmpty) {

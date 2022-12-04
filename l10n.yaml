@@ -1,0 +1,6 @@
+arb-dir: lib/l10n
+output-class: CarrotLocalizations
+output-localization-file: carrot_localizations.dart
+synthetic-package: false
+template-arb-file: carrot_en.arb
+untranslated-messages-file: missing_localizations.log

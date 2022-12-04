@@ -1,5 +1,8 @@
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  exclude: [lib/l10n/carrot_localizations*]
+
 linter:
   rules:
     prefer_relative_imports: true

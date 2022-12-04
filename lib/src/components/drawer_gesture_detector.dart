@@ -308,7 +308,7 @@ class _CarrotDrawerGestureDetectorState extends State<CarrotDrawerGestureDetecto
             if (scrimVisible)
               CarrotScrim(
                 color: _scrimColorTween.evaluate(_controller),
-                label: "Close drawer", // todo(Bas): Make localizable.
+                label: context.carrotStrings.drawerClose,
                 onTap: close,
               ),
             Align(

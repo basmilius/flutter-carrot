@@ -46,7 +46,7 @@ class CarrotFormGroup extends StatelessWidget {
                   ),
                 if (optional)
                   TextSpan(
-                    text: ' (optional)',
+                    text: ' ${context.carrotStrings.formOptional}',
                     style: carrotTheme.typography.body2.copyWith(
                       fontSize: 14.0,
                     ),

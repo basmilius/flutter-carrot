@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../../l10n/l10n.dart';
 import '../../components/app.dart';
 import '../../components/drawer_gesture_detector.dart';
 import '../../components/scaffold.dart';
@@ -22,6 +23,9 @@ extension CarrotAppExtension on BuildContext {
 
   /// Returns the [CarrotAppSettings].
   CarrotAppSettings get carrotSettings => CarrotApp.of(this).settings;
+
+  /// Returns the [CarrotLocalizations] for the active locale.
+  CarrotLocalizations get carrotStrings => CarrotLocalizations.of(this)!;
 
   /// Returns the nearest [CarrotTheme].
   CarrotThemeData get carrotTheme => CarrotTheme.of(this);
