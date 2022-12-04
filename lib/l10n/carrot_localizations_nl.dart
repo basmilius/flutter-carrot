@@ -5,19 +5,19 @@ class CarrotLocalizationsNl extends CarrotLocalizations {
   CarrotLocalizationsNl([String locale = 'nl']) : super(locale);
 
   @override
-  String get drawerClose => 'Close side menu';
+  String get drawerClose => 'Zijmenu sluiten';
 
   @override
-  String get editorCopy => 'Copy';
+  String get editorCopy => 'Kopieer';
 
   @override
-  String get editorCut => 'Cut';
+  String get editorCut => 'Knip';
 
   @override
-  String get editorPaste => 'Paste';
+  String get editorPaste => 'Plak';
 
   @override
-  String get editorSelectAll => 'Select All';
+  String get editorSelectAll => 'Selecteer alles';
 
   @override
   String get formOptional => '(optioneel)';

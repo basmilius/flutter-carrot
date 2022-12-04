@@ -1,3 +1,8 @@
 {
+  "drawerClose": "Zijmenu sluiten",
+  "editorCopy": "Kopieer",
+  "editorCut": "Knip",
+  "editorPaste": "Plak",
+  "editorSelectAll": "Selecteer alles",
   "formOptional": "(optioneel)"
 }
