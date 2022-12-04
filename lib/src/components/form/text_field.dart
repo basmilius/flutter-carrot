@@ -54,6 +54,7 @@ class CarrotTextField extends StatefulWidget {
   final CarrotTextFieldOverlayVisibility prefixVisibility;
   final bool readOnly;
   final String? restorationId;
+  final bool scribbleEnabled;
   final ScrollController? scrollController;
   final EdgeInsets scrollPadding;
   final ScrollPhysics scrollPhysics;
@@ -114,6 +115,7 @@ class CarrotTextField extends StatefulWidget {
     this.prefixVisibility = CarrotTextFieldOverlayVisibility.always,
     this.readOnly = false,
     this.restorationId,
+    this.scribbleEnabled = true,
     this.scrollController,
     this.scrollPadding = const EdgeInsets.all(21.0),
     this.scrollPhysics = const CarrotBouncingScrollPhysics.notAlways(),
@@ -270,7 +272,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
     }
   }
 
-  Widget _addTextDependentAttachments(Widget editableText, CarrotTextFieldThemeData theme) {
+  Widget _addTextDependentAttachments(Widget editableText, CarrotFormFieldThemeData theme) {
     if (!_hasDecoration) {
       return editableText;
     }
@@ -430,22 +432,23 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
         ),
     ];
 
-    final textFieldTheme = CarrotTextFieldTheme.of(context);
+    final formFieldTheme = CarrotFormFieldTheme.of(context);
 
     final Widget paddedEditable = Padding(
-      padding: textFieldTheme.padding,
+      padding: formFieldTheme.padding,
       child: RepaintBoundary(
         child: UnmanagedRestorationScope(
           bucket: bucket,
           child: EditableText(
             key: editableTextKey,
             autocorrect: widget.autocorrect,
-            autocorrectionTextRectColor: textFieldTheme.selectionColor,
+            autocorrectionTextRectColor: formFieldTheme.selectionColor,
             autofillClient: this,
+            autofillHints: widget.autofillHints,
             autofocus: widget.autofocus,
             backgroundCursorColor: CarrotColors.pink,
             controller: _effectiveController,
-            cursorColor: textFieldTheme.cursorColor,
+            cursorColor: formFieldTheme.cursorColor,
             cursorHeight: widget.cursorHeight,
             cursorOffset: Offset(_horizontalCursorOffsetPixels / mediaQuery.devicePixelRatio, 0),
             cursorOpacityAnimates: true,
@@ -463,15 +466,16 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
             maxLines: widget.maxLines,
             minLines: widget.minLines,
             obscureText: widget.obscureText,
-            obscuringCharacter: textFieldTheme.obscuringCharacter,
+            obscuringCharacter: formFieldTheme.obscuringCharacter,
             paintCursorAboveText: true,
             readOnly: widget.readOnly,
             rendererIgnoresPointer: true,
             restorationId: "editable",
+            scribbleEnabled: widget.scribbleEnabled,
             scrollController: widget.scrollController,
             scrollPadding: widget.scrollPadding,
             scrollPhysics: widget.scrollPhysics,
-            selectionColor: _effectiveFocusNode.hasFocus ? textFieldTheme.selectionColor : null,
+            selectionColor: _effectiveFocusNode.hasFocus ? formFieldTheme.selectionColor : null,
             selectionControls: widget.enableInteractiveSelection ? textSelectionControls : null,
             selectionHeightStyle: widget.selectionHeightStyle,
             selectionWidthStyle: widget.selectionWidthStyle,
@@ -479,8 +483,8 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
             showSelectionHandles: _showSelectionHandles,
             smartDashesType: widget.smartDashesType,
             smartQuotesType: widget.smartQuotesType,
-            strutStyle: widget.strutStyle,
-            style: textFieldTheme.textStyle,
+            strutStyle: widget.strutStyle ?? formFieldTheme.strutStyle,
+            style: formFieldTheme.textStyle,
             textAlign: widget.textAlign,
             textCapitalization: widget.textCapitalization,
             textDirection: widget.textDirection,
@@ -513,7 +517,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
           alignment: Alignment(-1.0, _textAlignVertical.y),
           heightFactor: 1.0,
           widthFactor: 1.0,
-          child: _addTextDependentAttachments(paddedEditable, textFieldTheme),
+          child: _addTextDependentAttachments(paddedEditable, formFieldTheme),
         ),
       ),
     );

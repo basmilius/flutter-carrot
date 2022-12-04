@@ -5,36 +5,36 @@ import 'package:flutter/widgets.dart';
 import '../ui/ui.dart';
 import 'carrot_theme.dart';
 
-class CarrotTextFieldTheme extends InheritedTheme {
-  final CarrotTextFieldThemeData data;
+class CarrotFormFieldTheme extends InheritedTheme {
+  final CarrotFormFieldThemeData data;
 
-  const CarrotTextFieldTheme({
+  const CarrotFormFieldTheme({
     super.key,
     required super.child,
     required this.data,
   });
 
   @override
-  bool updateShouldNotify(CarrotTextFieldTheme oldWidget) {
+  bool updateShouldNotify(CarrotFormFieldTheme oldWidget) {
     return data != oldWidget.data;
   }
 
   @override
   Widget wrap(BuildContext context, Widget child) {
-    return CarrotTextFieldTheme(
+    return CarrotFormFieldTheme(
       data: data,
       child: child,
     );
   }
 
-  static CarrotTextFieldThemeData of(BuildContext context) {
-    final textFieldTheme = context.dependOnInheritedWidgetOfExactType<CarrotTextFieldTheme>();
+  static CarrotFormFieldThemeData of(BuildContext context) {
+    final formFieldTheme = context.dependOnInheritedWidgetOfExactType<CarrotFormFieldTheme>();
 
-    return textFieldTheme?.data ?? CarrotTheme.of(context).textFieldTheme;
+    return formFieldTheme?.data ?? CarrotTheme.of(context).formFieldTheme;
   }
 }
 
-class CarrotTextFieldThemeData {
+class CarrotFormFieldThemeData {
   final Color backgroundColor;
   final Color borderColor;
   final double borderWidth;
@@ -42,6 +42,7 @@ class CarrotTextFieldThemeData {
   final String obscuringCharacter;
   final EdgeInsets padding;
   final Color selectionColor;
+  final StrutStyle strutStyle;
   final TextStyle textPlaceholderStyle;
   final TextStyle textStyle;
 
@@ -50,7 +51,7 @@ class CarrotTextFieldThemeData {
         width: borderWidth,
       );
 
-  const CarrotTextFieldThemeData.raw({
+  const CarrotFormFieldThemeData.raw({
     required this.backgroundColor,
     required this.borderColor,
     required this.borderWidth,
@@ -58,11 +59,12 @@ class CarrotTextFieldThemeData {
     required this.obscuringCharacter,
     required this.padding,
     required this.selectionColor,
+    required this.strutStyle,
     required this.textPlaceholderStyle,
     required this.textStyle,
   });
 
-  factory CarrotTextFieldThemeData(
+  factory CarrotFormFieldThemeData(
     CarrotThemeDataBase theme, {
     Color? backgroundColor,
     Color? borderColor,
@@ -71,6 +73,7 @@ class CarrotTextFieldThemeData {
     String? obscuringCharacter,
     EdgeInsets? padding,
     Color? selectionColor,
+    StrutStyle? strutStyle,
     TextStyle? textPlaceholderStyle,
     TextStyle? textStyle,
   }) {
@@ -84,12 +87,15 @@ class CarrotTextFieldThemeData {
       vertical: 9,
     );
     selectionColor ??= theme.primary[100];
-    textPlaceholderStyle ??= theme.typography.body1.copyWith(
-      color: theme.gray[600].withOpacity(theme.isDark ? 1 : .5),
+    strutStyle = StrutStyle(
+      height: theme.typography.base.height,
     );
     textStyle ??= theme.typography.body1;
+    textPlaceholderStyle ??= textStyle.copyWith(
+      color: theme.gray[600].withOpacity(.5),
+    );
 
-    return CarrotTextFieldThemeData.raw(
+    return CarrotFormFieldThemeData.raw(
       backgroundColor: backgroundColor,
       borderColor: borderColor,
       borderWidth: borderWidth,
@@ -97,12 +103,13 @@ class CarrotTextFieldThemeData {
       obscuringCharacter: obscuringCharacter,
       padding: padding,
       selectionColor: selectionColor,
+      strutStyle: strutStyle,
       textPlaceholderStyle: textPlaceholderStyle,
       textStyle: textStyle,
     );
   }
 
-  factory CarrotTextFieldThemeData.dark(
+  factory CarrotFormFieldThemeData.dark(
     CarrotThemeDataBase theme, {
     Color? backgroundColor,
     Color? borderColor,
@@ -111,10 +118,11 @@ class CarrotTextFieldThemeData {
     String? obscuringCharacter,
     EdgeInsets? padding,
     Color? selectionColor,
+    StrutStyle? strutStyle,
     TextStyle? textPlaceholderStyle,
     TextStyle? textStyle,
   }) =>
-      CarrotTextFieldThemeData(
+      CarrotFormFieldThemeData(
         theme,
         backgroundColor: backgroundColor ?? theme.gray[25],
         borderColor: borderColor,
@@ -123,11 +131,12 @@ class CarrotTextFieldThemeData {
         obscuringCharacter: obscuringCharacter,
         padding: padding,
         selectionColor: selectionColor,
+        strutStyle: strutStyle,
         textPlaceholderStyle: textPlaceholderStyle,
         textStyle: textStyle,
       );
 
-  factory CarrotTextFieldThemeData.light(
+  factory CarrotFormFieldThemeData.light(
     CarrotThemeDataBase theme, {
     Color? backgroundColor,
     Color? borderColor,
@@ -136,10 +145,11 @@ class CarrotTextFieldThemeData {
     String? obscuringCharacter,
     EdgeInsets? padding,
     Color? selectionColor,
+    StrutStyle? strutStyle,
     TextStyle? textPlaceholderStyle,
     TextStyle? textStyle,
   }) =>
-      CarrotTextFieldThemeData(
+      CarrotFormFieldThemeData(
         theme,
         backgroundColor: backgroundColor,
         borderColor: borderColor,
@@ -148,11 +158,12 @@ class CarrotTextFieldThemeData {
         obscuringCharacter: obscuringCharacter,
         padding: padding,
         selectionColor: selectionColor,
+        strutStyle: strutStyle,
         textPlaceholderStyle: textPlaceholderStyle,
         textStyle: textStyle,
       );
 
-  CarrotTextFieldThemeData copyWith(
+  CarrotFormFieldThemeData copyWith(
     CarrotThemeDataBase theme, {
     Color? backgroundColor,
     Color? borderColor,
@@ -161,10 +172,11 @@ class CarrotTextFieldThemeData {
     String? obscuringCharacter,
     EdgeInsets? padding,
     Color? selectionColor,
+    StrutStyle? strutStyle,
     TextStyle? textPlaceholderStyle,
     TextStyle? textStyle,
   }) =>
-      CarrotTextFieldThemeData(
+      CarrotFormFieldThemeData(
         theme,
         backgroundColor: backgroundColor ?? this.backgroundColor,
         borderColor: borderColor ?? this.borderColor,
@@ -173,12 +185,13 @@ class CarrotTextFieldThemeData {
         obscuringCharacter: obscuringCharacter ?? this.obscuringCharacter,
         padding: padding ?? this.padding,
         selectionColor: selectionColor ?? this.selectionColor,
+        strutStyle: strutStyle ?? this.strutStyle,
         textPlaceholderStyle: textPlaceholderStyle ?? this.textPlaceholderStyle,
         textStyle: textStyle ?? this.textStyle,
       );
 
-  static CarrotTextFieldThemeData lerp(CarrotTextFieldThemeData a, CarrotTextFieldThemeData b, double t) {
-    return CarrotTextFieldThemeData.raw(
+  static CarrotFormFieldThemeData lerp(CarrotFormFieldThemeData a, CarrotFormFieldThemeData b, double t) {
+    return CarrotFormFieldThemeData.raw(
       backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t)!,
       borderColor: Color.lerp(a.borderColor, b.borderColor, t)!,
       borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t)!,
@@ -186,6 +199,7 @@ class CarrotTextFieldThemeData {
       obscuringCharacter: t < .5 ? a.obscuringCharacter : b.obscuringCharacter,
       padding: EdgeInsets.lerp(a.padding, b.padding, t)!,
       selectionColor: Color.lerp(a.selectionColor, b.selectionColor, t)!,
+      strutStyle: t < .5 ? a.strutStyle : b.strutStyle,
       textPlaceholderStyle: TextStyle.lerp(a.textPlaceholderStyle, b.textPlaceholderStyle, t)!,
       textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t)!,
     );

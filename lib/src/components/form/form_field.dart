@@ -20,7 +20,7 @@ class CarrotFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTheme = context.carrotTheme;
-    final textFieldTheme = CarrotTextFieldTheme.of(context);
+    final formFieldTheme = CarrotFormFieldTheme.of(context);
 
     return Semantics(
       enabled: enabled,
@@ -37,9 +37,9 @@ class CarrotFormField extends StatelessWidget {
                 minHeight: 45,
               ),
               decoration: BoxDecoration(
-                border: textFieldTheme.border,
+                border: formFieldTheme.border,
                 borderRadius: appTheme.borderRadius,
-                color: textFieldTheme.backgroundColor,
+                color: formFieldTheme.backgroundColor,
               ),
               padding: padding,
               child: child,

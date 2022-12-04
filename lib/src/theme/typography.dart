@@ -47,7 +47,7 @@ class CarrotTypography {
     String fontFamily = 'system-ui',
     double fontSize = 16.0,
     FontWeight fontWeight = FontWeight.w400,
-    double height = 1.6,
+    double height = 1.5,
     TextStyle? display1,
     TextStyle? display2,
     TextStyle? headline1,
@@ -140,12 +140,10 @@ class CarrotTypography {
 
     body1 ??= base.copyWith(
       color: gray[800],
-      height: 1.6,
     );
 
     body2 ??= base.copyWith(
       color: gray[800].withOpacity(.65),
-      height: 1.6,
     );
 
     return CarrotTypography.raw(

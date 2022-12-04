@@ -118,10 +118,12 @@ class _CarrotScaffoldState extends State<CarrotScaffold> {
       return;
     }
 
-    setState(() {
-      _scrollController = primaryScrollView.scrollController;
-      _scrollPosition = notification.metrics.pixels;
-    });
+    try {
+      setState(() {
+        _scrollController = primaryScrollView.scrollController;
+        _scrollPosition = notification.metrics.pixels;
+      });
+    } catch (_) {}
   }
 
   void _routingListenerAdd() {

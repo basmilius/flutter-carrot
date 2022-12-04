@@ -59,35 +59,26 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
         break;
     }
 
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: AnimatedOpacity(
-            curve: curve,
-            duration: localDuration,
-            opacity: isTransparent ? 0 : 1,
-            child: Container(
-              decoration: BoxDecoration(
-                border: appBarTheme.border,
-                boxShadow: appBarTheme.shadow,
-                color: appBarTheme.backgroundColor,
-              ),
-            ),
-          ),
+    return AnimatedContainer(
+      curve: curve,
+      duration: localDuration,
+      decoration: BoxDecoration(
+        border: isTransparent ? null : appBarTheme.border,
+        boxShadow: isTransparent ? null : appBarTheme.shadow,
+        color: isTransparent ? null : appBarTheme.backgroundColor,
+      ),
+      child: AnimatedDefaultTextStyle(
+        curve: curve,
+        duration: localDuration,
+        style: context.carrotTypography.body1.copyWith(
+          color: appBarTheme.foregroundColor,
         ),
-        AnimatedDefaultTextStyle(
-          curve: curve,
-          duration: localDuration,
-          style: context.carrotTypography.body1.copyWith(
-            color: appBarTheme.foregroundColor,
-          ),
-          child: _CarrotAppBarBody(
-            after: after,
-            before: before,
-            title: title,
-          ),
+        child: _CarrotAppBarBody(
+          after: after,
+          before: before,
+          title: title,
         ),
-      ],
+      ),
     );
   }
 }

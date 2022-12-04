@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../../app/extensions/extensions.dart';
 import '../../data/data.dart';
 import '../../theme/theme.dart';
+import '../../ui/ui.dart';
 import '../icon.dart';
 import '../popup.dart';
 import '../primitive/primitive.dart';
@@ -27,21 +28,21 @@ class CarrotSelectFieldOption<T> extends CarrotSelectFieldEntry<T> {
 
   @override
   Widget build(BuildContext context) {
-    final textFieldTheme = CarrotTextFieldTheme.of(context);
+    final formFieldTheme = CarrotFormFieldTheme.of(context);
     final selectField = context.dependOnInheritedWidgetOfExactType<_CarrotSelectFieldInherited>();
 
     assert(selectField != null);
 
     return CarrotBackgroundTap(
-      background: textFieldTheme.backgroundColor.withOpacity(.0),
-      backgroundTap: textFieldTheme.backgroundColor,
+      background: formFieldTheme.backgroundColor.withOpacity(.0),
+      backgroundTap: formFieldTheme.backgroundColor,
       onTap: () => selectField?.state._setValue(value),
       child: Container(
         alignment: Alignment.centerLeft,
         constraints: const BoxConstraints(
           minHeight: 45,
         ),
-        padding: textFieldTheme.padding.copyWith(
+        padding: formFieldTheme.padding.copyWith(
           top: 0,
           bottom: 0,
         ),
@@ -104,6 +105,7 @@ class CarrotSelectFieldOptionGroup<T> extends CarrotSelectFieldEntry<T> {
 }
 
 class CarrotSelectField<T> extends StatefulWidget {
+  final bool autofocus;
   final CarrotValueController<T?> controller;
   final bool enabled;
   final List<CarrotSelectFieldEntry<T>> options;
@@ -113,6 +115,7 @@ class CarrotSelectField<T> extends StatefulWidget {
     super.key,
     required this.controller,
     required this.options,
+    this.autofocus = false,
     this.enabled = true,
     this.placeholder,
   });
@@ -175,20 +178,20 @@ class _CarrotSelectFieldState<T> extends State<CarrotSelectField<T>> {
       return Container();
     }
 
-    final textFieldTheme = CarrotTextFieldTheme.of(context);
+    final formFieldTheme = CarrotFormFieldTheme.of(context);
 
     return Padding(
-      padding: textFieldTheme.padding,
+      padding: formFieldTheme.padding,
       child: Text(
         widget.placeholder!,
-        style: context.carrotTypography.body2,
+        style: formFieldTheme.textPlaceholderStyle,
       ),
     );
   }
 
   Widget _buildPopup(BuildContext context) {
     final appTheme = context.carrotTheme;
-    final textFieldTheme = CarrotTextFieldTheme.of(context);
+    final formFieldTheme = CarrotFormFieldTheme.of(context);
 
     return Container(
       constraints: BoxConstraints(
@@ -196,8 +199,9 @@ class _CarrotSelectFieldState<T> extends State<CarrotSelectField<T>> {
         minWidth: _size.width,
       ),
       decoration: BoxDecoration(
-        border: textFieldTheme.border,
+        border: formFieldTheme.border,
         borderRadius: appTheme.borderRadius,
+        boxShadow: CarrotShadows.large,
         color: appTheme.gray[0],
       ),
       child: ClipRRect(
@@ -261,7 +265,7 @@ class _CarrotSelectFieldState<T> extends State<CarrotSelectField<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final textFieldTheme = CarrotTextFieldTheme.of(context);
+    final formFieldTheme = CarrotFormFieldTheme.of(context);
 
     return CarrotPopup(
       controller: _popupController,
@@ -273,27 +277,30 @@ class _CarrotSelectFieldState<T> extends State<CarrotSelectField<T>> {
         onTap: () => _popupController.open(),
         child: CarrotSizeMeasureChild(
           onChange: _onSizeChanged,
-          child: CarrotFormField(
-            enabled: widget.enabled,
-            child: Row(
-              children: [
-                _CarrotSelectFieldInherited(
-                  state: this,
-                  child: Expanded(
-                    child: Builder(
-                      builder: hasValue ? _buildPreview : _buildPlaceholder,
+          child: Focus(
+            autofocus: widget.autofocus,
+            child: CarrotFormField(
+              enabled: widget.enabled,
+              child: Row(
+                children: [
+                  _CarrotSelectFieldInherited(
+                    state: this,
+                    child: Expanded(
+                      child: Builder(
+                        builder: hasValue ? _buildPreview : _buildPlaceholder,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: textFieldTheme.padding,
-                  child: CarrotIcon(
-                    color: context.carrotTheme.primary,
-                    glyph: 'angle-down',
-                    size: 20,
+                  Padding(
+                    padding: formFieldTheme.padding,
+                    child: CarrotIcon(
+                      color: context.carrotTheme.primary,
+                      glyph: 'angle-down',
+                      size: 20,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

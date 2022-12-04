@@ -107,10 +107,7 @@ class _CarrotAppState extends State<CarrotApp> {
             textStyle: effectiveTheme.typography.body1,
             builder: (context, _) => DefaultTextHeightBehavior(
               textHeightBehavior: effectiveTheme.typography.textHeightBehavior,
-              child: DefaultTextStyle(
-                style: effectiveTheme.typography.body1,
-                child: widget.child,
-              ),
+              child: widget.child,
             ),
           ),
         ),
