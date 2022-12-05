@@ -5,6 +5,15 @@ class CarrotLocalizationsEn extends CarrotLocalizations {
   CarrotLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get select => 'Select';
+
+  @override
+  String get datePickerDialogTitle => 'Pick a date';
+
+  @override
   String get drawerClose => 'Close side menu';
 
   @override

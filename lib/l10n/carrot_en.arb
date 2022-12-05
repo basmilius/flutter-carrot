@@ -1,4 +1,7 @@
 {
+  "cancel": "Cancel",
+  "select": "Select",
+  "datePickerDialogTitle": "Pick a date",
   "drawerClose": "Close side menu",
   "editorCopy": "Copy",
   "editorCut": "Cut",

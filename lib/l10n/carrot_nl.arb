@@ -1,4 +1,7 @@
 {
+  "cancel": "Annuleren",
+  "select": "Selecteer",
+  "datePickerDialogTitle": "Kies een datum",
   "drawerClose": "Zijmenu sluiten",
   "editorCopy": "Kopieer",
   "editorCut": "Knip",

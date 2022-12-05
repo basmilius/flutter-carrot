@@ -93,6 +93,24 @@ abstract class CarrotLocalizations {
     Locale('nl')
   ];
 
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @select.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get select;
+
+  /// No description provided for @datePickerDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date'**
+  String get datePickerDialogTitle;
+
   /// No description provided for @drawerClose.
   ///
   /// In en, this message translates to:
