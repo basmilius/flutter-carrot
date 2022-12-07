@@ -13,6 +13,8 @@ class CarrotDateField extends StatefulWidget {
   final bool autofocus;
   final CarrotValueController<DateTime?> controller;
   final bool enabled;
+  final DateTime? maxDate;
+  final DateTime? minDate;
   final String? placeholder;
 
   const CarrotDateField({
@@ -20,6 +22,8 @@ class CarrotDateField extends StatefulWidget {
     required this.controller,
     this.autofocus = false,
     this.enabled = true,
+    this.maxDate,
+    this.minDate,
     this.placeholder,
   });
 
@@ -60,6 +64,8 @@ class _CarrotDateFieldState extends State<CarrotDateField> {
   void _onDatePickerOpenTap() async {
     final newDate = await showCarrotDatePicker(
       context: context,
+      maxDate: widget.maxDate,
+      minDate: widget.minDate,
       selectedValue: widget.controller.value,
     );
 

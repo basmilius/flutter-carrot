@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 
 import 'physics.dart';
-import 'scrollbar.dart';
 
 class CarrotScrollBehavior extends ScrollBehavior {
   const CarrotScrollBehavior();
@@ -13,10 +12,7 @@ class CarrotScrollBehavior extends ScrollBehavior {
 
   @override
   Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
-    return CarrotScrollbar(
-      controller: details.controller,
-      child: child,
-    );
+    return child;
   }
 
   @override

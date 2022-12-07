@@ -1,4 +1,6 @@
 extension CarrotDateTimeExtension on DateTime {
+  DateTime get date => DateTime(year, month, day);
+
   DateTime copyWith({
     int? year,
     int? month,
@@ -38,6 +40,17 @@ extension CarrotDateTimeExtension on DateTime {
         microsecond: 0,
       );
 
+  DateTime endOfYear() => copyWith(
+        year: year + 1,
+        month: 0,
+        day: 0,
+        hour: 23,
+        minute: 59,
+        second: 59,
+        millisecond: 999,
+        microsecond: 0,
+      );
+
   DateTime middleOfDay() => copyWith(
         hour: 12,
         minute: 0,
@@ -62,6 +75,32 @@ extension CarrotDateTimeExtension on DateTime {
         millisecond: 0,
         microsecond: 0,
       );
+
+  DateTime startOfYear() => copyWith(
+        month: 1,
+        day: 1,
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+        microsecond: 0,
+      );
+
+  bool isBetween(DateTime start, DateTime end) => isAfterOrEqual(start) && isBeforeOrEqual(end);
+
+  bool isAfterOrEqual(DateTime other) => other.isAtSameMomentAs(this) || isAfter(other);
+
+  bool isBeforeOrEqual(DateTime other) => other.isAtSameMomentAs(this) || isBefore(other);
+
+  bool isSameYear(DateTime other) => year == other.year;
+
+  bool isSameMonth(DateTime other) => year == other.year && month == other.month;
+
+  bool isSameDay(DateTime other) => year == other.year && month == other.month && day == other.day;
+
+  static DateTime get maxValue => DateTime(9999, 12, 31);
+
+  static DateTime get minValue => DateTime(1, 1, 1);
 }
 
 /// Gets all the dates within the given [date]'s month. When

@@ -51,7 +51,6 @@ class CarrotDialog<T> extends StatefulWidget {
         top: math.max(padding.top, headerSize.height),
         bottom: math.max(padding.top, footerSize.height),
       ),
-      // physics: const CarrotBouncingScrollPhysics.notAlways(),
       scrollController: scrollController,
       scrollPadding: EdgeInsets.only(
         top: headerSize.height - padding.top,
@@ -100,7 +99,7 @@ class _CarrotDialogState extends State<CarrotDialog> {
     final header = widget.buildHeader(context, _scrollController, _headerSize, _footerSize);
 
     return Container(
-      clipBehavior: Clip.hardEdge,
+      clipBehavior: Clip.antiAlias,
       constraints: BoxConstraints(
         maxHeight: 600,
         maxWidth: widget.width,
