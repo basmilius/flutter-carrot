@@ -253,35 +253,26 @@ class CarrotDialogTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.carrotTheme;
 
-    return Stack(
-      fit: StackFit.passthrough,
-      children: [
-        Positioned.fill(
-          child: IgnorePointer(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: theme.gray[0],
-              ),
-            ),
-          ),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: theme.gray[0],
+      ),
+      child: Padding(
+        padding: _kDefaultDialogPadding.copyWith(
+          bottom: 15,
         ),
-        Padding(
-          padding: _kDefaultDialogPadding.copyWith(
-            bottom: 15,
-          ),
-          child: DefaultTextStyle(
-            style: theme.typography.headline4,
-            textAlign: TextAlign.center,
-            child: child,
-          ),
+        child: DefaultTextStyle(
+          style: theme.typography.headline4,
+          textAlign: TextAlign.center,
+          child: child,
         ),
-      ],
+      ),
     );
   }
 }
 
 class CarrotAlertDialog extends CarrotDialog<void> {
-  final String okLabel;
+  final String? okLabel;
   final Widget title;
 
   const CarrotAlertDialog({
@@ -289,7 +280,7 @@ class CarrotAlertDialog extends CarrotDialog<void> {
     required super.close,
     required super.content,
     required this.title,
-    this.okLabel = 'Ok',
+    this.okLabel,
     super.scrollController,
     super.width = _kDefaultDialogWidth,
   });
@@ -298,7 +289,9 @@ class CarrotAlertDialog extends CarrotDialog<void> {
   Widget? buildFooter(BuildContext context, ScrollController scrollController, Size headerSize, Size footerSize) {
     return CarrotDialogButtons(
       buttons: [
-        CarrotDialogButton.primary(label: okLabel),
+        CarrotDialogButton.primary(
+          label: okLabel ?? context.carrotStrings.ok,
+        ),
       ],
     );
   }
@@ -312,6 +305,8 @@ class CarrotAlertDialog extends CarrotDialog<void> {
 }
 
 class CarrotConfirmDialog extends CarrotDialog<bool> {
+  final String? cancelLabel;
+  final String? okLabel;
   final Widget title;
 
   const CarrotConfirmDialog({
@@ -319,16 +314,24 @@ class CarrotConfirmDialog extends CarrotDialog<bool> {
     required super.close,
     required super.content,
     required this.title,
+    this.cancelLabel,
+    this.okLabel,
     super.scrollController,
     super.width = _kDefaultDialogWidth,
   });
 
   @override
   Widget? buildFooter(BuildContext context, ScrollController scrollController, Size headerSize, Size footerSize) {
-    return const CarrotDialogButtons(
+    return CarrotDialogButtons(
       buttons: [
-        CarrotDialogButton.primary(label: "Abonneren", result: true),
-        CarrotDialogButton.secondary(label: "Annuleren", result: false),
+        CarrotDialogButton.primary(
+          label: okLabel ?? context.carrotStrings.ok,
+          result: true,
+        ),
+        CarrotDialogButton.secondary(
+          label: cancelLabel ?? context.carrotStrings.cancel,
+          result: false,
+        ),
       ],
     );
   }

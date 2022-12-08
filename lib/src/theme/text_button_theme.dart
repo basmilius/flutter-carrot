@@ -142,7 +142,7 @@ class CarrotTextButtonThemeData {
         theme,
         backgroundColor: backgroundColor,
         backgroundColorActive: backgroundColorActive,
-        borderColor: borderColor,
+        borderColor: borderColor ?? theme.gray[200].withOpacity(.35),
         borderColorActive: borderColorActive,
         borderRadius: borderRadius,
         borderWidth: borderWidth,

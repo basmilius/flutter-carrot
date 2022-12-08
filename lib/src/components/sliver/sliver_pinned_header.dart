@@ -10,12 +10,12 @@ class CarrotSliverPinnedHeader extends SingleChildRenderObjectWidget {
   });
 
   @override
-  createRenderObject(BuildContext context) {
-    return _CarrotSliverPinnedHeaderRender();
+  CarrotSliverPinnedHeaderRenderer createRenderObject(BuildContext context) {
+    return CarrotSliverPinnedHeaderRenderer();
   }
 }
 
-class _CarrotSliverPinnedHeaderRender extends RenderSliverSingleBoxAdapter {
+class CarrotSliverPinnedHeaderRenderer extends RenderSliverSingleBoxAdapter {
   @override
   void performLayout() {
     assert(child != null, "Child should not be null.");

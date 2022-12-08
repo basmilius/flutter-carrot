@@ -316,19 +316,14 @@ class _CarrotDatePickerState extends State<CarrotDatePicker> {
     final month = _months[index];
     final isDisabled = _isMonthDisabled(month);
 
-    return CarrotDisabled(
+    return CarrotDisabled.opacity(
       disabled: isDisabled,
-      child: AnimatedOpacity(
-        curve: _kDefaultCurve,
-        duration: _kDefaultDuration,
-        opacity: !isDisabled ? 1 : .3,
-        child: CarrotTextButton.text(
-          size: CarrotButtonSize.small,
-          text: Text(toBeginningOfSentenceCase(monthFormatter.format(month))!),
-          onTap: () => _setMonth(_viewMonth.copyWith(
-            month: month.month,
-          )),
-        ),
+      child: CarrotTextButton.text(
+        size: CarrotButtonSize.small,
+        text: Text(toBeginningOfSentenceCase(monthFormatter.format(month))!),
+        onTap: () => _setMonth(_viewMonth.copyWith(
+          month: month.month,
+        )),
       ),
     );
   }
@@ -354,19 +349,14 @@ class _CarrotDatePickerState extends State<CarrotDatePicker> {
     final year = _years[index];
     final isDisabled = _isYearDisabled(year);
 
-    return CarrotDisabled(
+    return CarrotDisabled.opacity(
       disabled: isDisabled,
-      child: AnimatedOpacity(
-        curve: _kDefaultCurve,
-        duration: _kDefaultDuration,
-        opacity: !isDisabled ? 1 : .3,
-        child: CarrotTextButton.text(
-          size: CarrotButtonSize.small,
-          text: Text(yearFormatter.format(year)),
-          onTap: () => _setMonth(_viewMonth.copyWith(
-            year: year.year,
-          )),
-        ),
+      child: CarrotTextButton.text(
+        size: CarrotButtonSize.small,
+        text: Text(yearFormatter.format(year)),
+        onTap: () => _setMonth(_viewMonth.copyWith(
+          year: year.year,
+        )),
       ),
     );
   }
@@ -466,7 +456,6 @@ class _CarrotDatePickerDate extends StatelessWidget {
   final GestureTapCallback onTap;
 
   const _CarrotDatePickerDate({
-    super.key,
     required this.date,
     required this.disabled,
     required this.selected,
@@ -519,16 +508,11 @@ class _CarrotDatePickerDate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CarrotDisabled(
+    return CarrotDisabled.opacity(
       disabled: disabled,
-      child: AnimatedOpacity(
-        curve: _kDefaultCurve,
-        duration: _kDefaultDuration,
-        opacity: !disabled ? 1 : .3,
-        child: CarrotBounceTapBuilder(
-          onTap: disabled ? null : onTap,
-          builder: _buildContent,
-        ),
+      child: CarrotBounceTapBuilder(
+        onTap: disabled ? null : onTap,
+        builder: _buildContent,
       ),
     );
   }

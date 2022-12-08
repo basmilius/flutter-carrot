@@ -8,6 +8,9 @@ class CarrotLocalizationsNl extends CarrotLocalizations {
   String get cancel => 'Annuleren';
 
   @override
+  String get ok => 'Oké';
+
+  @override
   String get select => 'Selecteer';
 
   @override

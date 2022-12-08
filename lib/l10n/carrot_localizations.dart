@@ -99,6 +99,12 @@ abstract class CarrotLocalizations {
   /// **'Cancel'**
   String get cancel;
 
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'Ok'**
+  String get ok;
+
   /// No description provided for @select.
   ///
   /// In en, this message translates to:
