@@ -10,7 +10,7 @@ import '../app/extensions/extensions.dart';
 
 const double _kBackGestureWidth = 20.0;
 const double _kMinFlingVelocity = 1.0;
-const int _kMaxDroppedSwipePageForwardAnimationTime = 800;
+const int _kMaxDroppedSwipePageForwardAnimationTime = 540;
 const int _kMaxPageBackAnimationTime = 420;
 
 typedef CarrotPageTransitionBuilder = Widget Function(BuildContext, Animation<double>, Animation<double>, Widget);
@@ -238,7 +238,7 @@ class _CarrotBackGestureController {
   }
 
   void dragEnd(double velocity) {
-    const animationCurve = Curves.fastLinearToSlowEaseIn;
+    const animationCurve = CarrotCurves.decelerationCurve;
     final bool animateForward = velocity.abs() >= _kMinFlingVelocity ? velocity <= 0 : controller.value > .5;
 
     if (animateForward) {
