@@ -31,7 +31,7 @@ class CarrotRoute extends GoRoute {
     super.parentNavigatorKey,
     Object? arguments,
   }) : super(
-          pageBuilder: (context, state) => CarrotRoutingPage<void>(
+          pageBuilder: (context, state) => CarrotPage<void>(
             key: state.pageKey,
             arguments: arguments,
             name: nameGenerator?.call(context, state),
@@ -53,7 +53,7 @@ class CarrotShellRoute extends ShellRoute {
     super.routes,
     CarrotShellRouteWidgetBuilder? builder,
   }) : super(
-          pageBuilder: (context, state, child) => CarrotRoutingPage<void>(
+          pageBuilder: (context, state, child) => CarrotPage<void>(
             key: state.pageKey,
             child: builder?.call(context, state, child) ?? child,
           ),
