@@ -15,6 +15,7 @@ export 'dynamic_viewport_safe_area.dart';
 export 'expandable.dart';
 export 'filler.dart';
 export 'form/form.dart';
+export 'graph/graph.dart';
 export 'icon.dart';
 export 'icon_nav.dart';
 export 'masonry_grid.dart';
