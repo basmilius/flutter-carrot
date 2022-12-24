@@ -41,42 +41,32 @@ class CarrotPage<T> extends Page<T> {
   });
 
   @override
-  Route<T> createRoute(BuildContext context) => _CarrotPageRoute<T>(this);
+  Route<T> createRoute(BuildContext context) => CarrotPageRoute<T>(this);
 }
 
-class _CarrotPageRoute<T> extends PageRoute<T> {
+class CarrotPageRoute<T> extends PageRoute<T> {
   static final _offsetTween = TweenSequence<Offset>([
-    TweenSequenceItem(weight: 45.0, tween: Tween(begin: Offset.zero, end: Offset.zero)),
-    TweenSequenceItem(weight: 10.0, tween: Tween(begin: Offset.zero, end: Offset.zero)),
-    TweenSequenceItem(weight: 45.0, tween: Tween(begin: const Offset(0.0, 30.0), end: Offset.zero)),
+    TweenSequenceItem(weight: 55, tween: ConstantTween(Offset.zero)),
+    TweenSequenceItem(weight: 45, tween: Tween(begin: const Offset(0, 30), end: Offset.zero)),
   ]);
 
   static final _opacityTween = TweenSequence<double>([
-    TweenSequenceItem(weight: 45.0, tween: Tween(begin: 0.0, end: 0.0)),
-    TweenSequenceItem(weight: 10.0, tween: Tween(begin: 0.0, end: 0.0)),
-    TweenSequenceItem(weight: 45.0, tween: Tween(begin: 0.0, end: 1.0)),
+    TweenSequenceItem(weight: 55, tween: ConstantTween(0)),
+    TweenSequenceItem(weight: 45, tween: Tween(begin: 0, end: 1)),
   ]);
 
-  static final _scaleTween = Tween<double>(
-    begin: 1.0,
-    end: 1.0,
-  );
+  static final _scaleTween = ConstantTween<double>(1);
 
-  static final _reverseOffsetTween = Tween<Offset>(
-    begin: Offset.zero,
-    end: Offset.zero,
-  );
+  static final _reverseOffsetTween = ConstantTween<Offset>(Offset.zero);
 
   static final _reverseOpacityTween = TweenSequence<double>([
-    TweenSequenceItem(weight: 45.0, tween: Tween(begin: 1.0, end: 0.0)),
-    TweenSequenceItem(weight: 10.0, tween: Tween(begin: 0.0, end: 0.0)),
-    TweenSequenceItem(weight: 45.0, tween: Tween(begin: 0.0, end: 0.0)),
+    TweenSequenceItem(weight: 45, tween: Tween(begin: 1, end: 0)),
+    TweenSequenceItem(weight: 55, tween: ConstantTween(0)),
   ]);
 
   static final _reverseScaleTween = TweenSequence<double>([
-    TweenSequenceItem(weight: 45.0, tween: Tween(begin: 1.0, end: 0.95)),
-    TweenSequenceItem(weight: 10.0, tween: Tween(begin: 0.95, end: 0.95)),
-    TweenSequenceItem(weight: 45.0, tween: Tween(begin: 0.95, end: 0.95)),
+    TweenSequenceItem(weight: 45, tween: Tween(begin: 1, end: .95)),
+    TweenSequenceItem(weight: 55, tween: ConstantTween(.95)),
   ]);
 
   Tween<Offset>? _popGestureBottomOffsetTween;
@@ -141,7 +131,7 @@ class _CarrotPageRoute<T> extends PageRoute<T> {
 
   CarrotPage<T> get page => settings as CarrotPage<T>;
 
-  _CarrotPageRoute(CarrotPage<T> page) : super(settings: page);
+  CarrotPageRoute(CarrotPage<T> page) : super(settings: page);
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) => Semantics(
@@ -161,9 +151,9 @@ class _CarrotPageRoute<T> extends PageRoute<T> {
 
     return AnimatedBuilder(
       animation: controller,
-      child: _CarrotBackGestureDetector(
+      child: CarrotBackGestureDetector(
         enabledCallback: () => isPopGestureEnabled,
-        onStartPopGesture: _startPopGesture,
+        onStartPopGesture: startPopGesture,
         child: child,
       ),
       builder: (context, child) {
@@ -216,21 +206,21 @@ class _CarrotPageRoute<T> extends PageRoute<T> {
     );
   }
 
-  _CarrotBackGestureController _startPopGesture() {
+  CarrotBackGestureController startPopGesture() {
     assert(isPopGestureEnabled);
 
-    return _CarrotBackGestureController(
+    return CarrotBackGestureController(
       controller: controller!,
       navigator: navigator!,
     );
   }
 }
 
-class _CarrotBackGestureController {
+class CarrotBackGestureController {
   final AnimationController controller;
   final NavigatorState navigator;
 
-  _CarrotBackGestureController({
+  CarrotBackGestureController({
     required this.controller,
     required this.navigator,
   }) {
@@ -283,12 +273,13 @@ class _CarrotBackGestureController {
   }
 }
 
-class _CarrotBackGestureDetector extends StatefulWidget {
+class CarrotBackGestureDetector extends StatefulWidget {
   final Widget child;
   final ValueGetter<bool> enabledCallback;
-  final ValueGetter<_CarrotBackGestureController> onStartPopGesture;
+  final ValueGetter<CarrotBackGestureController> onStartPopGesture;
 
-  const _CarrotBackGestureDetector({
+  const CarrotBackGestureDetector({
+    super.key,
     required this.child,
     required this.enabledCallback,
     required this.onStartPopGesture,
@@ -298,10 +289,10 @@ class _CarrotBackGestureDetector extends StatefulWidget {
   createState() => _CarrotBackGestureDetectorState();
 }
 
-class _CarrotBackGestureDetectorState extends State<_CarrotBackGestureDetector> {
+class _CarrotBackGestureDetectorState extends State<CarrotBackGestureDetector> {
   late final HorizontalDragGestureRecognizer _recognizer;
 
-  _CarrotBackGestureController? _backGestureController;
+  CarrotBackGestureController? _backGestureController;
 
   @override
   void dispose() {

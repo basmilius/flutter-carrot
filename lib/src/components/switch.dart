@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
+import '../app/extensions/extensions.dart';
 import '../theme/theme.dart';
 
 typedef CarrotSwitchChangedCallback = void Function(bool);
@@ -71,7 +72,9 @@ class _CarrotSwitchState extends State<CarrotSwitch> {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = context.carrotTheme;
     final switchTheme = CarrotSwitchTheme.of(context);
+    final animationDuration = appTheme.isAnimating ? Duration.zero : _kDuration;
 
     return GestureDetector(
       onPanEnd: _onPanEnd,
@@ -81,7 +84,7 @@ class _CarrotSwitchState extends State<CarrotSwitch> {
       behavior: HitTestBehavior.opaque,
       child: AnimatedContainer(
         curve: _kCurve,
-        duration: _kDuration,
+        duration: animationDuration,
         decoration: BoxDecoration(
           borderRadius: switchTheme.borderRadius,
           color: widget.value ? switchTheme.backgroundColorActive : switchTheme.backgroundColor,
@@ -93,7 +96,7 @@ class _CarrotSwitchState extends State<CarrotSwitch> {
             children: [
               AnimatedPositioned(
                 curve: _kCurve,
-                duration: _kDuration,
+                duration: animationDuration,
                 top: switchTheme.toggleMargin,
                 left: switchTheme.toggleMargin + _toggleX,
                 height: _toggleSize,
@@ -122,11 +125,13 @@ class _Toggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = context.carrotTheme;
     final switchTheme = CarrotSwitchTheme.of(context);
+    final animationDuration = appTheme.isAnimating ? Duration.zero : _kDuration;
 
     return AnimatedContainer(
       curve: _kCurve,
-      duration: _kDuration,
+      duration: animationDuration,
       decoration: BoxDecoration(
         borderRadius: switchTheme.toggleBorderRadius,
         boxShadow: isPressed ? switchTheme.toggleShadowPressed : switchTheme.toggleShadow,
