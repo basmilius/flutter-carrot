@@ -48,6 +48,7 @@ class CarrotTextField extends StatefulWidget {
   final MaxLengthEnforcement? maxLengthEnforcement;
   final int? maxLines;
   final int? minLines;
+  final double? minHeight;
   final bool obscureText;
   final String? placeholder;
   final Widget? prefix;
@@ -109,6 +110,7 @@ class CarrotTextField extends StatefulWidget {
     this.maxLengthEnforcement,
     this.maxLines,
     this.minLines,
+    this.minHeight,
     this.obscureText = false,
     this.placeholder,
     this.prefix,
@@ -484,7 +486,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
             smartDashesType: widget.smartDashesType,
             smartQuotesType: widget.smartQuotesType,
             strutStyle: widget.strutStyle ?? formFieldTheme.strutStyle,
-            style: formFieldTheme.textStyle,
+            style: formFieldTheme.textStyle.merge(widget.textStyle),
             textAlign: widget.textAlign,
             textCapitalization: widget.textCapitalization,
             textDirection: widget.textDirection,
@@ -502,6 +504,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
 
     return CarrotFormField(
       enabled: widget.enabled,
+      minHeight: widget.minHeight ?? 45,
       onTap: !widget.enabled || widget.readOnly
           ? null
           : () {

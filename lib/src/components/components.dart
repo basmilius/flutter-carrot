@@ -18,6 +18,7 @@ export 'form/form.dart';
 export 'graph/graph.dart';
 export 'icon.dart';
 export 'icon_nav.dart';
+export 'increment_stepper.dart';
 export 'masonry_grid.dart';
 export 'menu.dart';
 export 'menu_divider.dart';

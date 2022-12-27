@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
 import '../app/app.dart';
-import 'primitive/bounce_tap.dart';
+import 'primitive/bounce_tap_builder.dart';
 import 'row.dart';
 
 enum CarrotAppBarButtonLabelStyle {

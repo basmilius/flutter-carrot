@@ -6,6 +6,7 @@ import '../../theme/theme.dart';
 class CarrotFormField extends StatelessWidget {
   final Widget child;
   final bool enabled;
+  final double minHeight;
   final EdgeInsets? padding;
   final VoidCallback? onTap;
 
@@ -13,9 +14,10 @@ class CarrotFormField extends StatelessWidget {
     super.key,
     required this.child,
     this.enabled = true,
+    this.minHeight = 45,
     this.padding,
     this.onTap,
-  });
+  }) : assert(minHeight >= 0);
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +35,8 @@ class CarrotFormField extends StatelessWidget {
             borderRadius: appTheme.borderRadius,
             child: Container(
               alignment: Alignment.centerLeft,
-              constraints: const BoxConstraints(
-                minHeight: 45,
+              constraints: BoxConstraints(
+                minHeight: minHeight,
               ),
               decoration: BoxDecoration(
                 border: formFieldTheme.border,
