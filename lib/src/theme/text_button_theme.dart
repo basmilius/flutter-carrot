@@ -93,7 +93,7 @@ class CarrotTextButtonThemeData {
     List<BoxShadow>? shadowActive,
   }) {
     backgroundColor ??= theme.defaults.content;
-    backgroundColorActive ??= theme.gray[50];
+    backgroundColorActive ??= theme.gray[100];
     borderColor ??= theme.gray[300].withOpacity(.35);
     borderColorActive ??= theme.gray[300].withOpacity(.35);
     borderRadius ??= theme.borderRadius;

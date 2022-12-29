@@ -176,7 +176,7 @@ class _CarrotButtonState extends State<_CarrotButton> with SingleTickerProviderS
           focusNode: widget.focusNode,
           child: AnimatedContainer(
             curve: widget.curve,
-            duration: widget.duration,
+            duration: context.carrotTheme.isAnimating ? Duration.zero : widget.duration,
             decoration: isTapDown ? _style.decorationActive : _style.decoration,
             child: Padding(
               padding: _padding,
