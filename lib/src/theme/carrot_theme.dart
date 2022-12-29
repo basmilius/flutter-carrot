@@ -40,11 +40,7 @@ class CarrotTheme extends StatelessWidget {
   }
 
   static Brightness brightnessOf(BuildContext context) {
-    return maybeOf(context)?.brightness ?? MediaQuery.of(context).platformBrightness;
-  }
-
-  static Brightness? maybeBrightnessOf(BuildContext context) {
-    return maybeOf(context)?.brightness ?? MediaQuery.maybeOf(context)?.platformBrightness;
+    return maybeOf(context)?.brightness ?? MediaQuery.platformBrightnessOf(context);
   }
 
   @override
@@ -73,7 +69,6 @@ class CarrotThemeData extends CarrotThemeDataBase {
     required super.brightness,
     required super.radius,
     required super.accent,
-    required super.error,
     required super.gray,
     required super.primary,
     required super.secondary,
@@ -92,11 +87,10 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotTypography? typography,
     Brightness? brightness,
     Radius? radius,
-    CarrotColor accent = CarrotColors.orange,
-    CarrotColor error = CarrotColors.rose,
-    CarrotColor gray = CarrotColors.slate,
+    CarrotColor accent = CarrotColors.amber,
+    CarrotColor gray = CarrotColors.gray,
     CarrotColor primary = CarrotColors.blue,
-    CarrotColor secondary = CarrotColors.purple,
+    CarrotColor secondary = CarrotColors.cyan,
     CarrotAppBarThemeData? appBarTheme,
     CarrotContainedButtonThemeData? containedButtonTheme,
     CarrotFormFieldThemeData? formFieldTheme,
@@ -118,7 +112,6 @@ class CarrotThemeData extends CarrotThemeDataBase {
       brightness: brightness,
       radius: radius,
       accent: accent,
-      error: error,
       gray: gray,
       primary: primary,
       secondary: secondary,
@@ -138,7 +131,6 @@ class CarrotThemeData extends CarrotThemeDataBase {
       brightness: base.brightness,
       radius: base.radius,
       accent: base.accent,
-      error: base.error,
       gray: base.gray,
       primary: base.primary,
       secondary: base.secondary,
@@ -156,11 +148,10 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotThemeDataDefaults? defaults,
     CarrotTypography? typography,
     Radius? radius,
-    CarrotColor accent = CarrotColors.orange,
-    CarrotColor error = CarrotColors.rose,
-    CarrotColor gray = CarrotColors.slate,
+    CarrotColor accent = CarrotColors.amber,
+    CarrotColor gray = CarrotColors.gray,
     CarrotColor primary = CarrotColors.blue,
-    CarrotColor secondary = CarrotColors.purple,
+    CarrotColor secondary = CarrotColors.cyan,
     CarrotAppBarThemeData? appBarTheme,
     CarrotContainedButtonThemeData? containedButtonTheme,
     CarrotFormFieldThemeData? formFieldTheme,
@@ -175,7 +166,6 @@ class CarrotThemeData extends CarrotThemeDataBase {
         brightness: Brightness.dark,
         radius: radius,
         accent: accent,
-        error: error,
         gray: gray,
         primary: primary,
         secondary: secondary,
@@ -192,11 +182,10 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotThemeDataDefaults? defaults,
     CarrotTypography? typography,
     Radius? radius,
-    CarrotColor accent = CarrotColors.orange,
-    CarrotColor error = CarrotColors.rose,
-    CarrotColor gray = CarrotColors.slate,
+    CarrotColor accent = CarrotColors.amber,
+    CarrotColor gray = CarrotColors.gray,
     CarrotColor primary = CarrotColors.blue,
-    CarrotColor secondary = CarrotColors.purple,
+    CarrotColor secondary = CarrotColors.cyan,
     CarrotAppBarThemeData? appBarTheme,
     CarrotContainedButtonThemeData? containedButtonTheme,
     CarrotFormFieldThemeData? formFieldTheme,
@@ -211,7 +200,6 @@ class CarrotThemeData extends CarrotThemeDataBase {
         brightness: Brightness.light,
         radius: radius,
         accent: accent,
-        error: error,
         gray: gray,
         primary: primary,
         secondary: secondary,
@@ -240,7 +228,6 @@ class CarrotThemeData extends CarrotThemeDataBase {
     Brightness? brightness,
     Radius? radius,
     CarrotColor? accent,
-    CarrotColor? error,
     CarrotColor? gray,
     CarrotColor? primary,
     CarrotColor? secondary,
@@ -258,7 +245,6 @@ class CarrotThemeData extends CarrotThemeDataBase {
         brightness: brightness ?? this.brightness,
         radius: radius ?? this.radius,
         accent: accent ?? this.accent,
-        error: error ?? this.error,
         gray: gray ?? this.gray,
         primary: primary ?? this.primary,
         secondary: secondary ?? this.secondary,
@@ -281,7 +267,6 @@ class CarrotThemeData extends CarrotThemeDataBase {
       brightness: base.brightness,
       radius: base.radius,
       accent: base.accent,
-      error: base.error,
       gray: base.gray,
       primary: base.primary,
       secondary: base.secondary,
@@ -304,7 +289,6 @@ class CarrotThemeDataBase {
   final Radius radius;
 
   final CarrotColor accent;
-  final CarrotColor error;
   final CarrotColor gray;
   final CarrotColor primary;
   final CarrotColor secondary;
@@ -321,7 +305,6 @@ class CarrotThemeDataBase {
     required this.brightness,
     required this.radius,
     required this.accent,
-    required this.error,
     required this.gray,
     required this.primary,
     required this.secondary,
@@ -334,7 +317,6 @@ class CarrotThemeDataBase {
       brightness: t < .5 ? a.brightness : b.brightness,
       radius: Radius.lerp(a.radius, b.radius, t)!,
       accent: CarrotColor.lerp(a.accent, b.accent, t),
-      error: CarrotColor.lerp(a.error, b.error, t),
       gray: CarrotColor.lerp(a.gray, b.gray, t),
       primary: CarrotColor.lerp(a.primary, b.primary, t),
       secondary: CarrotColor.lerp(a.secondary, b.secondary, t),
@@ -344,36 +326,71 @@ class CarrotThemeDataBase {
 
 class CarrotThemeDataDefaults {
   final Color background;
+  final Color content;
+  final CarrotColor error;
+  final CarrotColor info;
+  final CarrotColor success;
+  final CarrotColor warning;
   final Color scrim;
 
   const CarrotThemeDataDefaults.raw({
     required this.background,
+    required this.content,
+    required this.error,
+    required this.info,
+    required this.success,
+    required this.warning,
     required this.scrim,
   });
 
   factory CarrotThemeDataDefaults.dark(
     CarrotColor gray, {
     Color? background,
+    Color? content,
+    CarrotColor? error,
+    CarrotColor? info,
+    CarrotColor? success,
+    CarrotColor? warning,
     Color? scrim,
   }) =>
       CarrotThemeDataDefaults.raw(
-        background: background ?? gray[0],
+        background: background ?? gray[25],
+        content: content ?? CarrotColors.black,
+        error: error ?? CarrotColors.rose,
+        info: info ?? CarrotColors.blue,
+        success: success ?? CarrotColors.emerald,
+        warning: warning ?? CarrotColors.amber,
         scrim: scrim ?? gray[100].withOpacity(.75),
       );
 
   factory CarrotThemeDataDefaults.light(
     CarrotColor gray, {
     Color? background,
+    Color? content,
+        CarrotColor? error,
+        CarrotColor? info,
+        CarrotColor? success,
+        CarrotColor? warning,
     Color? scrim,
   }) =>
       CarrotThemeDataDefaults.raw(
-        background: background ?? gray[0],
+        background: background ?? gray[25],
+        content: content ?? CarrotColors.white,
+        error: error ?? CarrotColors.rose,
+        info: info ?? CarrotColors.blue,
+        success: success ?? CarrotColors.emerald,
+        warning: warning ?? CarrotColors.amber,
         scrim: scrim ?? gray[700].withOpacity(.75),
       );
 
   static CarrotThemeDataDefaults lerp(CarrotThemeDataDefaults a, CarrotThemeDataDefaults b, double t) {
     return CarrotThemeDataDefaults.raw(
       background: Color.lerp(a.background, b.background, t)!,
+      content: Color.lerp(a.content, b.content, t)!,
+      error: CarrotColor.lerp(a.error, b.error, t),
+      info: CarrotColor.lerp(a.info, b.info, t),
+      success: CarrotColor.lerp(a.success, b.success, t),
+      warning: CarrotColor.lerp(a.warning, b.warning, t),
       scrim: Color.lerp(a.scrim, b.scrim, t)!,
     );
   }

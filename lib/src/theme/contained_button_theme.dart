@@ -98,7 +98,7 @@ class CarrotContainedButtonThemeData {
     borderColorActive ??= theme.primary[700];
     borderRadius ??= theme.borderRadius;
     borderWidth ??= 1.0;
-    color ??= theme.primary[0];
+    color ??= theme.primary.text;
     fontWeight ??= FontWeight.w600;
     iconAfterStyle ??= CarrotIconStyle.regular;
     iconStyle ??= CarrotIconStyle.regular;

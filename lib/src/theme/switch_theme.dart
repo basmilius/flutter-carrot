@@ -77,8 +77,8 @@ class CarrotSwitchThemeData {
     borderRadius ??= BorderRadius.circular(15);
     size ??= const Size(48, 30);
     toggleBorderRadius ??= borderRadius;
-    toggleColor ??= theme.gray[0];
-    toggleColorActive ??= theme.gray[0];
+    toggleColor ??= theme.defaults.content;
+    toggleColorActive ??= theme.defaults.content;
     toggleMargin ??= 3.0;
     toggleShadow ??= CarrotShadows.small;
     toggleShadowPressed ??= CarrotShadows.large;
@@ -117,7 +117,7 @@ class CarrotSwitchThemeData {
         borderRadius: borderRadius,
         size: size,
         toggleBorderRadius: toggleBorderRadius,
-        toggleColor: toggleColor,
+        toggleColor: toggleColor ?? theme.gray[300],
         toggleColorActive: toggleColorActive,
         toggleMargin: toggleMargin,
         toggleShadow: toggleShadow,

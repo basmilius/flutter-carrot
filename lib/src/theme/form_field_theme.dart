@@ -79,16 +79,16 @@ class CarrotFormFieldThemeData {
   }) {
     backgroundColor ??= theme.gray[100];
     borderColor ??= CarrotColors.transparent;
-    borderWidth ??= 1.0;
+    borderWidth ??= .0;
     cursorColor ??= theme.primary[500];
     obscuringCharacter ??= '•';
     padding ??= const EdgeInsets.symmetric(
       horizontal: 15,
-      vertical: 9,
+      vertical: 11,
     );
-    selectionColor ??= theme.primary[100];
-    strutStyle = StrutStyle(
-      height: theme.typography.base.height,
+    selectionColor ??= theme.primary[500].withOpacity(.35);
+    strutStyle = const StrutStyle(
+      height: 1.0,
     );
     textStyle ??= theme.typography.body1;
     textPlaceholderStyle ??= textStyle.copyWith(
@@ -124,7 +124,7 @@ class CarrotFormFieldThemeData {
   }) =>
       CarrotFormFieldThemeData(
         theme,
-        backgroundColor: backgroundColor ?? theme.gray[25],
+        backgroundColor: backgroundColor,
         borderColor: borderColor,
         borderWidth: borderWidth,
         cursorColor: cursorColor,

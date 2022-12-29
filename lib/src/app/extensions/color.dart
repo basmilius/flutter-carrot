@@ -1,13 +1,13 @@
 import 'package:flutter/painting.dart';
 
-import '../../ui/color.dart';
+import '../../ui/ui.dart';
 
 extension CarrotColorExtension on Color {
   HSLColor get hsl => HSLColor.fromColor(this);
 
-  double get hue => HSLColor.fromColor(this).hue;
-  double get saturation => HSLColor.fromColor(this).saturation;
-  double get lightness => HSLColor.fromColor(this).lightness;
+  double get hue => hsl.hue;
+  double get saturation => hsl.saturation;
+  double get lightness => hsl.lightness;
 
   bool get isDark => lightness <= .5;
   bool get isLight => lightness > .5;

@@ -3,8 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../animation/animation.dart';
 import '../app/app.dart';
 import '../app/extensions/media_query.dart';
-import '../routing/routing.dart';
-import '../ui/color.dart';
+import '../ui/ui.dart';
 import 'drawer_gesture_detector.dart';
 import 'dynamic_viewport_safe_area.dart';
 import 'primitive/primitive.dart';
@@ -16,21 +15,22 @@ typedef _DrawerToggle = void Function(BuildContext);
 class CarrotScaffold extends StatefulWidget {
   final Widget child;
   final PreferredSizeWidget? appBar;
+  final Color? backgroundColor;
   final PreferredSizeWidget? bottomBar;
   final LayoutWidgetBuilder? drawer;
   final Color? drawerScrimColor;
   final double drawerWidth;
-  final CarrotRouter? router;
 
   const CarrotScaffold({
     super.key,
     required this.child,
     this.appBar,
+    this.backgroundColor,
     this.bottomBar,
     this.drawer,
     this.drawerScrimColor,
     this.drawerWidth = 300.0,
-  }) : router = null;
+  });
 
   @override
   createState() => _CarrotScaffoldState();
@@ -53,7 +53,6 @@ class CarrotScaffold extends StatefulWidget {
 class _CarrotScaffoldState extends State<CarrotScaffold> {
   Size _appBarSize = Size.zero;
   Size _bottomBarSize = Size.zero;
-  CarrotRouter? _router;
   ScrollController? _scrollController;
   ScrollNotificationObserverState? _scrollNotificationObserver;
   double _scrollPosition = 0.0;
@@ -61,8 +60,6 @@ class _CarrotScaffoldState extends State<CarrotScaffold> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    _routingListenerAdd();
     _scrollListenerAdd();
   }
 
@@ -70,41 +67,27 @@ class _CarrotScaffoldState extends State<CarrotScaffold> {
   void didUpdateWidget(CarrotScaffold oldWidget) {
     super.didUpdateWidget(oldWidget);
 
+    bool didChange = false;
+
     if (widget.appBar == null && oldWidget.appBar != null) {
-      setState(() {
-        _appBarSize = Size.zero;
-      });
+      _appBarSize = Size.zero;
+      didChange = true;
     }
 
     if (widget.bottomBar == null && oldWidget.bottomBar != null) {
-      setState(() {
-        _bottomBarSize = Size.zero;
-      });
+      _bottomBarSize = Size.zero;
+      didChange = true;
+    }
+
+    if (didChange) {
+      setState(() {});
     }
   }
 
   @override
   void dispose() {
-    _routingListenerRemove();
     _scrollListenerRemove();
-
     super.dispose();
-  }
-
-  void _handleRoutingChange() async {
-    _scrollListenerRemove();
-
-    await Future.delayed(const Duration(milliseconds: 720));
-
-    if (!mounted) {
-      return;
-    }
-
-    setState(() {
-      _scrollPosition = 0.0;
-    });
-
-    _scrollListenerAdd();
   }
 
   void _handleScroll(ScrollNotification notification) {
@@ -124,15 +107,6 @@ class _CarrotScaffoldState extends State<CarrotScaffold> {
         _scrollPosition = notification.metrics.pixels;
       });
     } catch (_) {}
-  }
-
-  void _routingListenerAdd() {
-    _router = widget.router;
-    _router?.addListener(_handleRoutingChange);
-  }
-
-  void _routingListenerRemove() {
-    _router?.removeListener(_handleRoutingChange);
   }
 
   void _scrollListenerAdd() {
@@ -176,7 +150,7 @@ class _CarrotScaffoldState extends State<CarrotScaffold> {
         ),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: context.carrotTheme.defaults.background,
+            color: widget.backgroundColor ?? context.carrotTheme.defaults.background,
           ),
           child: Stack(
             children: [
@@ -273,27 +247,39 @@ class _CarrotScaffoldView extends StatelessWidget {
     this.drawerScrimColor,
   });
 
+  Widget _phoneBuilder(BuildContext context) {
+    return _CarrotScaffoldViewPhone(
+      drawer: drawer,
+      drawerScrimColor: drawerScrimColor,
+      drawerWidth: drawerWidth,
+      child: child,
+    );
+  }
+
+  Widget _tabletBuilder(BuildContext context) {
+    return _CarrotScaffoldViewTablet(
+      drawer: drawer,
+      drawerScrimColor: drawerScrimColor,
+      drawerWidth: drawerWidth,
+      child: child,
+    );
+  }
+
+  Widget _tabletLargeBuilder(BuildContext context) {
+    return _CarrotScaffoldViewTabletLarge(
+      drawer: drawer,
+      drawerWidth: drawerWidth,
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return context.mediaQuery.builderForAppView(
       context,
-      phoneBuilder: (context) => _CarrotScaffoldViewPhone(
-        drawer: drawer,
-        drawerScrimColor: drawerScrimColor,
-        drawerWidth: drawerWidth,
-        child: child,
-      ),
-      tabletBuilder: (context) => _CarrotScaffoldViewTablet(
-        drawer: drawer,
-        drawerScrimColor: drawerScrimColor,
-        drawerWidth: drawerWidth,
-        child: child,
-      ),
-      tabletLargeBuilder: (context) => _CarrotScaffoldViewTabletLarge(
-        drawer: drawer,
-        drawerWidth: drawerWidth,
-        child: child,
-      ),
+      phoneBuilder: _phoneBuilder,
+      tabletBuilder: _tabletBuilder,
+      tabletLargeBuilder: _tabletLargeBuilder,
     );
   }
 }

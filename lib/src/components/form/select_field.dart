@@ -5,6 +5,7 @@ import '../../data/data.dart';
 import '../../theme/theme.dart';
 import '../../ui/ui.dart';
 import '../icon.dart';
+import '../nothing.dart';
 import '../popup.dart';
 import '../primitive/primitive.dart';
 import 'form_field.dart';
@@ -54,9 +55,11 @@ class CarrotSelectFieldOption<T> extends CarrotSelectFieldEntry<T> {
   }
 
   static Widget _defaultOptionBuilder(BuildContext context, CarrotSelectFieldOption<dynamic> option) {
+    final formFieldTheme = CarrotFormFieldTheme.of(context);
+
     return Text(
       '${option.value}',
-      style: context.carrotTypography.body1,
+      style: formFieldTheme.textStyle,
     );
   }
 }
@@ -175,7 +178,7 @@ class _CarrotSelectFieldState<T> extends State<CarrotSelectField<T>> {
 
   Widget _buildPlaceholder(BuildContext context) {
     if (widget.placeholder == null) {
-      return Container();
+      return nothing;
     }
 
     final formFieldTheme = CarrotFormFieldTheme.of(context);
@@ -202,7 +205,7 @@ class _CarrotSelectFieldState<T> extends State<CarrotSelectField<T>> {
         border: formFieldTheme.border,
         borderRadius: appTheme.borderRadius,
         boxShadow: CarrotShadows.large,
-        color: appTheme.gray[0],
+        color: appTheme.defaults.content,
       ),
       child: ClipRRect(
         borderRadius: appTheme.borderRadius,
@@ -210,7 +213,7 @@ class _CarrotSelectFieldState<T> extends State<CarrotSelectField<T>> {
           itemBuilder: _buildPopupItem,
           itemCount: widget.options.length,
           padding: const EdgeInsets.symmetric(
-            vertical: 9,
+            vertical: 6,
           ),
           shrinkWrap: true,
         ),

@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import '../app/extensions/extensions.dart';
+import 'nothing.dart';
 import 'text_selection_toolbar.dart';
 
 const double _arrowScreenPadding = 26.0;
@@ -24,7 +25,7 @@ class CarrotTextSelectionControls extends TextSelectionControls {
     endGlyphHeight ??= textLineHeight;
 
     final Widget customPaint = CustomPaint(
-      painter: _TextSelectionHandlePainter(context.carrotTheme.primary[500]),
+      painter: _TextSelectionHandlePainter(context.carrotTheme.primary),
     );
 
     switch (type) {
@@ -235,7 +236,7 @@ class _CarrotTextSelectionControlsToolbar extends State<CarrotTextSelectionContr
     }
 
     if (items.isEmpty) {
-      return const SizedBox(width: .0, height: .0);
+      return nothing;
     }
 
     return CarrotTextSelectionToolbar(

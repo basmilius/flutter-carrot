@@ -1,8 +1,10 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/rendering.dart';
+import 'dart:math';
+import 'dart:ui';
 
-const _kKnownSwatches = [
-  0,
+final _randomizer = Random(13031996);
+
+const _knownSwatches = [
+  25,
   50,
   100,
   200,
@@ -15,34 +17,117 @@ const _kKnownSwatches = [
   900,
 ];
 
+const _grayBlue = Color(0xff4e5ba6);
+const _grayCool = Color(0xff5d6b98);
+const _grayModern = Color(0xff697586);
+const _gray = Color(0xff667085);
+const _grayNeutral = Color(0xff6c737f);
+const _grayIron = Color(0xff70707b);
+const _grayTrue = Color(0xff737373);
+const _grayWarm = Color(0xff79716b);
+const _moss = Color(0xff669f2a);
+const _greenLight = Color(0xff66c61c);
+const _green = Color(0xff16b364);
+const _emerald = Color(0xff12b76a);
+const _teal = Color(0xff15b79e);
+const _cyan = Color(0xff06aed4);
+const _blueLight = Color(0xff0ba5ec);
+const _blue = Color(0xff2e90fa);
+const _blueDark = Color(0xff2970ff);
+const _indigo = Color(0xff6172f3);
+const _purple = Color(0xff7a5af8);
+const _violet = Color(0xff875bf7);
+const _portage = Color(0xff9e77ed);
+const _fuchsia = Color(0xffd444f1);
+const _pink = Color(0xffee46bc);
+const _rose = Color(0xfff63d68);
+const _red = Color(0xfff04438);
+const _orangeDark = Color(0xffff4405);
+const _orange = Color(0xffef6820);
+const _amber = Color(0xfff79009);
+const _yellow = Color(0xffeaaa08);
+
 class CarrotColor extends Color {
-  final Map<int, Color> _swatch;
+  final Map<int, CarrotSwatch> _swatches;
 
-  const CarrotColor(super.value, this._swatch);
+  CarrotColor get reversed => CarrotColor(value, {
+        25: this[900],
+        50: this[890],
+        100: this[860],
+        200: this[800],
+        300: this[700],
+        400: this[600],
+        500: this[500],
+        600: this[400],
+        700: this[300],
+        800: this[200],
+        900: this[100],
+      });
 
-  Color operator [](int index) {
+  Color get text => _swatches[500]!.text;
+
+  const CarrotColor(
+    super.value,
+    this._swatches,
+  );
+
+  CarrotSwatch operator [](int index) {
     assert(index >= 0 && index <= 900, 'CarrotColor only has shades between 0 and 900.');
 
-    if (_kKnownSwatches.contains(index)) {
-      return _swatch[index]!;
+    if (_knownSwatches.contains(index)) {
+      return _swatches[index]!;
+    }
+
+    if (index < 25) {
+      return _swatches[25]!;
     }
 
     if (index < 50) {
-      return Color.lerp(_swatch[0]!, _swatch[50]!, index / 50)!;
+      return CarrotSwatch.lerp(_swatches[25]!, _swatches[50]!, (index - 25) / 25);
     }
 
     if (index < 100) {
-      return Color.lerp(_swatch[50]!, _swatch[100]!, (index - 50) / 50)!;
+      return CarrotSwatch.lerp(_swatches[50]!, _swatches[100]!, (index - 50) / 50);
     }
 
     int lowerIndex = (index / 100).floor() * 100;
     int upperIndex = (index / 100).ceil() * 100;
 
-    final a = _swatch[lowerIndex]!;
-    final b = _swatch[upperIndex]!;
+    final a = _swatches[lowerIndex]!;
+    final b = _swatches[upperIndex]!;
 
-    return Color.lerp(a, b, (upperIndex - index) / 100)!;
+    return CarrotSwatch.lerp(a, b, (index - lowerIndex) / 100);
   }
+
+  static CarrotColor lerp(CarrotColor a, CarrotColor b, double t) {
+    return CarrotColor(lerpDouble(a.value, b.value, t)!.toInt(), {
+      25: CarrotSwatch.lerp(a[25], b[25], t),
+      50: CarrotSwatch.lerp(a[50], b[50], t),
+      100: CarrotSwatch.lerp(a[100], b[100], t),
+      200: CarrotSwatch.lerp(a[200], b[200], t),
+      300: CarrotSwatch.lerp(a[300], b[300], t),
+      400: CarrotSwatch.lerp(a[400], b[400], t),
+      500: CarrotSwatch.lerp(a[500], b[500], t),
+      600: CarrotSwatch.lerp(a[600], b[600], t),
+      700: CarrotSwatch.lerp(a[700], b[700], t),
+      800: CarrotSwatch.lerp(a[800], b[800], t),
+      900: CarrotSwatch.lerp(a[900], b[900], t),
+    });
+  }
+}
+
+class CarrotSwatch extends Color {
+  final Color text;
+
+  Color get color => Color(value);
+
+  @override
+  int get hashCode => Object.hash(runtimeType, value, text.value);
+
+  const CarrotSwatch(
+    super.value,
+    this.text,
+  );
 
   @override
   bool operator ==(Object other) {
@@ -54,355 +139,487 @@ class CarrotColor extends Color {
       return false;
     }
 
-    return super == other && other is CarrotColor && mapEquals(other._swatch, _swatch);
+    return super == other && other is CarrotSwatch;
   }
 
-  @override
-  int get hashCode => Object.hash(runtimeType, value, _swatch);
-
-  CarrotColor reverse() => CarrotColor(this[300].value, {
-        0: this[900],
-        50: this[800],
-        100: this[700],
-        200: this[600],
-        300: this[500],
-        400: this[400],
-        500: this[300],
-        600: this[200],
-        700: this[100],
-        800: this[50],
-        900: this[0],
-      });
-
-  static CarrotColor lerp(CarrotColor a, CarrotColor b, double t) {
-    return CarrotColor(Color.lerp(a[500], b[500], t)!.value, {
-      0: Color.lerp(a[0], b[0], t)!,
-      50: Color.lerp(a[50], b[50], t)!,
-      100: Color.lerp(a[100], b[100], t)!,
-      200: Color.lerp(a[200], b[200], t)!,
-      300: Color.lerp(a[300], b[300], t)!,
-      400: Color.lerp(a[400], b[400], t)!,
-      500: Color.lerp(a[500], b[500], t)!,
-      600: Color.lerp(a[600], b[600], t)!,
-      700: Color.lerp(a[700], b[700], t)!,
-      800: Color.lerp(a[800], b[800], t)!,
-      900: Color.lerp(a[900], b[900], t)!,
-    });
-  }
+  static CarrotSwatch lerp(CarrotSwatch a, CarrotSwatch b, double t) => CarrotSwatch(
+        Color.lerp(a, b, t)!.value,
+        Color.lerp(a.text, b.text, t)!,
+      );
 }
 
 class CarrotColors {
-  CarrotColors._();
+  final List<CarrotColor> _colors;
+
+  CarrotColors._(this._colors) {
+    _colors.shuffle(_randomizer);
+  }
+
+  CarrotColor operator [](int index) => _colors[index % _colors.length];
+
+  static final all = CarrotColors._([
+    grayBlue,
+    grayCool,
+    grayModern,
+    gray,
+    grayNeutral,
+    grayIron,
+    grayTrue,
+    grayWarm,
+    moss,
+    greenLight,
+    green,
+    emerald,
+    teal,
+    cyan,
+    blueLight,
+    blue,
+    blueDark,
+    indigo,
+    purple,
+    violet,
+    portage,
+    fuchsia,
+    pink,
+    rose,
+    red,
+    orangeDark,
+    orange,
+    amber,
+    yellow,
+  ]);
+
+  static final colorful = CarrotColors._([
+    moss,
+    greenLight,
+    green,
+    emerald,
+    teal,
+    cyan,
+    blueLight,
+    blue,
+    blueDark,
+    indigo,
+    purple,
+    violet,
+    portage,
+    fuchsia,
+    pink,
+    rose,
+    red,
+    orangeDark,
+    orange,
+    amber,
+    yellow,
+  ]);
 
   static const Color transparent = Color(0x00000000);
-  static const Color black = Color(0xFF000000);
-  static const Color white = Color(0xFFFFFFFF);
+  static const Color black = Color(0xff000000);
+  static const Color white = Color(0xffffffff);
 
-  static const CarrotColor gray = CarrotColor(0xff6b7280, {
-    0: white,
-    50: Color(0xfff9fafb),
-    100: Color(0xfff3f4f6),
-    200: Color(0xffe5e7eb),
-    300: Color(0xffd1d5db),
-    400: Color(0xff9ca3af),
-    500: Color(0xff6b7280),
-    600: Color(0xff4b5563),
-    700: Color(0xff374151),
-    800: Color(0xff1f2937),
-    900: Color(0xff111827),
+  static const CarrotColor grayBlue = CarrotColor(0xff4e5ba6, {
+    25: CarrotSwatch(0xfffcfcfd, _grayBlue),
+    50: CarrotSwatch(0xfff8f9fc, _grayBlue),
+    100: CarrotSwatch(0xffeaecf5, _grayBlue),
+    200: CarrotSwatch(0xffd5d9eb, _grayBlue),
+    300: CarrotSwatch(0xffb3b8db, white),
+    400: CarrotSwatch(0xff717bbc, white),
+    500: CarrotSwatch(0xff4e5ba6, white),
+    600: CarrotSwatch(0xff3e4784, white),
+    700: CarrotSwatch(0xff363f72, white),
+    800: CarrotSwatch(0xff293056, white),
+    900: CarrotSwatch(0xff101323, white),
   });
 
-  static const CarrotColor neutral = CarrotColor(0xff737373, {
-    0: white,
-    50: Color(0xfffafafa),
-    100: Color(0xfff5f5f5),
-    200: Color(0xffe5e5e5),
-    300: Color(0xffd4d4d4),
-    400: Color(0xffa3a3a3),
-    500: Color(0xff737373),
-    600: Color(0xff525252),
-    700: Color(0xff404040),
-    800: Color(0xff262626),
-    900: Color(0xff171717),
+  static const CarrotColor grayCool = CarrotColor(0xff5d6b98, {
+    25: CarrotSwatch(0xfffcfcfd, _grayCool),
+    50: CarrotSwatch(0xfff9f9fb, _grayCool),
+    100: CarrotSwatch(0xffeff1f5, _grayCool),
+    200: CarrotSwatch(0xffdcdfea, _grayCool),
+    300: CarrotSwatch(0xffb9c0d4, white),
+    400: CarrotSwatch(0xff7d89b0, white),
+    500: CarrotSwatch(0xff5d6b98, white),
+    600: CarrotSwatch(0xff4a5578, white),
+    700: CarrotSwatch(0xff404968, white),
+    800: CarrotSwatch(0xff30374f, white),
+    900: CarrotSwatch(0xff111322, white),
   });
 
-  static const CarrotColor slate = CarrotColor(0xff64748b, {
-    0: white,
-    50: Color(0xfff8fafc),
-    100: Color(0xfff1f5f9),
-    200: Color(0xffe2e8f0),
-    300: Color(0xffcbd5e1),
-    400: Color(0xff94a3b8),
-    500: Color(0xff64748b),
-    600: Color(0xff475569),
-    700: Color(0xff334155),
-    800: Color(0xff1e293b),
-    900: Color(0xff0f172a),
+  static const CarrotColor grayModern = CarrotColor(0xff697586, {
+    25: CarrotSwatch(0xfffcfcfd, _grayModern),
+    50: CarrotSwatch(0xfff8fafc, _grayModern),
+    100: CarrotSwatch(0xffeef2f6, _grayModern),
+    200: CarrotSwatch(0xffe3e8ef, _grayModern),
+    300: CarrotSwatch(0xffcdd5df, white),
+    400: CarrotSwatch(0xff9aa4b2, white),
+    500: CarrotSwatch(0xff697586, white),
+    600: CarrotSwatch(0xff4b5565, white),
+    700: CarrotSwatch(0xff364152, white),
+    800: CarrotSwatch(0xff202939, white),
+    900: CarrotSwatch(0xff121926, white),
   });
 
-  static const CarrotColor stone = CarrotColor(0xff78716c, {
-    0: white,
-    50: Color(0xfffafaf9),
-    100: Color(0xfff5f5f4),
-    200: Color(0xffe7e5e4),
-    300: Color(0xffd6d3d1),
-    400: Color(0xffa8a29e),
-    500: Color(0xff78716c),
-    600: Color(0xff57534e),
-    700: Color(0xff44403c),
-    800: Color(0xff292524),
-    900: Color(0xff1c1917),
+  static const CarrotColor gray = CarrotColor(0xff667085, {
+    25: CarrotSwatch(0xfffcfcfd, _gray),
+    50: CarrotSwatch(0xfff9fafb, _gray),
+    100: CarrotSwatch(0xfff2f4f7, _gray),
+    200: CarrotSwatch(0xffeaecf0, _gray),
+    300: CarrotSwatch(0xffd0d5dd, white),
+    400: CarrotSwatch(0xff98a2b3, white),
+    500: CarrotSwatch(0xff667085, white),
+    600: CarrotSwatch(0xff475467, white),
+    700: CarrotSwatch(0xff344054, white),
+    800: CarrotSwatch(0xff1d2939, white),
+    900: CarrotSwatch(0xff101828, white),
   });
 
-  static const CarrotColor zinc = CarrotColor(0xff71717a, {
-    0: white,
-    50: Color(0xfffafafa),
-    100: Color(0xfff4f4f5),
-    200: Color(0xffe4e4e7),
-    300: Color(0xffd4d4d8),
-    400: Color(0xffa1a1aa),
-    500: Color(0xff71717a),
-    600: Color(0xff52525b),
-    700: Color(0xff3f3f46),
-    800: Color(0xff27272a),
-    900: Color(0xff18181b),
+  static const CarrotColor grayNeutral = CarrotColor(0xff6c737f, {
+    25: CarrotSwatch(0xfffcfcfd, _grayNeutral),
+    50: CarrotSwatch(0xfff9fafb, _grayNeutral),
+    100: CarrotSwatch(0xfff3f4f6, _grayNeutral),
+    200: CarrotSwatch(0xffe5e7eb, _grayNeutral),
+    300: CarrotSwatch(0xffd2d6db, white),
+    400: CarrotSwatch(0xff9da4ae, white),
+    500: CarrotSwatch(0xff6c737f, white),
+    600: CarrotSwatch(0xff4d5761, white),
+    700: CarrotSwatch(0xff384250, white),
+    800: CarrotSwatch(0xff1f2a37, white),
+    900: CarrotSwatch(0xff111927, white),
   });
 
-  static const CarrotColor amber = CarrotColor(0xfff59e0b, {
-    0: white,
-    50: Color(0xfffffbeb),
-    100: Color(0xfffef3c7),
-    200: Color(0xfffde68a),
-    300: Color(0xfffcd34d),
-    400: Color(0xfffbbf24),
-    500: Color(0xfff59e0b),
-    600: Color(0xffd97706),
-    700: Color(0xffb45309),
-    800: Color(0xff92400e),
-    900: Color(0xff78350f),
+  static const CarrotColor grayIron = CarrotColor(0xff70707b, {
+    25: CarrotSwatch(0xfffcfcfc, _grayIron),
+    50: CarrotSwatch(0xfffafafa, _grayIron),
+    100: CarrotSwatch(0xfff4f4f5, _grayIron),
+    200: CarrotSwatch(0xffe4e4e7, _grayIron),
+    300: CarrotSwatch(0xffd1d1d6, white),
+    400: CarrotSwatch(0xffa0a0ab, white),
+    500: CarrotSwatch(0xff70707b, white),
+    600: CarrotSwatch(0xff51525c, white),
+    700: CarrotSwatch(0xff3f3f46, white),
+    800: CarrotSwatch(0xff26272b, white),
+    900: CarrotSwatch(0xff18181b, white),
   });
 
-  static const CarrotColor blue = CarrotColor(0xff3b82f6, {
-    0: white,
-    50: Color(0xffeff6ff),
-    100: Color(0xffdbeafe),
-    200: Color(0xffbfdbfe),
-    300: Color(0xff93c5fd),
-    400: Color(0xff60a5fa),
-    500: Color(0xff3b82f6),
-    600: Color(0xff2563eb),
-    700: Color(0xff1d4ed8),
-    800: Color(0xff1e40af),
-    900: Color(0xff1e3a8a),
+  static const CarrotColor grayTrue = CarrotColor(0xff737373, {
+    25: CarrotSwatch(0xfffcfcfc, _grayTrue),
+    50: CarrotSwatch(0xfffafafa, _grayTrue),
+    100: CarrotSwatch(0xfff5f5f5, _grayTrue),
+    200: CarrotSwatch(0xffe5e5e5, _grayTrue),
+    300: CarrotSwatch(0xffd6d6d6, white),
+    400: CarrotSwatch(0xffa3a3a3, white),
+    500: CarrotSwatch(0xff737373, white),
+    600: CarrotSwatch(0xff525252, white),
+    700: CarrotSwatch(0xff424242, white),
+    800: CarrotSwatch(0xff292929, white),
+    900: CarrotSwatch(0xff141414, white),
   });
 
-  static const CarrotColor cyan = CarrotColor(0xff06b6d4, {
-    0: white,
-    50: Color(0xffecfeff),
-    100: Color(0xffcffafe),
-    200: Color(0xffa5f3fc),
-    300: Color(0xff67e8f9),
-    400: Color(0xff22d3ee),
-    500: Color(0xff06b6d4),
-    600: Color(0xff0891b2),
-    700: Color(0xff0e7490),
-    800: Color(0xff155e75),
-    900: Color(0xff164e63),
+  static const CarrotColor grayWarm = CarrotColor(0xff79716b, {
+    25: CarrotSwatch(0xfffdfdfc, _grayWarm),
+    50: CarrotSwatch(0xfffafaf9, _grayWarm),
+    100: CarrotSwatch(0xfff5f5f4, _grayWarm),
+    200: CarrotSwatch(0xffe7e5e4, _grayWarm),
+    300: CarrotSwatch(0xffd7d3d0, white),
+    400: CarrotSwatch(0xffa9a29d, white),
+    500: CarrotSwatch(0xff79716b, white),
+    600: CarrotSwatch(0xff57534e, white),
+    700: CarrotSwatch(0xff44403c, white),
+    800: CarrotSwatch(0xff292524, white),
+    900: CarrotSwatch(0xff1c1917, white),
   });
 
-  static const CarrotColor emerald = CarrotColor(0xff10b981, {
-    0: white,
-    50: Color(0xffecfdf5),
-    100: Color(0xffd1fae5),
-    200: Color(0xffa7f3d0),
-    300: Color(0xff6ee7b7),
-    400: Color(0xff34d399),
-    500: Color(0xff10b981),
-    600: Color(0xff059669),
-    700: Color(0xff047857),
-    800: Color(0xff065f46),
-    900: Color(0xff064e3b),
+  static const CarrotColor moss = CarrotColor(0xff669f2a, {
+    25: CarrotSwatch(0xfffafdf7, _moss),
+    50: CarrotSwatch(0xfff5fbee, _moss),
+    100: CarrotSwatch(0xffe6f4d7, _moss),
+    200: CarrotSwatch(0xffceeab0, _moss),
+    300: CarrotSwatch(0xffacdc79, white),
+    400: CarrotSwatch(0xff86cb3c, white),
+    500: CarrotSwatch(0xff669f2a, white),
+    600: CarrotSwatch(0xff4f7a21, white),
+    700: CarrotSwatch(0xff3f621a, white),
+    800: CarrotSwatch(0xff335015, white),
+    900: CarrotSwatch(0xff2b4212, white),
   });
 
-  static const CarrotColor fuchsia = CarrotColor(0xffd946ef, {
-    0: white,
-    50: Color(0xfffdf4ff),
-    100: Color(0xfffae8ff),
-    200: Color(0xfff5d0fe),
-    300: Color(0xfff0abfc),
-    400: Color(0xffe879f9),
-    500: Color(0xffd946ef),
-    600: Color(0xffc026d3),
-    700: Color(0xffa21caf),
-    800: Color(0xff86198f),
-    900: Color(0xff701a75),
+  static const CarrotColor greenLight = CarrotColor(0xff66c61c, {
+    25: CarrotSwatch(0xfffafef5, _greenLight),
+    50: CarrotSwatch(0xfff3fee7, _greenLight),
+    100: CarrotSwatch(0xffe4fbcc, _greenLight),
+    200: CarrotSwatch(0xffd0f8ab, _greenLight),
+    300: CarrotSwatch(0xffa6ef67, white),
+    400: CarrotSwatch(0xff85e13a, white),
+    500: CarrotSwatch(0xff66c61c, white),
+    600: CarrotSwatch(0xff4ca30d, white),
+    700: CarrotSwatch(0xff3b7c0f, white),
+    800: CarrotSwatch(0xff326212, white),
+    900: CarrotSwatch(0xff2b5314, white),
   });
 
-  static const CarrotColor green = CarrotColor(0xff22c55e, {
-    0: white,
-    50: Color(0xfff0fdf4),
-    100: Color(0xffdcfce7),
-    200: Color(0xffbbf7d0),
-    300: Color(0xff86efac),
-    400: Color(0xff4ade80),
-    500: Color(0xff22c55e),
-    600: Color(0xff16a34a),
-    700: Color(0xff15803d),
-    800: Color(0xff166534),
-    900: Color(0xff14532d),
+  static const CarrotColor green = CarrotColor(0xff16b364, {
+    25: CarrotSwatch(0xfff6fef9, _green),
+    50: CarrotSwatch(0xffedfcf2, _green),
+    100: CarrotSwatch(0xffd3f8df, _green),
+    200: CarrotSwatch(0xffaaf0c4, _green),
+    300: CarrotSwatch(0xff73e2a3, white),
+    400: CarrotSwatch(0xff3ccb7f, white),
+    500: CarrotSwatch(0xff16b364, white),
+    600: CarrotSwatch(0xff099250, white),
+    700: CarrotSwatch(0xff087443, white),
+    800: CarrotSwatch(0xff095c37, white),
+    900: CarrotSwatch(0xff084c2e, white),
   });
 
-  static const CarrotColor indigo = CarrotColor(0xff6366f1, {
-    0: white,
-    50: Color(0xffeef2ff),
-    100: Color(0xffe0e7ff),
-    200: Color(0xffc7d2fe),
-    300: Color(0xffa5b4fc),
-    400: Color(0xff818cf8),
-    500: Color(0xff6366f1),
-    600: Color(0xff4f46e5),
-    700: Color(0xff4338ca),
-    800: Color(0xff3730a3),
-    900: Color(0xff312e81),
+  static const CarrotColor emerald = CarrotColor(0xff12b76a, {
+    25: CarrotSwatch(0xfff6fef9, _emerald),
+    50: CarrotSwatch(0xffecfdf3, _emerald),
+    100: CarrotSwatch(0xffd1fadf, _emerald),
+    200: CarrotSwatch(0xffa6f4c5, _emerald),
+    300: CarrotSwatch(0xff6ce9a6, white),
+    400: CarrotSwatch(0xff32d583, white),
+    500: CarrotSwatch(0xff12b76a, white),
+    600: CarrotSwatch(0xff039855, white),
+    700: CarrotSwatch(0xff027a48, white),
+    800: CarrotSwatch(0xff05603a, white),
+    900: CarrotSwatch(0xff054f31, white),
   });
 
-  static const CarrotColor lime = CarrotColor(0xff84cc16, {
-    0: white,
-    50: Color(0xfff7fee7),
-    100: Color(0xffecfccb),
-    200: Color(0xffd9f99d),
-    300: Color(0xffbef264),
-    400: Color(0xffa3e635),
-    500: Color(0xff84cc16),
-    600: Color(0xff65a30d),
-    700: Color(0xff4d7c0f),
-    800: Color(0xff3f6212),
-    900: Color(0xff365314),
+  static const CarrotColor teal = CarrotColor(0xff15b79e, {
+    25: CarrotSwatch(0xfff6fefc, _teal),
+    50: CarrotSwatch(0xfff0fdf9, _teal),
+    100: CarrotSwatch(0xffccfbef, _teal),
+    200: CarrotSwatch(0xff99f6e0, _teal),
+    300: CarrotSwatch(0xff5fe9d0, white),
+    400: CarrotSwatch(0xff2ed3b7, white),
+    500: CarrotSwatch(0xff15b79e, white),
+    600: CarrotSwatch(0xff0e9384, white),
+    700: CarrotSwatch(0xff107569, white),
+    800: CarrotSwatch(0xff125d56, white),
+    900: CarrotSwatch(0xff134e48, white),
   });
 
-  static const CarrotColor orange = CarrotColor(0xfff97316, {
-    0: white,
-    50: Color(0xfffff7ed),
-    100: Color(0xffffedd5),
-    200: Color(0xfffed7aa),
-    300: Color(0xfffdba74),
-    400: Color(0xfffb923c),
-    500: Color(0xfff97316),
-    600: Color(0xffea580c),
-    700: Color(0xffc2410c),
-    800: Color(0xff9a3412),
-    900: Color(0xff7c2d12),
+  static const CarrotColor cyan = CarrotColor(0xff06aed4, {
+    25: CarrotSwatch(0xfff5feff, _cyan),
+    50: CarrotSwatch(0xffecfdff, _cyan),
+    100: CarrotSwatch(0xffcff9fe, _cyan),
+    200: CarrotSwatch(0xffa5f0fc, _cyan),
+    300: CarrotSwatch(0xff67e3f9, white),
+    400: CarrotSwatch(0xff22ccee, white),
+    500: CarrotSwatch(0xff06aed4, white),
+    600: CarrotSwatch(0xff088ab2, white),
+    700: CarrotSwatch(0xff0e7090, white),
+    800: CarrotSwatch(0xff155b75, white),
+    900: CarrotSwatch(0xff164c63, white),
   });
 
-  static const CarrotColor pink = CarrotColor(0xffec4899, {
-    0: white,
-    50: Color(0xfffdf2f8),
-    100: Color(0xfffce7f3),
-    200: Color(0xfffbcfe8),
-    300: Color(0xfff9a8d4),
-    400: Color(0xfff472b6),
-    500: Color(0xffec4899),
-    600: Color(0xffdb2777),
-    700: Color(0xffbe185d),
-    800: Color(0xff9d174d),
-    900: Color(0xff831843),
+  static const CarrotColor blueLight = CarrotColor(0xff0ba5ec, {
+    25: CarrotSwatch(0xfff5fbff, _blueLight),
+    50: CarrotSwatch(0xfff0f9ff, _blueLight),
+    100: CarrotSwatch(0xffe0f2fe, _blueLight),
+    200: CarrotSwatch(0xffb9e6fe, _blueLight),
+    300: CarrotSwatch(0xff7cd4fd, white),
+    400: CarrotSwatch(0xff36bffa, white),
+    500: CarrotSwatch(0xff0ba5ec, white),
+    600: CarrotSwatch(0xff0086c9, white),
+    700: CarrotSwatch(0xff026aa2, white),
+    800: CarrotSwatch(0xff065986, white),
+    900: CarrotSwatch(0xff0b4a6f, white),
   });
 
-  static const CarrotColor purple = CarrotColor(0xffa855f7, {
-    0: white,
-    50: Color(0xfffaf5ff),
-    100: Color(0xfff3e8ff),
-    200: Color(0xffe9d5ff),
-    300: Color(0xffd8b4fe),
-    400: Color(0xffc084fc),
-    500: Color(0xffa855f7),
-    600: Color(0xff9333ea),
-    700: Color(0xff7e22ce),
-    800: Color(0xff6b21a8),
-    900: Color(0xff581c87),
+  static const CarrotColor blue = CarrotColor(0xff2e90fa, {
+    25: CarrotSwatch(0xfff5faff, _blue),
+    50: CarrotSwatch(0xffeff8ff, _blue),
+    100: CarrotSwatch(0xffd1e9ff, _blue),
+    200: CarrotSwatch(0xffb2ddff, _blue),
+    300: CarrotSwatch(0xff84caff, white),
+    400: CarrotSwatch(0xff53b1fd, white),
+    500: CarrotSwatch(0xff2e90fa, white),
+    600: CarrotSwatch(0xff1570ef, white),
+    700: CarrotSwatch(0xff175cd3, white),
+    800: CarrotSwatch(0xff1849a9, white),
+    900: CarrotSwatch(0xff194185, white),
   });
 
-  static const CarrotColor red = CarrotColor(0xffef4444, {
-    0: white,
-    50: Color(0xfffef2f2),
-    100: Color(0xfffee2e2),
-    200: Color(0xfffecaca),
-    300: Color(0xfffca5a5),
-    400: Color(0xfff87171),
-    500: Color(0xffef4444),
-    600: Color(0xffdc2626),
-    700: Color(0xffb91c1c),
-    800: Color(0xff991b1b),
-    900: Color(0xff7f1d1d),
+  static const CarrotColor blueDark = CarrotColor(0xff2970ff, {
+    25: CarrotSwatch(0xfff5f8ff, _blueDark),
+    50: CarrotSwatch(0xffeff4ff, _blueDark),
+    100: CarrotSwatch(0xffd1e0ff, _blueDark),
+    200: CarrotSwatch(0xffb2ccff, _blueDark),
+    300: CarrotSwatch(0xff84adff, white),
+    400: CarrotSwatch(0xff528bff, white),
+    500: CarrotSwatch(0xff2970ff, white),
+    600: CarrotSwatch(0xff155eef, white),
+    700: CarrotSwatch(0xff004eeb, white),
+    800: CarrotSwatch(0xff0040c1, white),
+    900: CarrotSwatch(0xff00359e, white),
   });
 
-  static const CarrotColor rose = CarrotColor(0xfff43f5e, {
-    0: white,
-    50: Color(0xfffff1f2),
-    100: Color(0xffffe4e6),
-    200: Color(0xfffecdd3),
-    300: Color(0xfffda4af),
-    400: Color(0xfffb7185),
-    500: Color(0xfff43f5e),
-    600: Color(0xffe11d48),
-    700: Color(0xffbe123c),
-    800: Color(0xff9f1239),
-    900: Color(0xff881337),
+  static const CarrotColor indigo = CarrotColor(0xff6172f3, {
+    25: CarrotSwatch(0xfff5f8ff, _indigo),
+    50: CarrotSwatch(0xffeef4ff, _indigo),
+    100: CarrotSwatch(0xffe0eaff, _indigo),
+    200: CarrotSwatch(0xffc7d7fe, _indigo),
+    300: CarrotSwatch(0xffa4bcfd, white),
+    400: CarrotSwatch(0xff8098f9, white),
+    500: CarrotSwatch(0xff6172f3, white),
+    600: CarrotSwatch(0xff444ce7, white),
+    700: CarrotSwatch(0xff3538cd, white),
+    800: CarrotSwatch(0xff2d31a6, white),
+    900: CarrotSwatch(0xff2d3282, white),
   });
 
-  static const CarrotColor sky = CarrotColor(0xff0ea5e9, {
-    0: white,
-    50: Color(0xfff0f9ff),
-    100: Color(0xffe0f2fe),
-    200: Color(0xffbae6fd),
-    300: Color(0xff7dd3fc),
-    400: Color(0xff38bdf8),
-    500: Color(0xff0ea5e9),
-    600: Color(0xff0284c7),
-    700: Color(0xff0369a1),
-    800: Color(0xff075985),
-    900: Color(0xff0c4a6e),
+  static const CarrotColor purple = CarrotColor(0xff7a5af8, {
+    25: CarrotSwatch(0xfffafaff, _purple),
+    50: CarrotSwatch(0xfff4f3ff, _purple),
+    100: CarrotSwatch(0xffebe9fe, _purple),
+    200: CarrotSwatch(0xffd9d6fe, _purple),
+    300: CarrotSwatch(0xffbdb4fe, white),
+    400: CarrotSwatch(0xff9b8afb, white),
+    500: CarrotSwatch(0xff7a5af8, white),
+    600: CarrotSwatch(0xff6938ef, white),
+    700: CarrotSwatch(0xff5925dc, white),
+    800: CarrotSwatch(0xff4a1fb8, white),
+    900: CarrotSwatch(0xff3e1c96, white),
   });
 
-  static const CarrotColor teal = CarrotColor(0xff14b8a6, {
-    0: white,
-    50: Color(0xfff0fdfa),
-    100: Color(0xffccfbf1),
-    200: Color(0xff99f6e4),
-    300: Color(0xff5eead4),
-    400: Color(0xff2dd4bf),
-    500: Color(0xff14b8a6),
-    600: Color(0xff0d9488),
-    700: Color(0xff0f766e),
-    800: Color(0xff115e59),
-    900: Color(0xff134e4a),
+  static const CarrotColor violet = CarrotColor(0xff875bf7, {
+    25: CarrotSwatch(0xfffbfaff, _violet),
+    50: CarrotSwatch(0xfff5f3ff, _violet),
+    100: CarrotSwatch(0xffece9fe, _violet),
+    200: CarrotSwatch(0xffddd6fe, _violet),
+    300: CarrotSwatch(0xffc3b5fd, white),
+    400: CarrotSwatch(0xffa48afb, white),
+    500: CarrotSwatch(0xff875bf7, white),
+    600: CarrotSwatch(0xff7839ee, white),
+    700: CarrotSwatch(0xff6927da, white),
+    800: CarrotSwatch(0xff5720b7, white),
+    900: CarrotSwatch(0xff491c96, white),
   });
 
-  static const CarrotColor violet = CarrotColor(0xff8b5cf6, {
-    0: white,
-    50: Color(0xfff5f3ff),
-    100: Color(0xffede9fe),
-    200: Color(0xffddd6fe),
-    300: Color(0xffc4b5fd),
-    400: Color(0xffa78bfa),
-    500: Color(0xff8b5cf6),
-    600: Color(0xff7c3aed),
-    700: Color(0xff6d28d9),
-    800: Color(0xff5b21b6),
-    900: Color(0xff4c1d95),
+  static const CarrotColor portage = CarrotColor(0xff9e77ed, {
+    25: CarrotSwatch(0xfffcfaff, _portage),
+    50: CarrotSwatch(0xfff9f5ff, _portage),
+    100: CarrotSwatch(0xfff4ebff, _portage),
+    200: CarrotSwatch(0xffe9d7fe, _portage),
+    300: CarrotSwatch(0xffd6bbfb, white),
+    400: CarrotSwatch(0xffb692f6, white),
+    500: CarrotSwatch(0xff9e77ed, white),
+    600: CarrotSwatch(0xff7f56d9, white),
+    700: CarrotSwatch(0xff6941c6, white),
+    800: CarrotSwatch(0xff53389e, white),
+    900: CarrotSwatch(0xff42307d, white),
   });
 
-  static const CarrotColor yellow = CarrotColor(0xffeab308, {
-    0: white,
-    50: Color(0xfffefce8),
-    100: Color(0xfffef9c3),
-    200: Color(0xfffef08a),
-    300: Color(0xfffde047),
-    400: Color(0xfffacc15),
-    500: Color(0xffeab308),
-    600: Color(0xffca8a04),
-    700: Color(0xffa16207),
-    800: Color(0xff854d0e),
-    900: Color(0xff713f12),
+  static const CarrotColor fuchsia = CarrotColor(0xffd444f1, {
+    25: CarrotSwatch(0xfffefaff, _fuchsia),
+    50: CarrotSwatch(0xfffdf4ff, _fuchsia),
+    100: CarrotSwatch(0xfffbe8ff, _fuchsia),
+    200: CarrotSwatch(0xfff6d0fe, _fuchsia),
+    300: CarrotSwatch(0xffeeaafd, white),
+    400: CarrotSwatch(0xffe478fa, white),
+    500: CarrotSwatch(0xffd444f1, white),
+    600: CarrotSwatch(0xffba24d5, white),
+    700: CarrotSwatch(0xff9f1ab1, white),
+    800: CarrotSwatch(0xff821890, white),
+    900: CarrotSwatch(0xff6f1877, white),
+  });
+
+  static const CarrotColor pink = CarrotColor(0xffee46bc, {
+    25: CarrotSwatch(0xfffef6fb, _pink),
+    50: CarrotSwatch(0xfffdf2fa, _pink),
+    100: CarrotSwatch(0xfffce7f6, _pink),
+    200: CarrotSwatch(0xfffcceee, _pink),
+    300: CarrotSwatch(0xfffaa7e0, white),
+    400: CarrotSwatch(0xfff670c7, white),
+    500: CarrotSwatch(0xffee46bc, white),
+    600: CarrotSwatch(0xffdd2590, white),
+    700: CarrotSwatch(0xffc11574, white),
+    800: CarrotSwatch(0xff9e165f, white),
+    900: CarrotSwatch(0xff851651, white),
+  });
+
+  static const CarrotColor rose = CarrotColor(0xfff63d68, {
+    25: CarrotSwatch(0xfffff5f6, _rose),
+    50: CarrotSwatch(0xfffff1f3, _rose),
+    100: CarrotSwatch(0xffffe4e8, _rose),
+    200: CarrotSwatch(0xfffecdd6, _rose),
+    300: CarrotSwatch(0xfffea3b4, white),
+    400: CarrotSwatch(0xfffd6f8e, white),
+    500: CarrotSwatch(0xfff63d68, white),
+    600: CarrotSwatch(0xffe31b54, white),
+    700: CarrotSwatch(0xffc01048, white),
+    800: CarrotSwatch(0xffa11043, white),
+    900: CarrotSwatch(0xff89123e, white),
+  });
+
+  static const CarrotColor red = CarrotColor(0xfff04438, {
+    25: CarrotSwatch(0xfffffbfa, _red),
+    50: CarrotSwatch(0xfffef3f2, _red),
+    100: CarrotSwatch(0xfffee4e2, _red),
+    200: CarrotSwatch(0xfffecdca, _red),
+    300: CarrotSwatch(0xfffda29b, white),
+    400: CarrotSwatch(0xfff97066, white),
+    500: CarrotSwatch(0xfff04438, white),
+    600: CarrotSwatch(0xffd92d20, white),
+    700: CarrotSwatch(0xffb42318, white),
+    800: CarrotSwatch(0xff912018, white),
+    900: CarrotSwatch(0xff7a271a, white),
+  });
+
+  static const CarrotColor orangeDark = CarrotColor(0xffff4405, {
+    25: CarrotSwatch(0xfffff9f5, _orangeDark),
+    50: CarrotSwatch(0xfffff4ed, _orangeDark),
+    100: CarrotSwatch(0xffffe6d5, _orangeDark),
+    200: CarrotSwatch(0xffffd6ae, _orangeDark),
+    300: CarrotSwatch(0xffff9c66, white),
+    400: CarrotSwatch(0xffff692e, white),
+    500: CarrotSwatch(0xffff4405, white),
+    600: CarrotSwatch(0xffe62e05, white),
+    700: CarrotSwatch(0xffbc1b06, white),
+    800: CarrotSwatch(0xff97180c, white),
+    900: CarrotSwatch(0xff771a0d, white),
+  });
+
+  static const CarrotColor orange = CarrotColor(0xffef6820, {
+    25: CarrotSwatch(0xfffefaf5, _orange),
+    50: CarrotSwatch(0xfffef6ee, _orange),
+    100: CarrotSwatch(0xfffdead7, _orange),
+    200: CarrotSwatch(0xfff9dbaf, _orange),
+    300: CarrotSwatch(0xfff7b27a, white),
+    400: CarrotSwatch(0xfff38744, white),
+    500: CarrotSwatch(0xffef6820, white),
+    600: CarrotSwatch(0xffe04f16, white),
+    700: CarrotSwatch(0xffb93815, white),
+    800: CarrotSwatch(0xff932f19, white),
+    900: CarrotSwatch(0xff772917, white),
+  });
+
+  static const CarrotColor amber = CarrotColor(0xfff79009, {
+    25: CarrotSwatch(0xfffffcf5, _amber),
+    50: CarrotSwatch(0xfffffaeb, _amber),
+    100: CarrotSwatch(0xfffef0c7, _amber),
+    200: CarrotSwatch(0xfffedf89, _amber),
+    300: CarrotSwatch(0xfffec84b, white),
+    400: CarrotSwatch(0xfffdb022, white),
+    500: CarrotSwatch(0xfff79009, white),
+    600: CarrotSwatch(0xffdc6803, white),
+    700: CarrotSwatch(0xffb54708, white),
+    800: CarrotSwatch(0xff93370d, white),
+    900: CarrotSwatch(0xff7a2e0e, white),
+  });
+
+  static const CarrotColor yellow = CarrotColor(0xffeaaa08, {
+    25: CarrotSwatch(0xfffefdf0, _yellow),
+    50: CarrotSwatch(0xfffefbe8, _yellow),
+    100: CarrotSwatch(0xfffef7c3, _yellow),
+    200: CarrotSwatch(0xfffeee95, _yellow),
+    300: CarrotSwatch(0xfffde272, white),
+    400: CarrotSwatch(0xfffac515, white),
+    500: CarrotSwatch(0xffeaaa08, white),
+    600: CarrotSwatch(0xffca8504, white),
+    700: CarrotSwatch(0xffa15c07, white),
+    800: CarrotSwatch(0xff854a0e, white),
+    900: CarrotSwatch(0xff713b12, white),
   });
 }

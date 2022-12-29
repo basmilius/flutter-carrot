@@ -36,7 +36,7 @@ class CarrotMenuDivider extends StatelessWidget {
       height: axis == Axis.horizontal ? thickness : null,
       width: axis == Axis.vertical ? thickness : null,
       margin: margin,
-      color: color ?? appTheme.gray[50],
+      color: color ?? appTheme.gray[100],
     );
   }
 }

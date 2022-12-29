@@ -25,7 +25,7 @@ class CarrotDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var background = backgroundColor ?? context.carrotTheme.gray[0];
+    var background = backgroundColor ?? context.carrotTheme.defaults.content;
 
     Widget contentSliver;
 

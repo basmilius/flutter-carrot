@@ -53,7 +53,7 @@ class CarrotAppBarThemeData {
     List<BoxShadow>? shadow,
   }) {
     backgroundColor ??= theme.primary[700];
-    foregroundColor ??= theme.primary[0];
+    foregroundColor ??= theme.primary[25];
     shadow ??= CarrotShadows.small;
 
     return CarrotAppBarThemeData.raw(
@@ -74,7 +74,7 @@ class CarrotAppBarThemeData {
     return CarrotAppBarThemeData(
       theme,
       backgroundColor: backgroundColor ?? theme.primary[900],
-      foregroundColor: foregroundColor ?? theme.primary[0],
+      foregroundColor: foregroundColor ?? theme.primary[25],
       border: border,
       shadow: shadow,
     );

@@ -8,7 +8,6 @@ import 'package:flutter/widgets.dart';
 import '../../animation/animation.dart';
 import '../../app/extensions/extensions.dart';
 import '../../theme/theme.dart';
-import '../../ui/ui.dart';
 import '../scroll/scroll.dart';
 import '../text_selection.dart';
 import 'form_field.dart';
@@ -298,7 +297,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
                       child: AnimatedOpacity(
                         curve: curve,
                         duration: duration,
-                        opacity: text.text.isEmpty ? 1 : .0,
+                        opacity: text.text.isEmpty ? 1 : 0,
                         child: Text(
                           widget.placeholder!,
                           overflow: TextOverflow.ellipsis,
@@ -448,7 +447,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
             autofillClient: this,
             autofillHints: widget.autofillHints,
             autofocus: widget.autofocus,
-            backgroundCursorColor: CarrotColors.pink,
+            backgroundCursorColor: formFieldTheme.cursorColor,
             controller: _effectiveController,
             cursorColor: formFieldTheme.cursorColor,
             cursorHeight: widget.cursorHeight,
@@ -472,7 +471,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
             paintCursorAboveText: true,
             readOnly: widget.readOnly,
             rendererIgnoresPointer: true,
-            restorationId: "editable",
+            restorationId: 'editable',
             scribbleEnabled: widget.scribbleEnabled,
             scrollController: widget.scrollController,
             scrollPadding: widget.scrollPadding,
@@ -492,6 +491,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
             textDirection: widget.textDirection,
             textHeightBehavior: context.carrotTypography.textHeightBehavior,
             textInputAction: widget.textInputAction,
+            textScaleFactor: 1.0,
             toolbarOptions: widget.toolbarOptions,
             onChanged: widget.onChanged,
             onEditingComplete: widget.onEditingComplete,

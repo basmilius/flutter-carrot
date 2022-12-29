@@ -60,7 +60,7 @@ Future<DateTime?> showCarrotDatePicker({
       ),
       footerBuilder: (context, _, __, ___) => DecoratedBox(
         decoration: BoxDecoration(
-          color: context.carrotTheme.gray[0],
+          color: context.carrotTheme.defaults.content,
         ),
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -382,7 +382,7 @@ class _CarrotDatePickerState extends State<CarrotDatePicker> {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: context.carrotTheme.gray[0],
+        color: context.carrotTheme.defaults.content,
       ),
       child: CarrotRow(
         gap: 3,
@@ -477,7 +477,8 @@ class _CarrotDatePickerDate extends StatelessWidget {
         ),
         child: DefaultTextStyle(
           style: appTheme.typography.body1.copyWith(
-            color: selected ? appTheme.primary[0] : null,
+            color: selected ? appTheme.primary.text : null,
+            fontWeight: FontWeight.w500,
           ),
           child: Align(
             alignment: Alignment.center,
@@ -499,7 +500,7 @@ class _CarrotDatePickerDate extends StatelessWidget {
           right: 0,
           bottom: 6,
           child: _CarrotDatePickerDateToday(
-            color: selected ? appTheme.primary[0] : null,
+            color: selected ? appTheme.primary.text : null,
           ),
         ),
       ],

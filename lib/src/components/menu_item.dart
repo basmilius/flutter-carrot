@@ -43,8 +43,8 @@ class CarrotMenuItem extends StatelessWidget {
     final localDuration = appTheme.isAnimating ? Duration.zero : duration;
 
     return CarrotBackgroundTap(
-      background: appTheme.gray[0],
-      backgroundTap: appTheme.gray[appTheme.resolve(50, 25)],
+      background: appTheme.defaults.content,
+      backgroundTap: appTheme.gray[50],
       duration: localDuration,
       onTap: onTap,
       child: Padding(

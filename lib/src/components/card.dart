@@ -60,7 +60,7 @@ class CarrotCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final carrotTheme = context.carrotTheme;
-    final backgroundColor = color ?? carrotTheme.gray[0];
+    final backgroundColor = color ?? carrotTheme.defaults.content;
 
     Border? border;
 

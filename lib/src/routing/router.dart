@@ -4,7 +4,6 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import '../components/overlay.dart';
-import '../components/scaffold.dart';
 import 'overlay.dart';
 
 class CarrotRouter extends GoRouter {
@@ -78,12 +77,6 @@ class CarrotRouter extends GoRouter {
   }
 
   static CarrotRouter of(BuildContext context) {
-    final scaffold = context.findAncestorWidgetOfExactType<CarrotScaffold>();
-
-    if (scaffold != null && scaffold.router != null) {
-      return scaffold.router!;
-    }
-
     return GoRouter.of(context) as CarrotRouter;
   }
 }

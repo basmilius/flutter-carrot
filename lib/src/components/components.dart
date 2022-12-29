@@ -41,5 +41,4 @@ export 'spacer.dart';
 export 'spinner.dart';
 export 'switch.dart';
 export 'tabs.dart';
-export 'tonal_color_preview.dart';
 export 'typography.dart';

@@ -107,7 +107,7 @@ class _CarrotDialogState extends State<CarrotDialog> {
       ),
       decoration: BoxDecoration(
         borderRadius: theme.borderRadius * 1.5,
-        color: theme.gray[0],
+        color: theme.defaults.content,
       ),
       child: DefaultTextStyle(
         style: theme.typography.body1,
@@ -227,7 +227,7 @@ class CarrotDialogButtons extends StatelessWidget {
           child: IgnorePointer(
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: theme.gray[0],
+                color: theme.defaults.content,
               ),
             ),
           ),
@@ -255,7 +255,7 @@ class CarrotDialogTitle extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: theme.gray[0],
+        color: theme.defaults.content,
       ),
       child: Padding(
         padding: _kDefaultDialogPadding.copyWith(

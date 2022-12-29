@@ -60,7 +60,7 @@ class _CarrotIconNav extends State<CarrotIconNav> {
       curve: widget.curve,
       decoration: BoxDecoration(
         boxShadow: widget.shadow,
-        color: widget.color ?? context.carrotTheme.gray[0],
+        color: widget.color ?? context.carrotTheme.defaults.content,
       ),
       duration: widget._getDuration(context),
       padding: EdgeInsets.only(

@@ -5,26 +5,6 @@ import '../ui/ui.dart';
 
 const _kDefaultAvatarSize = 60.0;
 
-const _swatches = [
-  CarrotColors.amber,
-  CarrotColors.blue,
-  CarrotColors.cyan,
-  CarrotColors.emerald,
-  CarrotColors.fuchsia,
-  CarrotColors.green,
-  CarrotColors.indigo,
-  CarrotColors.lime,
-  CarrotColors.orange,
-  CarrotColors.pink,
-  CarrotColors.purple,
-  CarrotColors.red,
-  CarrotColors.rose,
-  CarrotColors.sky,
-  CarrotColors.teal,
-  CarrotColors.violet,
-  CarrotColors.yellow,
-];
-
 class CarrotAvatar extends StatelessWidget {
   final BorderRadius? borderRadius;
   final ImageProvider<Object>? image;
@@ -62,7 +42,7 @@ class CarrotAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final swatch = _swatches[(letters ?? image ?? context.hashCode).hashCode % _swatches.length];
+    final swatch = CarrotColors.colorful[(letters ?? image ?? context.hashCode).hashCode];
 
     Widget media;
 

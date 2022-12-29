@@ -23,7 +23,7 @@ class CarrotSheetPane extends StatelessWidget {
           top: appTheme.radius * 2,
         ),
         boxShadow: CarrotShadows.xl,
-        color: appTheme.gray[0],
+        color: appTheme.defaults.content,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.vertical(
@@ -74,8 +74,8 @@ class _CarrotSheetPaneStack extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    appTheme.gray[0],
-                    appTheme.gray[0].withOpacity(0),
+                    appTheme.defaults.content,
+                    appTheme.defaults.content.withOpacity(0),
                   ],
                 ),
               ),

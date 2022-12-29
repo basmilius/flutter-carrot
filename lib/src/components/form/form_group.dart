@@ -5,6 +5,7 @@ import '../column.dart';
 import 'form_group_addition.dart';
 
 class CarrotFormGroup extends StatelessWidget {
+  final List<CarrotFormGroupAddition> additions;
   final Widget child;
   final Widget? error;
   final Widget? hint;
@@ -15,6 +16,7 @@ class CarrotFormGroup extends StatelessWidget {
     super.key,
     required this.child,
     required this.label,
+    this.additions = const [],
     this.error,
     this.hint,
     this.optional = false,
@@ -61,7 +63,7 @@ class CarrotFormGroup extends StatelessWidget {
         child,
         if (error != null)
           CarrotFormGroupAddition(
-            color: carrotTheme.error,
+            color: carrotTheme.defaults.error,
             icon: 'circle-exclamation',
             message: error!,
           ),
@@ -70,6 +72,7 @@ class CarrotFormGroup extends StatelessWidget {
             icon: 'circle-info',
             message: hint!,
           ),
+        ...additions,
       ],
     );
   }

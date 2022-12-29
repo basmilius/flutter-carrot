@@ -9,7 +9,7 @@ import 'button.dart';
 const double _toolbarHeight = 48.0;
 const double _toolbarContentDistance = 18.0;
 const double _toolbarScreenPadding = 12.0;
-const Size _toolbarArrowSize = Size(15.0, 6.0);
+const Size _toolbarArrowSize = Size(15.0, 7.0);
 
 typedef CarrotTextSelectionToolbarBuilder = Widget Function(BuildContext context, Offset anchor, bool isAbove, Widget child);
 
@@ -32,7 +32,7 @@ class CarrotTextSelectionToolbar extends StatelessWidget {
       anchor: anchor,
       isAbove: isAbove,
       child: DecoratedBox(
-        decoration: BoxDecoration(color: context.carrotTheme.gray[700]),
+        decoration: BoxDecoration(color: context.carrotTheme.primary[900]),
         child: child,
       ),
     );
@@ -88,18 +88,26 @@ class CarrotTextSelectionToolbarButton extends StatelessWidget {
     this.onPressed,
   }) : child = CarrotCustomButton(
           decoration: BoxDecoration(
-            color: context.carrotTheme.gray[900],
+            color: context.carrotTheme.primary[800],
           ),
           decorationTap: BoxDecoration(
-            color: context.carrotTheme.gray[800],
+            color: context.carrotTheme.primary[850],
           ),
           duration: const Duration(milliseconds: 240),
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 18,
+            vertical: 17,
+          ),
           onTap: onPressed,
           children: [
             Text(
               text,
               overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                inherit: true,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ],
         );
@@ -325,7 +333,7 @@ class _CarrotTextSelectionToolbarItemsElement extends RenderObjectElement {
       return;
     }
 
-    assert(false, "slot must be _CarrotTextSelectionToolbarItemsSlot or IndexedSlot");
+    assert(false, 'slot must be _CarrotTextSelectionToolbarItemsSlot or IndexedSlot');
   }
 
   @override
@@ -426,7 +434,7 @@ class _CarrotTextSelectionToolbarShape extends SingleChildRenderObjectWidget {
   _RenderCarrotTextSelectionToolbarShape createRenderObject(BuildContext context) => _RenderCarrotTextSelectionToolbarShape(
         _anchor,
         _isAbove,
-        context.carrotTheme.borderRadius.topLeft,
+        context.carrotTheme.radius * .75,
         null,
       );
 

@@ -73,7 +73,7 @@ class CarrotApp extends StatefulWidget {
 
 class _CarrotAppState extends State<CarrotApp> {
   Widget _appBuilder(BuildContext context) {
-    final platformBrightness = MediaQuery.of(context).platformBrightness;
+    final platformBrightness = MediaQuery.platformBrightnessOf(context);
     final effectiveTheme = platformBrightness == Brightness.light ? (widget.theme ?? CarrotThemeData.light()) : (widget.themeDark ?? CarrotThemeData.dark());
 
     return CarrotAnimatedTheme(
