@@ -62,6 +62,7 @@ class CarrotLinkButton extends _CarrotButton {
       iconAfterStyle: linkButtonTheme.iconAfterStyle,
       iconStyle: linkButtonTheme.iconStyle,
       padding: linkButtonTheme.padding,
+      tapScale: .985,
       textStyle: context.carrotTypography.base.copyWith(
         color: linkButtonTheme.color,
         fontSize: size == CarrotButtonSize.tiny ? 14 : null,

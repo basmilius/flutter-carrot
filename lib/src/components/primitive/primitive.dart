@@ -1,3 +1,4 @@
+export 'animated_clip_r_rect.dart';
 export 'background_tap.dart';
 export 'bounce_tap.dart';
 export 'bounce_tap_builder.dart';

@@ -38,10 +38,9 @@ class CarrotContainedButtonTheme extends InheritedTheme {
 class CarrotContainedButtonThemeData {
   final Color backgroundColor;
   final Color backgroundColorActive;
-  final Color borderColor;
-  final Color borderColorActive;
+  final Border border;
+  final Border borderActive;
   final BorderRadius borderRadius;
-  final double borderWidth;
   final Color color;
   final FontWeight fontWeight;
   final CarrotIconStyle iconAfterStyle;
@@ -49,30 +48,21 @@ class CarrotContainedButtonThemeData {
   final EdgeInsets? padding;
   final List<BoxShadow> shadow;
   final List<BoxShadow> shadowActive;
-
-  Border get border => Border.all(
-        color: borderColor,
-        width: borderWidth,
-      );
-
-  Border get borderActive => Border.all(
-        color: borderColorActive,
-        width: borderWidth,
-      );
+  final double tapScale;
 
   const CarrotContainedButtonThemeData.raw({
     required this.backgroundColor,
     required this.backgroundColorActive,
-    required this.borderColor,
-    required this.borderColorActive,
+    required this.border,
+    required this.borderActive,
     required this.borderRadius,
-    required this.borderWidth,
     required this.color,
     required this.fontWeight,
     required this.iconAfterStyle,
     required this.iconStyle,
     required this.shadow,
     required this.shadowActive,
+    required this.tapScale,
     this.padding,
   });
 
@@ -80,10 +70,9 @@ class CarrotContainedButtonThemeData {
     CarrotThemeDataBase theme, {
     Color? backgroundColor,
     Color? backgroundColorActive,
-    Color? borderColor,
-    Color? borderColorActive,
+    Border? border,
+    Border? borderActive,
     BorderRadius? borderRadius,
-    double? borderWidth,
     Color? color,
     FontWeight? fontWeight,
     CarrotIconStyle? iconAfterStyle,
@@ -91,27 +80,30 @@ class CarrotContainedButtonThemeData {
     EdgeInsets? padding,
     List<BoxShadow>? shadow,
     List<BoxShadow>? shadowActive,
+    double? tapScale,
   }) {
     backgroundColor ??= theme.primary[500];
     backgroundColorActive ??= theme.primary[600];
-    borderColor ??= theme.primary[600];
-    borderColorActive ??= theme.primary[700];
+    border ??= Border.all(
+      color: CarrotColors.transparent,
+      width: 1.0,
+    );
+    borderActive ??= border;
     borderRadius ??= theme.borderRadius;
-    borderWidth ??= 1.0;
     color ??= theme.primary.text;
     fontWeight ??= FontWeight.w600;
     iconAfterStyle ??= CarrotIconStyle.regular;
     iconStyle ??= CarrotIconStyle.regular;
     shadow ??= CarrotShadows.small;
-    shadowActive ??= CarrotShadows.small;
+    shadowActive ??= shadow;
+    tapScale ??= .985;
 
     return CarrotContainedButtonThemeData.raw(
       backgroundColor: backgroundColor,
       backgroundColorActive: backgroundColorActive,
-      borderColor: borderColor,
-      borderColorActive: borderColorActive,
+      border: border,
+      borderActive: borderActive,
       borderRadius: borderRadius,
-      borderWidth: borderWidth,
       color: color,
       fontWeight: fontWeight,
       iconAfterStyle: iconAfterStyle,
@@ -119,6 +111,7 @@ class CarrotContainedButtonThemeData {
       padding: padding,
       shadow: shadow,
       shadowActive: shadowActive,
+      tapScale: tapScale,
     );
   }
 
@@ -126,10 +119,9 @@ class CarrotContainedButtonThemeData {
     CarrotThemeDataBase theme, {
     Color? backgroundColor,
     Color? backgroundColorActive,
-    Color? borderColor,
-    Color? borderColorActive,
+    Border? border,
+    Border? borderActive,
     BorderRadius? borderRadius,
-    double? borderWidth,
     Color? color,
     FontWeight? fontWeight,
     CarrotIconStyle? iconAfterStyle,
@@ -137,15 +129,19 @@ class CarrotContainedButtonThemeData {
     EdgeInsets? padding,
     List<BoxShadow>? shadow,
     List<BoxShadow>? shadowActive,
+    double? tapScale,
   }) =>
       CarrotContainedButtonThemeData(
         theme,
         backgroundColor: backgroundColor ?? theme.primary[400],
         backgroundColorActive: backgroundColorActive ?? theme.primary[500],
-        borderColor: borderColor ?? theme.primary[500],
-        borderColorActive: borderColorActive ?? theme.primary[600],
+        border: border ??
+            Border.all(
+              color: theme.primary[500],
+              width: 1.0,
+            ),
+        borderActive: borderActive ?? border,
         borderRadius: borderRadius,
-        borderWidth: borderWidth,
         color: color ?? theme.primary[900],
         fontWeight: fontWeight,
         iconAfterStyle: iconAfterStyle,
@@ -153,16 +149,16 @@ class CarrotContainedButtonThemeData {
         padding: padding,
         shadow: shadow,
         shadowActive: shadowActive,
+        tapScale: tapScale,
       );
 
   factory CarrotContainedButtonThemeData.light(
     CarrotThemeDataBase theme, {
     Color? backgroundColor,
     Color? backgroundColorActive,
-    Color? borderColor,
-    Color? borderColorActive,
+    Border? border,
+    Border? borderActive,
     BorderRadius? borderRadius,
-    double? borderWidth,
     Color? color,
     FontWeight? fontWeight,
     CarrotIconStyle? iconAfterStyle,
@@ -170,15 +166,15 @@ class CarrotContainedButtonThemeData {
     EdgeInsets? padding,
     List<BoxShadow>? shadow,
     List<BoxShadow>? shadowActive,
+    double? tapScale,
   }) =>
       CarrotContainedButtonThemeData(
         theme,
         backgroundColor: backgroundColor,
         backgroundColorActive: backgroundColorActive,
-        borderColor: borderColor,
-        borderColorActive: borderColorActive,
+        border: border,
+        borderActive: borderActive,
         borderRadius: borderRadius,
-        borderWidth: borderWidth,
         color: color,
         fontWeight: fontWeight,
         iconAfterStyle: iconAfterStyle,
@@ -186,16 +182,16 @@ class CarrotContainedButtonThemeData {
         padding: padding,
         shadow: shadow,
         shadowActive: shadowActive,
+        tapScale: tapScale,
       );
 
   CarrotContainedButtonThemeData copyWith(
     CarrotThemeDataBase theme, {
     Color? backgroundColor,
     Color? backgroundColorActive,
-    Color? borderColor,
-    Color? borderColorActive,
+    Border? border,
+    Border? borderActive,
     BorderRadius? borderRadius,
-    double? borderWidth,
     Color? color,
     FontWeight? fontWeight,
     CarrotIconStyle? iconAfterStyle,
@@ -203,15 +199,15 @@ class CarrotContainedButtonThemeData {
     EdgeInsets? padding,
     List<BoxShadow>? shadow,
     List<BoxShadow>? shadowActive,
+    double? tapScale,
   }) =>
       CarrotContainedButtonThemeData(
         theme,
         backgroundColor: backgroundColor ?? this.backgroundColor,
         backgroundColorActive: backgroundColorActive ?? this.backgroundColorActive,
-        borderColor: borderColor ?? this.borderColor,
-        borderColorActive: borderColorActive ?? this.borderColorActive,
+        border: border ?? this.border,
+        borderActive: borderActive ?? this.borderActive,
         borderRadius: borderRadius ?? this.borderRadius,
-        borderWidth: borderWidth ?? this.borderWidth,
         color: color ?? this.color,
         fontWeight: fontWeight ?? this.fontWeight,
         iconAfterStyle: iconAfterStyle ?? this.iconAfterStyle,
@@ -219,16 +215,16 @@ class CarrotContainedButtonThemeData {
         padding: padding ?? this.padding,
         shadow: shadow ?? this.shadow,
         shadowActive: shadowActive ?? this.shadowActive,
+        tapScale: tapScale ?? this.tapScale,
       );
 
   static CarrotContainedButtonThemeData lerp(CarrotContainedButtonThemeData a, CarrotContainedButtonThemeData b, double t) {
     return CarrotContainedButtonThemeData.raw(
       backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t)!,
       backgroundColorActive: Color.lerp(a.backgroundColorActive, b.backgroundColorActive, t)!,
-      borderColor: Color.lerp(a.borderColor, b.borderColor, t)!,
-      borderColorActive: Color.lerp(a.borderColorActive, b.borderColorActive, t)!,
+      border: Border.lerp(a.border, b.border, t)!,
+      borderActive: Border.lerp(a.borderActive, b.borderActive, t)!,
       borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t)!,
-      borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t)!,
       color: Color.lerp(a.color, b.color, t)!,
       fontWeight: FontWeight.lerp(a.fontWeight, b.fontWeight, t)!,
       iconAfterStyle: t < .5 ? a.iconAfterStyle : b.iconAfterStyle,
@@ -236,6 +232,7 @@ class CarrotContainedButtonThemeData {
       padding: EdgeInsets.lerp(a.padding, b.padding, t),
       shadow: t < .5 ? a.shadow : b.shadow,
       shadowActive: t < .5 ? a.shadowActive : b.shadowActive,
+      tapScale: lerpDouble(a.tapScale, b.tapScale, t)!,
     );
   }
 }

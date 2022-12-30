@@ -62,6 +62,7 @@ class CarrotTextButton extends _CarrotButton {
       iconAfterStyle: textButtonTheme.iconAfterStyle,
       iconStyle: textButtonTheme.iconStyle,
       padding: textButtonTheme.padding,
+      tapScale: .985,
       textStyle: context.carrotTypography.base.copyWith(
         color: textButtonTheme.color,
         fontSize: size == CarrotButtonSize.tiny ? 14 : null,

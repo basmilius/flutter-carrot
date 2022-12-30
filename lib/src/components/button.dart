@@ -3,13 +3,17 @@ import 'package:flutter/widgets.dart';
 import '../animation/animation.dart';
 import '../app/extensions/extensions.dart';
 import '../theme/theme.dart';
+import '../utils/utils.dart';
 import 'icon.dart';
 import 'primitive/primitive.dart';
 import 'row.dart';
 
 part 'contained_button.dart';
+
 part 'custom_button.dart';
+
 part 'link_button.dart';
+
 part 'text_button.dart';
 
 enum CarrotButtonSize {
@@ -168,15 +172,20 @@ class _CarrotButtonState extends State<_CarrotButton> with SingleTickerProviderS
 
   @override
   Widget build(BuildContext context) {
+    final duration = context.carrotTheme.isAnimating ? Duration.zero : widget.duration;
+
     return RepaintBoundary(
       child: CarrotBounceTapBuilder(
+        curve: widget.curve,
+        duration: duration,
+        scale: _style.tapScale,
         onTap: widget.onTap,
         builder: (context, isTapDown) => Focus(
           canRequestFocus: _canTap,
           focusNode: widget.focusNode,
           child: AnimatedContainer(
             curve: widget.curve,
-            duration: context.carrotTheme.isAnimating ? Duration.zero : widget.duration,
+            duration: duration,
             decoration: isTapDown ? _style.decorationActive : _style.decoration,
             child: Padding(
               padding: _padding,
@@ -200,6 +209,7 @@ class _CarrotButtonStyle {
   final CarrotIconStyle iconAfterStyle;
   final CarrotIconStyle iconStyle;
   final EdgeInsets? padding;
+  final double tapScale;
   final TextStyle textStyle;
 
   const _CarrotButtonStyle({
@@ -208,6 +218,7 @@ class _CarrotButtonStyle {
     required this.iconAfterStyle,
     required this.iconStyle,
     required this.padding,
+    required this.tapScale,
     required this.textStyle,
   });
 }

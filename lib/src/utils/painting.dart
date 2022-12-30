@@ -1,7 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/animation.dart';
-
 class CarrotPaintingSweepGradient extends Gradient {
   final Offset center;
   final List<Color> colors;

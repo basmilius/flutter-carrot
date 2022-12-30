@@ -12,6 +12,7 @@ class CarrotNotice extends StatelessWidget {
   final bool isFluid;
   final Widget? icon;
   final Widget? message;
+  final EdgeInsets padding;
   final Widget? title;
 
   const CarrotNotice({
@@ -21,6 +22,10 @@ class CarrotNotice extends StatelessWidget {
     this.isFluid = false,
     this.icon,
     this.message,
+    this.padding = const EdgeInsets.symmetric(
+      horizontal: 18,
+      vertical: 15,
+    ),
     this.title,
   });
 
@@ -85,16 +90,13 @@ class CarrotNotice extends StatelessWidget {
       );
     }
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: radius,
         color: palette[noticeTheme.backgroundColorShade],
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 18,
-          vertical: 15,
-        ),
+        padding: padding,
         child: body,
       ),
     );
