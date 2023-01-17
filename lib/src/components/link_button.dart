@@ -44,31 +44,18 @@ class CarrotLinkButton extends _CarrotButton {
 
   @override
   _CarrotButtonStyle _getStyle(BuildContext context) {
+    final appTheme = context.carrotTheme;
     final linkButtonTheme = CarrotLinkButtonTheme.of(context);
 
     return _CarrotButtonStyle(
-      decoration: BoxDecoration(
-        border: linkButtonTheme.border,
-        borderRadius: linkButtonTheme.borderRadius,
-        boxShadow: linkButtonTheme.shadow,
-        color: linkButtonTheme.backgroundColor,
-      ),
-      decorationActive: BoxDecoration(
-        border: linkButtonTheme.borderActive,
-        borderRadius: linkButtonTheme.borderRadius,
-        boxShadow: linkButtonTheme.shadowActive,
-        color: linkButtonTheme.backgroundColorActive,
-      ),
-      iconAfterStyle: linkButtonTheme.iconAfterStyle,
-      iconStyle: linkButtonTheme.iconStyle,
+      decoration: linkButtonTheme.decoration,
+      decorationActive: linkButtonTheme.decorationActive,
+      iconAfterStyle: appTheme.defaults.iconStyle,
+      iconStyle: appTheme.defaults.iconStyle,
       padding: linkButtonTheme.padding,
-      tapScale: .985,
-      textStyle: context.carrotTypography.base.copyWith(
-        color: linkButtonTheme.color,
-        fontSize: size == CarrotButtonSize.tiny ? 14 : null,
-        fontWeight: linkButtonTheme.fontWeight,
-        height: 1.45,
-      ),
+      tapScale: linkButtonTheme.tapScale,
+      textStyle: _mergeTextStyle(context, linkButtonTheme.textStyle),
+      textStyleActive: _mergeTextStyle(context, linkButtonTheme.textStyleActive),
     );
   }
 }

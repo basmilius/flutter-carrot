@@ -2,10 +2,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../animation/animation.dart';
+import '../../ui/ui.dart';
 
 class CarrotBackgroundTap extends StatefulWidget {
   final Widget child;
-  final Color background;
+  final Color? background;
   final Color? backgroundTap;
   final Curve curve;
   final Duration duration;
@@ -17,7 +18,7 @@ class CarrotBackgroundTap extends StatefulWidget {
   const CarrotBackgroundTap({
     super.key,
     required this.child,
-    required this.background,
+    this.background = CarrotColors.transparent,
     this.backgroundTap,
     this.curve = CarrotCurves.swiftOutCurve,
     this.duration = const Duration(milliseconds: 90),

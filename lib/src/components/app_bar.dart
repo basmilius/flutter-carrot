@@ -3,9 +3,13 @@ import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
 import '../app/app.dart';
+import '../data/data.dart';
 import '../theme/theme.dart';
 
+import '../ui/ui.dart';
 import 'app_bar_buttons.dart';
+
+part 'app_bar_theme.dart';
 
 enum CarrotAppBarSystemOverlayStyle {
   auto,
@@ -24,7 +28,7 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? title;
 
   @override
-  Size get preferredSize => const Size.fromHeight(120.0);
+  Size get preferredSize => const Size.fromHeight(30.0);
 
   const CarrotAppBar({
     super.key,
@@ -44,7 +48,7 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     switch (systemOverlayStyle) {
       case CarrotAppBarSystemOverlayStyle.auto:
-        SystemChrome.setSystemUIOverlayStyle(isTransparent || appBarTheme.backgroundColor.isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark);
+        SystemChrome.setSystemUIOverlayStyle(isTransparent || appBarTheme.background == null || appBarTheme.background!.isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark);
         break;
 
       case CarrotAppBarSystemOverlayStyle.light:
@@ -62,17 +66,11 @@ class CarrotAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AnimatedContainer(
       curve: curve,
       duration: localDuration,
-      decoration: BoxDecoration(
-        border: isTransparent ? null : appBarTheme.border,
-        boxShadow: isTransparent ? null : appBarTheme.shadow,
-        color: isTransparent ? null : appBarTheme.backgroundColor,
-      ),
+      decoration: isTransparent ? const BoxDecoration() : appBarTheme.decoration,
       child: AnimatedDefaultTextStyle(
         curve: curve,
         duration: localDuration,
-        style: context.carrotTypography.body1.copyWith(
-          color: appBarTheme.foregroundColor,
-        ),
+        style: context.carrotTypography.body1.merge(appBarTheme.textStyle),
         child: _CarrotAppBarBody(
           after: after,
           before: before,

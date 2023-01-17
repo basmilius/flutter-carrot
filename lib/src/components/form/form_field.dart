@@ -1,7 +1,10 @@
 import 'package:flutter/widgets.dart';
 
 import '../../app/extensions/extensions.dart';
+import '../../data/data.dart';
 import '../../theme/theme.dart';
+
+part 'form_field_theme.dart';
 
 class CarrotFormField extends StatelessWidget {
   final Widget child;
@@ -41,7 +44,7 @@ class CarrotFormField extends StatelessWidget {
               decoration: BoxDecoration(
                 border: formFieldTheme.border,
                 borderRadius: appTheme.borderRadius,
-                color: formFieldTheme.backgroundColor,
+                color: formFieldTheme.background,
               ),
               padding: padding,
               child: child,

@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 
+import '../app/extensions/extensions.dart';
+
 enum CarrotIconStyle {
   brand,
   duotone,
@@ -14,9 +16,20 @@ class CarrotIcon extends StatelessWidget {
   final String glyph;
   final String? semanticsLabel;
   final double? size;
-  final CarrotIconStyle style;
+  final CarrotIconStyle? style;
 
-  String get fontFamily {
+  const CarrotIcon({
+    super.key,
+    required this.glyph,
+    this.color,
+    this.semanticsLabel,
+    this.size,
+    this.style,
+  });
+
+  String _fontFamily(CarrotIconStyle style) {
+    style = this.style ?? style;
+
     switch (style) {
       case CarrotIconStyle.brand:
         return "font_awesome_brands";
@@ -29,7 +42,9 @@ class CarrotIcon extends StatelessWidget {
     }
   }
 
-  FontWeight get fontWeight {
+  FontWeight _fontWeight(CarrotIconStyle style) {
+    style = this.style ?? style;
+
     switch (style) {
       case CarrotIconStyle.duotone:
         return FontWeight.w900;
@@ -48,17 +63,9 @@ class CarrotIcon extends StatelessWidget {
     }
   }
 
-  const CarrotIcon({
-    super.key,
-    required this.glyph,
-    this.color,
-    this.semanticsLabel,
-    this.size,
-    this.style = CarrotIconStyle.regular,
-  });
-
   @override
   Widget build(BuildContext context) {
+    final appTheme = context.carrotTheme;
     final dts = DefaultTextStyle.of(context).style;
     final stableSize = size ?? dts.fontSize ?? 20.0;
 
@@ -80,9 +87,9 @@ class CarrotIcon extends StatelessWidget {
               textScaleFactor: .8,
               style: TextStyle(
                 color: color,
-                fontFamily: fontFamily,
+                fontFamily: _fontFamily(appTheme.defaults.iconStyle),
                 fontSize: stableSize,
-                fontWeight: fontWeight,
+                fontWeight: _fontWeight(appTheme.defaults.iconStyle),
                 height: 1,
                 overflow: TextOverflow.visible,
               ),

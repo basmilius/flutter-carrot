@@ -34,6 +34,7 @@ class CarrotCustomButton extends _CarrotButton {
       padding: padding,
       tapScale: .985,
       textStyle: context.carrotTypography.base,
+      textStyleActive: context.carrotTypography.base,
     );
   }
 }

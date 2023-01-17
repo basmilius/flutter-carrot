@@ -1,14 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
+import '../components/components.dart';
 import '../ui/ui.dart';
-import 'app_bar_theme.dart';
-import 'contained_button_theme.dart';
-import 'form_field_theme.dart';
-import 'link_button_theme.dart';
-import 'notice_theme.dart';
-import 'switch_theme.dart';
-import 'text_button_theme.dart';
 import 'typography.dart';
 
 class CarrotTheme extends StatelessWidget {
@@ -57,6 +51,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
   final bool isAnimating;
   final CarrotAppBarThemeData appBarTheme;
   final CarrotContainedButtonThemeData containedButtonTheme;
+  final CarrotContainerThemeData containerTheme;
   final CarrotFormFieldThemeData formFieldTheme;
   final CarrotLinkButtonThemeData linkButtonTheme;
   final CarrotNoticeThemeData noticeTheme;
@@ -74,6 +69,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     required super.secondary,
     required this.appBarTheme,
     required this.containedButtonTheme,
+    required this.containerTheme,
     required this.formFieldTheme,
     required this.linkButtonTheme,
     required this.noticeTheme,
@@ -93,6 +89,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotColor secondary = CarrotColors.cyan,
     CarrotAppBarThemeData? appBarTheme,
     CarrotContainedButtonThemeData? containedButtonTheme,
+    CarrotContainerThemeData? containerTheme,
     CarrotFormFieldThemeData? formFieldTheme,
     CarrotLinkButtonThemeData? linkButtonTheme,
     CarrotNoticeThemeData? noticeTheme,
@@ -119,6 +116,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
 
     appBarTheme ??= base.isLight ? CarrotAppBarThemeData.light(base) : CarrotAppBarThemeData.dark(base);
     containedButtonTheme ??= base.isLight ? CarrotContainedButtonThemeData.light(base) : CarrotContainedButtonThemeData.dark(base);
+    containerTheme ??= base.isLight ? CarrotContainerThemeData.light(base) : CarrotContainerThemeData.dark(base);
     formFieldTheme ??= base.isLight ? CarrotFormFieldThemeData.light(base) : CarrotFormFieldThemeData.dark(base);
     linkButtonTheme ??= base.isLight ? CarrotLinkButtonThemeData.light(base) : CarrotLinkButtonThemeData.dark(base);
     noticeTheme ??= base.isLight ? CarrotNoticeThemeData.light(base) : CarrotNoticeThemeData.dark(base);
@@ -136,6 +134,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       secondary: base.secondary,
       appBarTheme: appBarTheme,
       containedButtonTheme: containedButtonTheme,
+      containerTheme: containerTheme,
       formFieldTheme: formFieldTheme,
       linkButtonTheme: linkButtonTheme,
       noticeTheme: noticeTheme,
@@ -154,6 +153,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotColor secondary = CarrotColors.cyan,
     CarrotAppBarThemeData? appBarTheme,
     CarrotContainedButtonThemeData? containedButtonTheme,
+    CarrotContainerThemeData? containerTheme,
     CarrotFormFieldThemeData? formFieldTheme,
     CarrotLinkButtonThemeData? linkButtonTheme,
     CarrotNoticeThemeData? noticeTheme,
@@ -171,6 +171,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
         secondary: secondary,
         appBarTheme: appBarTheme,
         containedButtonTheme: containedButtonTheme,
+        containerTheme: containerTheme,
         formFieldTheme: formFieldTheme,
         linkButtonTheme: linkButtonTheme,
         noticeTheme: noticeTheme,
@@ -188,6 +189,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotColor secondary = CarrotColors.cyan,
     CarrotAppBarThemeData? appBarTheme,
     CarrotContainedButtonThemeData? containedButtonTheme,
+    CarrotContainerThemeData? containerTheme,
     CarrotFormFieldThemeData? formFieldTheme,
     CarrotLinkButtonThemeData? linkButtonTheme,
     CarrotNoticeThemeData? noticeTheme,
@@ -205,6 +207,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
         secondary: secondary,
         appBarTheme: appBarTheme,
         containedButtonTheme: containedButtonTheme,
+        containerTheme: containerTheme,
         formFieldTheme: formFieldTheme,
         linkButtonTheme: linkButtonTheme,
         noticeTheme: noticeTheme,
@@ -233,6 +236,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotColor? secondary,
     CarrotAppBarThemeData? appBarTheme,
     CarrotContainedButtonThemeData? containedButtonTheme,
+    CarrotContainerThemeData? containerTheme,
     CarrotFormFieldThemeData? formFieldTheme,
     CarrotLinkButtonThemeData? linkButtonTheme,
     CarrotNoticeThemeData? noticeTheme,
@@ -250,6 +254,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
         secondary: secondary ?? this.secondary,
         appBarTheme: appBarTheme ?? this.appBarTheme,
         containedButtonTheme: containedButtonTheme ?? this.containedButtonTheme,
+        containerTheme: containerTheme ?? this.containerTheme,
         formFieldTheme: formFieldTheme ?? this.formFieldTheme,
         linkButtonTheme: linkButtonTheme ?? this.linkButtonTheme,
         noticeTheme: noticeTheme ?? this.noticeTheme,
@@ -272,6 +277,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       secondary: base.secondary,
       appBarTheme: CarrotAppBarThemeData.lerp(a.appBarTheme, b.appBarTheme, t),
       containedButtonTheme: CarrotContainedButtonThemeData.lerp(a.containedButtonTheme, b.containedButtonTheme, t),
+      containerTheme: CarrotContainerThemeData.lerp(a.containerTheme, b.containerTheme, t),
       formFieldTheme: CarrotFormFieldThemeData.lerp(a.formFieldTheme, b.formFieldTheme, t),
       linkButtonTheme: CarrotLinkButtonThemeData.lerp(a.linkButtonTheme, b.linkButtonTheme, t),
       noticeTheme: CarrotNoticeThemeData.lerp(a.noticeTheme, b.noticeTheme, t),
@@ -328,6 +334,7 @@ class CarrotThemeDataDefaults {
   final Color background;
   final Color content;
   final CarrotColor error;
+  final CarrotIconStyle iconStyle;
   final CarrotColor info;
   final CarrotColor success;
   final CarrotColor warning;
@@ -337,6 +344,7 @@ class CarrotThemeDataDefaults {
     required this.background,
     required this.content,
     required this.error,
+    required this.iconStyle,
     required this.info,
     required this.success,
     required this.warning,
@@ -348,6 +356,7 @@ class CarrotThemeDataDefaults {
     Color? background,
     Color? content,
     CarrotColor? error,
+    CarrotIconStyle? iconStyle,
     CarrotColor? info,
     CarrotColor? success,
     CarrotColor? warning,
@@ -357,6 +366,7 @@ class CarrotThemeDataDefaults {
         background: background ?? gray[25],
         content: content ?? CarrotColors.black,
         error: error ?? CarrotColors.rose,
+        iconStyle: iconStyle ?? CarrotIconStyle.regular,
         info: info ?? CarrotColors.blue,
         success: success ?? CarrotColors.emerald,
         warning: warning ?? CarrotColors.amber,
@@ -367,16 +377,18 @@ class CarrotThemeDataDefaults {
     CarrotColor gray, {
     Color? background,
     Color? content,
-        CarrotColor? error,
-        CarrotColor? info,
-        CarrotColor? success,
-        CarrotColor? warning,
+    CarrotColor? error,
+    CarrotIconStyle? iconStyle,
+    CarrotColor? info,
+    CarrotColor? success,
+    CarrotColor? warning,
     Color? scrim,
   }) =>
       CarrotThemeDataDefaults.raw(
         background: background ?? gray[25],
         content: content ?? CarrotColors.white,
         error: error ?? CarrotColors.rose,
+        iconStyle: iconStyle ?? CarrotIconStyle.regular,
         info: info ?? CarrotColors.blue,
         success: success ?? CarrotColors.emerald,
         warning: warning ?? CarrotColors.amber,
@@ -388,6 +400,7 @@ class CarrotThemeDataDefaults {
       background: Color.lerp(a.background, b.background, t)!,
       content: Color.lerp(a.content, b.content, t)!,
       error: CarrotColor.lerp(a.error, b.error, t),
+      iconStyle: t < .5 ? a.iconStyle : b.iconStyle,
       info: CarrotColor.lerp(a.info, b.info, t),
       success: CarrotColor.lerp(a.success, b.success, t),
       warning: CarrotColor.lerp(a.warning, b.warning, t),

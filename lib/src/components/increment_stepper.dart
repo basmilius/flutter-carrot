@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 
 import '../app/extensions/extensions.dart';
 import '../data/data.dart';
-import '../theme/theme.dart';
 import '../ui/ui.dart';
 import 'form/form.dart';
 import 'icon.dart';
@@ -260,15 +259,14 @@ class _CarrotIncrementStepperValue extends StatelessWidget {
       width: 39,
       child: CarrotFormFieldTheme(
         data: carrotTheme.formFieldTheme.copyWith(
-          carrotTheme,
-          backgroundColor: CarrotColors.transparent,
-          padding: EdgeInsets.zero,
-          textStyle: carrotTheme.typography.headline5.copyWith(
+          background: const CarrotOptional.of(CarrotColors.transparent),
+          padding: const CarrotOptional.of(EdgeInsets.zero),
+          textStyle: CarrotOptional.of(carrotTheme.typography.headline5.copyWith(
             fontFeatures: const [
               FontFeature.tabularFigures(),
             ],
             height: 1,
-          ),
+          )),
         ),
         child: CarrotTextField(
           controller: controller,

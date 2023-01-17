@@ -2,7 +2,11 @@ import 'package:flutter/painting.dart';
 
 /// Checks whether the given [border] has at least one
 /// side that has a positive width.
-bool hasPositiveBorder(Border border) {
+bool hasPositiveBorder(Border? border) {
+  if (border == null) {
+    return false;
+  }
+
   if (border.isUniform && border.top.width > 0) {
     return true;
   }

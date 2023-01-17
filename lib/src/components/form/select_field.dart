@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 
 import '../../app/extensions/extensions.dart';
 import '../../data/data.dart';
-import '../../theme/theme.dart';
 import '../../ui/ui.dart';
 import '../icon.dart';
 import '../nothing.dart';
@@ -35,8 +34,8 @@ class CarrotSelectFieldOption<T> extends CarrotSelectFieldEntry<T> {
     assert(selectField != null);
 
     return CarrotBackgroundTap(
-      background: formFieldTheme.backgroundColor.withOpacity(.0),
-      backgroundTap: formFieldTheme.backgroundColor,
+      background: formFieldTheme.background?.withOpacity(.0),
+      backgroundTap: formFieldTheme.background,
       onTap: () => selectField?.state._setValue(value),
       child: Container(
         alignment: Alignment.centerLeft,

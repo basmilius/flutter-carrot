@@ -1,10 +1,15 @@
 import 'dart:math' as math;
+import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
 import '../app/extensions/extensions.dart';
+import '../data/data.dart';
 import '../theme/theme.dart';
+import '../ui/ui.dart';
+
+part 'switch_theme.dart';
 
 typedef CarrotSwitchChangedCallback = void Function(bool);
 
@@ -82,31 +87,34 @@ class _CarrotSwitchState extends State<CarrotSwitch> {
       onPanUpdate: _onPanUpdate,
       onTap: () => widget.onChanged(!widget.value),
       behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        curve: _kCurve,
-        duration: animationDuration,
-        decoration: BoxDecoration(
-          borderRadius: switchTheme.borderRadius,
-          color: widget.value ? switchTheme.backgroundColorActive : switchTheme.backgroundColor,
-        ),
-        child: SizedBox.fromSize(
-          size: switchTheme.size,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              AnimatedPositioned(
-                curve: _kCurve,
-                duration: animationDuration,
-                top: switchTheme.toggleMargin,
-                left: switchTheme.toggleMargin + _toggleX,
-                height: _toggleSize,
-                width: _toggleSize,
-                child: _Toggle(
-                  isActive: widget.value,
-                  isPressed: _isPressed,
+      child: Align(
+        alignment: Alignment.center,
+        child: AnimatedContainer(
+          curve: _kCurve,
+          duration: animationDuration,
+          decoration: BoxDecoration(
+            borderRadius: switchTheme.borderRadius,
+            color: widget.value ? switchTheme.backgroundActive : switchTheme.background,
+          ),
+          child: SizedBox.fromSize(
+            size: switchTheme.size,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                AnimatedPositioned(
+                  curve: _kCurve,
+                  duration: animationDuration,
+                  top: switchTheme.toggleMargin,
+                  left: switchTheme.toggleMargin + _toggleX,
+                  height: _toggleSize,
+                  width: _toggleSize,
+                  child: _Toggle(
+                    isActive: widget.value,
+                    isPressed: _isPressed,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -135,7 +143,7 @@ class _Toggle extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: switchTheme.toggleBorderRadius,
         boxShadow: isPressed ? switchTheme.toggleShadowPressed : switchTheme.toggleShadow,
-        color: isActive ? switchTheme.toggleColorActive : switchTheme.toggleColor,
+        color: isActive ? switchTheme.toggleActive : switchTheme.toggle,
       ),
     );
   }

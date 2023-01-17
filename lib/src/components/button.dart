@@ -1,20 +1,29 @@
+import 'dart:ui';
+
 import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
 import '../app/extensions/extensions.dart';
+import '../data/data.dart';
 import '../theme/theme.dart';
-import '../utils/utils.dart';
+import '../ui/ui.dart';
 import 'icon.dart';
 import 'primitive/primitive.dart';
 import 'row.dart';
 
 part 'contained_button.dart';
 
+part 'contained_button_theme.dart';
+
 part 'custom_button.dart';
 
 part 'link_button.dart';
 
+part 'link_button_theme.dart';
+
 part 'text_button.dart';
+
+part 'text_button_theme.dart';
 
 enum CarrotButtonSize {
   tiny,
@@ -73,6 +82,26 @@ abstract class _CarrotButton extends StatefulWidget {
 
   @protected
   _CarrotButtonStyle _getStyle(BuildContext context);
+
+  @protected
+  TextStyle _mergeTextStyle(
+    BuildContext context, [
+    TextStyle? other,
+  ]) {
+    TextStyle style = context.carrotTypography.base;
+
+    if (size == CarrotButtonSize.tiny) {
+      style = style.copyWith(
+        fontSize: 14,
+      );
+    }
+
+    if (other != null) {
+      style = style.merge(other);
+    }
+
+    return style;
+  }
 
   @override
   createState() => _CarrotButtonState();
@@ -211,6 +240,7 @@ class _CarrotButtonStyle {
   final EdgeInsets? padding;
   final double tapScale;
   final TextStyle textStyle;
+  final TextStyle textStyleActive;
 
   const _CarrotButtonStyle({
     required this.decoration,
@@ -220,5 +250,6 @@ class _CarrotButtonStyle {
     required this.padding,
     required this.tapScale,
     required this.textStyle,
+    required this.textStyleActive,
   });
 }

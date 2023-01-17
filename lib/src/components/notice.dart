@@ -1,14 +1,21 @@
+import 'dart:ui';
+
 import 'package:flutter/widgets.dart';
 
 import '../app/app.dart';
+import '../data/data.dart';
 import '../theme/theme.dart';
 import '../ui/ui.dart';
 import 'column.dart';
+import 'container.dart';
 import 'row.dart';
+
+part 'notice_theme.dart';
 
 class CarrotNotice extends StatelessWidget {
   final Widget? child;
   final CarrotColor? color;
+  final bool isContainer;
   final bool isFluid;
   final Widget? icon;
   final Widget? message;
@@ -19,6 +26,7 @@ class CarrotNotice extends StatelessWidget {
     super.key,
     this.color,
     this.child,
+    this.isContainer = false,
     this.isFluid = false,
     this.icon,
     this.message,
@@ -45,7 +53,7 @@ class CarrotNotice extends StatelessWidget {
         if (title != null) ...[
           DefaultTextStyle(
             style: appTheme.typography.headline6.copyWith(
-              color: palette[noticeTheme.titleColorShade],
+              color: palette[noticeTheme.titleShade],
               height: 1.2,
             ),
             child: title!,
@@ -54,7 +62,7 @@ class CarrotNotice extends StatelessWidget {
         if (message != null) ...[
           DefaultTextStyle(
             style: appTheme.typography.body1.copyWith(
-              color: palette[noticeTheme.foregroundColorShade],
+              color: palette[noticeTheme.foregroundShade],
               fontSize: 15,
               height: 1.2,
             ),
@@ -77,7 +85,7 @@ class CarrotNotice extends StatelessWidget {
         children: [
           DefaultTextStyle(
             style: appTheme.typography.body1.copyWith(
-              color: palette[noticeTheme.iconColorShade],
+              color: palette[noticeTheme.iconShade],
               fontSize: 20,
               height: 1.4,
             ),
@@ -90,10 +98,16 @@ class CarrotNotice extends StatelessWidget {
       );
     }
 
+    if (isContainer) {
+      body = CarrotContainer(
+        child: body,
+      );
+    }
+
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: radius,
-        color: palette[noticeTheme.backgroundColorShade],
+        color: palette[noticeTheme.backgroundShade],
       ),
       child: Padding(
         padding: padding,

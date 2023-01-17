@@ -7,7 +7,6 @@ import 'package:flutter/widgets.dart';
 
 import '../../animation/animation.dart';
 import '../../app/extensions/extensions.dart';
-import '../../theme/theme.dart';
 import '../scroll/scroll.dart';
 import '../text_selection.dart';
 import 'form_field.dart';
@@ -443,13 +442,13 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
           child: EditableText(
             key: editableTextKey,
             autocorrect: widget.autocorrect,
-            autocorrectionTextRectColor: formFieldTheme.selectionColor,
+            autocorrectionTextRectColor: formFieldTheme.selection,
             autofillClient: this,
             autofillHints: widget.autofillHints,
             autofocus: widget.autofocus,
-            backgroundCursorColor: formFieldTheme.cursorColor,
+            backgroundCursorColor: formFieldTheme.cursor,
             controller: _effectiveController,
-            cursorColor: formFieldTheme.cursorColor,
+            cursorColor: formFieldTheme.cursor,
             cursorHeight: widget.cursorHeight,
             cursorOffset: Offset(_horizontalCursorOffsetPixels / mediaQuery.devicePixelRatio, 0),
             cursorOpacityAnimates: true,
@@ -476,7 +475,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
             scrollController: widget.scrollController,
             scrollPadding: widget.scrollPadding,
             scrollPhysics: widget.scrollPhysics,
-            selectionColor: _effectiveFocusNode.hasFocus ? formFieldTheme.selectionColor : null,
+            selectionColor: _effectiveFocusNode.hasFocus ? formFieldTheme.selection : null,
             selectionControls: widget.enableInteractiveSelection ? textSelectionControls : null,
             selectionHeightStyle: widget.selectionHeightStyle,
             selectionWidthStyle: widget.selectionWidthStyle,

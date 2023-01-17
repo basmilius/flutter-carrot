@@ -44,34 +44,18 @@ class CarrotContainedButton extends _CarrotButton {
 
   @override
   _CarrotButtonStyle _getStyle(BuildContext context) {
+    final appTheme = context.carrotTheme;
     final containedButtonTheme = CarrotContainedButtonTheme.of(context);
-    final border = hasPositiveBorder(containedButtonTheme.border) ? containedButtonTheme.border : null;
-    final borderActive = hasPositiveBorder(containedButtonTheme.borderActive) ? containedButtonTheme.borderActive : null;
-    final borderRadius = containedButtonTheme.borderRadius == BorderRadius.zero ? null : containedButtonTheme.borderRadius;
 
     return _CarrotButtonStyle(
-      decoration: BoxDecoration(
-        border: border,
-        borderRadius: borderRadius,
-        boxShadow: containedButtonTheme.shadow,
-        color: containedButtonTheme.backgroundColor,
-      ),
-      decorationActive: BoxDecoration(
-        border: borderActive,
-        borderRadius: borderRadius,
-        boxShadow: containedButtonTheme.shadowActive,
-        color: containedButtonTheme.backgroundColorActive,
-      ),
-      iconAfterStyle: containedButtonTheme.iconAfterStyle,
-      iconStyle: containedButtonTheme.iconStyle,
+      decoration: containedButtonTheme.decoration,
+      decorationActive: containedButtonTheme.decorationActive,
+      iconAfterStyle: appTheme.defaults.iconStyle,
+      iconStyle: appTheme.defaults.iconStyle,
       padding: containedButtonTheme.padding,
       tapScale: containedButtonTheme.tapScale,
-      textStyle: context.carrotTypography.base.copyWith(
-        color: containedButtonTheme.color,
-        fontSize: size == CarrotButtonSize.tiny ? 14 : null,
-        fontWeight: containedButtonTheme.fontWeight,
-        height: 1.45,
-      ),
+      textStyle: _mergeTextStyle(context, containedButtonTheme.textStyle),
+      textStyleActive: _mergeTextStyle(context, containedButtonTheme.textStyleActive),
     );
   }
 }

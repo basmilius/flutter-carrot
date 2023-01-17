@@ -44,31 +44,18 @@ class CarrotTextButton extends _CarrotButton {
 
   @override
   _CarrotButtonStyle _getStyle(BuildContext context) {
+    final appTheme = context.carrotTheme;
     final textButtonTheme = CarrotTextButtonTheme.of(context);
 
     return _CarrotButtonStyle(
-      decoration: BoxDecoration(
-        border: textButtonTheme.border,
-        borderRadius: textButtonTheme.borderRadius,
-        boxShadow: textButtonTheme.shadow,
-        color: textButtonTheme.backgroundColor,
-      ),
-      decorationActive: BoxDecoration(
-        border: textButtonTheme.borderActive,
-        borderRadius: textButtonTheme.borderRadius,
-        boxShadow: textButtonTheme.shadowActive,
-        color: textButtonTheme.backgroundColorActive,
-      ),
-      iconAfterStyle: textButtonTheme.iconAfterStyle,
-      iconStyle: textButtonTheme.iconStyle,
+      decoration: textButtonTheme.decoration,
+      decorationActive: textButtonTheme.decorationActive,
+      iconAfterStyle: appTheme.defaults.iconStyle,
+      iconStyle: appTheme.defaults.iconStyle,
       padding: textButtonTheme.padding,
-      tapScale: .985,
-      textStyle: context.carrotTypography.base.copyWith(
-        color: textButtonTheme.color,
-        fontSize: size == CarrotButtonSize.tiny ? 14 : null,
-        fontWeight: textButtonTheme.fontWeight,
-        height: 1.45,
-      ),
+      tapScale: textButtonTheme.tapScale,
+      textStyle: _mergeTextStyle(context, textButtonTheme.textStyle),
+      textStyleActive: _mergeTextStyle(context, textButtonTheme.textStyleActive),
     );
   }
 }
