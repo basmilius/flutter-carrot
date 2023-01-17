@@ -7,6 +7,7 @@ export 'body_safe_area.dart';
 export 'button.dart';
 export 'card.dart';
 export 'card_content.dart';
+export 'chart/chart.dart';
 export 'column.dart';
 export 'container.dart';
 export 'dialog.dart';

@@ -1,4 +1,27 @@
+import 'dart:math' as math;
 import 'dart:ui';
+
+extension CarrotCanvasExtension on Canvas {
+  void drawDashedLine(Offset p1, Offset p2, double width, double gutter, Paint paint) {
+    final delta = p2 - p1;
+    final angle = math.atan2(delta.dy, delta.dx);
+    final length = math.sqrt(math.pow(delta.dx, 2) + math.pow(delta.dy, 2));
+
+    double drawnLength = .0;
+    final cos = math.cos(angle);
+    final sin = math.sin(angle);
+
+    while ((drawnLength + width) < length) {
+      drawLine(
+        Offset(p1.dx + cos * drawnLength, p1.dy + sin * drawnLength),
+        Offset(p1.dx + cos * (drawnLength + width), p1.dy + sin * (drawnLength + width)),
+        paint,
+      );
+
+      drawnLength += width + gutter;
+    }
+  }
+}
 
 class CarrotPaintingSweepGradient extends Gradient {
   final Offset center;
