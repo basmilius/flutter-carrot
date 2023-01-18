@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../../data/data.dart';
-import '../../theme/theme.dart';
 import '../icon.dart';
 import '../primitive/primitive.dart';
 import '../row.dart';
