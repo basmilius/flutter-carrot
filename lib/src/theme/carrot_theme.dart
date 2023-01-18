@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
-import '../components/components.dart';
+import '../component/component.dart';
 import '../ui/ui.dart';
 import 'typography.dart';
 

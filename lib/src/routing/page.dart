@@ -6,7 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
-import '../app/extensions/extensions.dart';
+import '../extension/extension.dart';
 
 const double _kBackGestureWidth = 20.0;
 const double _kMinFlingVelocity = 1.0;

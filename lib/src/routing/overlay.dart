@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../components/overlay.dart';
+import '../component/overlay.dart';
 
 const _kAnimationDuration = Duration(milliseconds: 540);
 
