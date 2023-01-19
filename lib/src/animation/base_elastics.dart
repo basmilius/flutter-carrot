@@ -1,6 +1,4 @@
-import 'package:flutter/widgets.dart';
-
-import 'base_fades.dart' show FadeInBuilder, FadeInOffsetBuilder;
+part of 'base.dart';
 
 class ElasticInBuilder extends FadeInBuilder {
   late Animation<double> _scale;

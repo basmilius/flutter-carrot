@@ -2,11 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
-import 'base_bounces.dart';
-import 'base_elastics.dart';
-import 'base_fades.dart';
-import 'base_flips.dart';
 import 'curve.dart';
+
+part 'base_bounces.dart';
+
+part 'base_elastics.dart';
+
+part 'base_fades.dart';
+
+part 'base_flips.dart';
 
 typedef CarrotBasicAnimationControllerBuilder = void Function(AnimationController);
 typedef CarrotBasicAnimationCreatorBuilder = CarrotBasicAnimationBuilder Function();

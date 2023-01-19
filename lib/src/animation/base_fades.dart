@@ -1,6 +1,4 @@
-import 'package:flutter/widgets.dart';
-
-import 'base.dart' show CarrotBasicAnimationBuilder;
+part of 'base.dart';
 
 class FadeInBuilder extends CarrotBasicAnimationBuilder {
   late Animation<double> _opacity;

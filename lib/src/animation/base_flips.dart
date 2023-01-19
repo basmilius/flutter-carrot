@@ -1,6 +1,4 @@
-import 'package:flutter/widgets.dart';
-
-import 'base_fades.dart' show FadeInBuilder;
+part of 'base.dart';
 
 abstract class _FlipInBuilder extends FadeInBuilder {
   late Animation<double> rotation;
