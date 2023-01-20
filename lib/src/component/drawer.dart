@@ -88,13 +88,11 @@ class CarrotDrawer extends StatelessWidget {
 class CarrotDrawerMenu extends StatelessWidget {
   final int activeIndex;
   final List<CarotDrawerMenuObject> items;
-  final CarrotDrawerMenuItemTap onTap;
 
   const CarrotDrawerMenu({
     super.key,
     this.activeIndex = 0,
     required this.items,
-    required this.onTap,
   });
 
   @override
@@ -104,9 +102,6 @@ class CarrotDrawerMenu extends StatelessWidget {
         (context, index) => items[index] is CarrotDrawerMenuItem
             ? _CarrotDrawerMenuItem(
                 item: items[index] as CarrotDrawerMenuItem,
-                onTap: () {
-                  onTap(index);
-                },
               )
             : const _CarrotDrawerMenuSeparator(),
         childCount: items.length,
@@ -124,12 +119,14 @@ class CarrotDrawerMenuItem extends CarotDrawerMenuObject {
   final Widget? icon;
   final Widget? iconAfter;
   final Widget label;
+  final GestureTapCallback? onTap;
 
   const CarrotDrawerMenuItem({
+    required this.label,
     this.gap = 24.0,
     this.icon,
     this.iconAfter,
-    required this.label,
+    this.onTap,
   });
 }
 
@@ -139,20 +136,17 @@ class CarrotDrawerMenuSeparator extends CarotDrawerMenuObject {
 
 class _CarrotDrawerMenuItem extends StatelessWidget {
   final CarrotDrawerMenuItem item;
-  final GestureTapCallback onTap;
 
   const _CarrotDrawerMenuItem({
     required this.item,
-    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return CarrotBounceTap(
       scale: .96,
-      onTap: onTap,
-      child: Container(
-        color: const Color.fromRGBO(0, 0, 0, 0),
+      onTap: item.onTap,
+      child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 30,
           vertical: 18,

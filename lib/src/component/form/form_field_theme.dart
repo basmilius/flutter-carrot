@@ -168,12 +168,12 @@ class CarrotFormFieldThemeData {
 
   static CarrotFormFieldThemeData lerp(CarrotFormFieldThemeData a, CarrotFormFieldThemeData b, double t) {
     return CarrotFormFieldThemeData.raw(
-      background: Color.lerp(a.background, b.background, t)!,
-      border: Border.lerp(a.border, b.border, t)!,
+      background: Color.lerp(a.background, b.background, t),
+      border: Border.lerp(a.border, b.border, t),
       cursor: Color.lerp(a.cursor, b.cursor, t)!,
       obscuringCharacter: t < .5 ? a.obscuringCharacter : b.obscuringCharacter,
       padding: EdgeInsets.lerp(a.padding, b.padding, t)!,
-      selection: Color.lerp(a.selection, b.selection, t)!,
+      selection: Color.lerp(a.selection, b.selection, t),
       strutStyle: t < .5 ? a.strutStyle : b.strutStyle,
       textPlaceholderStyle: TextStyle.lerp(a.textPlaceholderStyle, b.textPlaceholderStyle, t)!,
       textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t)!,
