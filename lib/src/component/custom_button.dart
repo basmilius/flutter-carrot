@@ -3,8 +3,6 @@ part of 'button.dart';
 class CarrotCustomButton extends _CarrotButton {
   final BoxDecoration decoration;
   final BoxDecoration decorationTap;
-  final CarrotIconStyle iconAfterStyle;
-  final CarrotIconStyle iconStyle;
   final EdgeInsets padding;
 
   const CarrotCustomButton({
@@ -19,8 +17,6 @@ class CarrotCustomButton extends _CarrotButton {
     super.iconAfter,
     super.size,
     super.onTap,
-    this.iconAfterStyle = CarrotIconStyle.regular,
-    this.iconStyle = CarrotIconStyle.regular,
     this.padding = EdgeInsets.zero,
   });
 
@@ -29,8 +25,6 @@ class CarrotCustomButton extends _CarrotButton {
     return _CarrotButtonStyle(
       decoration: decoration,
       decorationActive: decorationTap,
-      iconAfterStyle: iconAfterStyle,
-      iconStyle: iconStyle,
       padding: padding,
       tapScale: .985,
       textStyle: context.carrotTypography.base,

@@ -168,7 +168,6 @@ class _CarrotButtonState extends State<_CarrotButton> with SingleTickerProviderS
           style: iconTextStyle,
           child: CarrotIcon(
             glyph: widget.icon!,
-            style: _style.iconStyle,
           ),
         ),
       );
@@ -180,7 +179,6 @@ class _CarrotButtonState extends State<_CarrotButton> with SingleTickerProviderS
           style: iconTextStyle,
           child: CarrotIcon(
             glyph: widget.iconAfter!,
-            style: _style.iconAfterStyle,
           ),
         ),
       );
@@ -235,8 +233,6 @@ class _CarrotButtonState extends State<_CarrotButton> with SingleTickerProviderS
 class _CarrotButtonStyle {
   final BoxDecoration decoration;
   final BoxDecoration decorationActive;
-  final CarrotIconStyle iconAfterStyle;
-  final CarrotIconStyle iconStyle;
   final EdgeInsets? padding;
   final double tapScale;
   final TextStyle textStyle;
@@ -245,8 +241,6 @@ class _CarrotButtonStyle {
   const _CarrotButtonStyle({
     required this.decoration,
     required this.decorationActive,
-    required this.iconAfterStyle,
-    required this.iconStyle,
     required this.padding,
     required this.tapScale,
     required this.textStyle,

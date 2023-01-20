@@ -12,9 +12,7 @@ class CarrotMenuItem extends StatelessWidget {
   final String? icon;
   final String? iconAfter;
   final Color? iconAfterColor;
-  final CarrotIconStyle iconAfterStyle;
   final Color? iconColor;
-  final CarrotIconStyle iconStyle;
   final Widget label;
   final EdgeInsets padding;
   final GestureTapCallback? onTap;
@@ -26,10 +24,8 @@ class CarrotMenuItem extends StatelessWidget {
     this.duration = const Duration(milliseconds: 210),
     this.icon,
     this.iconAfter,
-    this.iconAfterStyle = CarrotIconStyle.regular,
     this.iconAfterColor,
     this.iconColor,
-    this.iconStyle = CarrotIconStyle.regular,
     this.padding = const EdgeInsets.symmetric(
       horizontal: 24,
       vertical: 15,
@@ -57,7 +53,6 @@ class CarrotMenuItem extends StatelessWidget {
                 color: iconColor ?? appTheme.primary[600],
                 glyph: icon!,
                 size: 20,
-                style: iconStyle,
               ),
             Expanded(
               child: DefaultTextStyle(
@@ -73,7 +68,6 @@ class CarrotMenuItem extends StatelessWidget {
                 color: iconAfterColor ?? appTheme.gray[400],
                 glyph: iconAfter!,
                 size: 20,
-                style: iconAfterStyle,
               ),
           ],
         ),

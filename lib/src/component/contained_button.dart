@@ -44,14 +44,11 @@ class CarrotContainedButton extends _CarrotButton {
 
   @override
   _CarrotButtonStyle _getStyle(BuildContext context) {
-    final appTheme = context.carrotTheme;
     final containedButtonTheme = CarrotContainedButtonTheme.of(context);
 
     return _CarrotButtonStyle(
       decoration: containedButtonTheme.decoration,
       decorationActive: containedButtonTheme.decorationActive,
-      iconAfterStyle: appTheme.defaults.iconStyle,
-      iconStyle: appTheme.defaults.iconStyle,
       padding: containedButtonTheme.padding,
       tapScale: containedButtonTheme.tapScale,
       textStyle: _mergeTextStyle(context, containedButtonTheme.textStyle),

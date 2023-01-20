@@ -53,6 +53,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
   final CarrotContainedButtonThemeData containedButtonTheme;
   final CarrotContainerThemeData containerTheme;
   final CarrotFormFieldThemeData formFieldTheme;
+  final CarrotIncrementStepperThemeData incrementStepperTheme;
   final CarrotLinkButtonThemeData linkButtonTheme;
   final CarrotNoticeThemeData noticeTheme;
   final CarrotSwitchThemeData switchTheme;
@@ -71,6 +72,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     required this.containedButtonTheme,
     required this.containerTheme,
     required this.formFieldTheme,
+    required this.incrementStepperTheme,
     required this.linkButtonTheme,
     required this.noticeTheme,
     required this.switchTheme,
@@ -91,6 +93,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotContainedButtonThemeData? containedButtonTheme,
     CarrotContainerThemeData? containerTheme,
     CarrotFormFieldThemeData? formFieldTheme,
+    CarrotIncrementStepperThemeData? incrementStepperTheme,
     CarrotLinkButtonThemeData? linkButtonTheme,
     CarrotNoticeThemeData? noticeTheme,
     CarrotSwitchThemeData? switchTheme,
@@ -118,6 +121,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     containedButtonTheme ??= base.isLight ? CarrotContainedButtonThemeData.light(base) : CarrotContainedButtonThemeData.dark(base);
     containerTheme ??= base.isLight ? CarrotContainerThemeData.light(base) : CarrotContainerThemeData.dark(base);
     formFieldTheme ??= base.isLight ? CarrotFormFieldThemeData.light(base) : CarrotFormFieldThemeData.dark(base);
+    incrementStepperTheme ??= base.isLight ? CarrotIncrementStepperThemeData.light(base) : CarrotIncrementStepperThemeData.dark(base);
     linkButtonTheme ??= base.isLight ? CarrotLinkButtonThemeData.light(base) : CarrotLinkButtonThemeData.dark(base);
     noticeTheme ??= base.isLight ? CarrotNoticeThemeData.light(base) : CarrotNoticeThemeData.dark(base);
     switchTheme ??= base.isLight ? CarrotSwitchThemeData.light(base) : CarrotSwitchThemeData.dark(base);
@@ -136,6 +140,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       containedButtonTheme: containedButtonTheme,
       containerTheme: containerTheme,
       formFieldTheme: formFieldTheme,
+      incrementStepperTheme: incrementStepperTheme,
       linkButtonTheme: linkButtonTheme,
       noticeTheme: noticeTheme,
       switchTheme: switchTheme,
@@ -155,6 +160,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotContainedButtonThemeData? containedButtonTheme,
     CarrotContainerThemeData? containerTheme,
     CarrotFormFieldThemeData? formFieldTheme,
+    CarrotIncrementStepperThemeData? incrementStepperTheme,
     CarrotLinkButtonThemeData? linkButtonTheme,
     CarrotNoticeThemeData? noticeTheme,
     CarrotSwitchThemeData? switchTheme,
@@ -173,6 +179,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
         containedButtonTheme: containedButtonTheme,
         containerTheme: containerTheme,
         formFieldTheme: formFieldTheme,
+        incrementStepperTheme: incrementStepperTheme,
         linkButtonTheme: linkButtonTheme,
         noticeTheme: noticeTheme,
         switchTheme: switchTheme,
@@ -191,6 +198,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotContainedButtonThemeData? containedButtonTheme,
     CarrotContainerThemeData? containerTheme,
     CarrotFormFieldThemeData? formFieldTheme,
+    CarrotIncrementStepperThemeData? incrementStepperTheme,
     CarrotLinkButtonThemeData? linkButtonTheme,
     CarrotNoticeThemeData? noticeTheme,
     CarrotSwitchThemeData? switchTheme,
@@ -209,6 +217,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
         containedButtonTheme: containedButtonTheme,
         containerTheme: containerTheme,
         formFieldTheme: formFieldTheme,
+        incrementStepperTheme: incrementStepperTheme,
         linkButtonTheme: linkButtonTheme,
         noticeTheme: noticeTheme,
         switchTheme: switchTheme,
@@ -238,6 +247,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotContainedButtonThemeData? containedButtonTheme,
     CarrotContainerThemeData? containerTheme,
     CarrotFormFieldThemeData? formFieldTheme,
+    CarrotIncrementStepperThemeData? incrementStepperTheme,
     CarrotLinkButtonThemeData? linkButtonTheme,
     CarrotNoticeThemeData? noticeTheme,
     CarrotSwitchThemeData? switchTheme,
@@ -256,6 +266,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
         containedButtonTheme: containedButtonTheme ?? this.containedButtonTheme,
         containerTheme: containerTheme ?? this.containerTheme,
         formFieldTheme: formFieldTheme ?? this.formFieldTheme,
+        incrementStepperTheme: incrementStepperTheme ?? this.incrementStepperTheme,
         linkButtonTheme: linkButtonTheme ?? this.linkButtonTheme,
         noticeTheme: noticeTheme ?? this.noticeTheme,
         switchTheme: switchTheme ?? this.switchTheme,
@@ -279,6 +290,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       containedButtonTheme: CarrotContainedButtonThemeData.lerp(a.containedButtonTheme, b.containedButtonTheme, t),
       containerTheme: CarrotContainerThemeData.lerp(a.containerTheme, b.containerTheme, t),
       formFieldTheme: CarrotFormFieldThemeData.lerp(a.formFieldTheme, b.formFieldTheme, t),
+      incrementStepperTheme: CarrotIncrementStepperThemeData.lerp(a.incrementStepperTheme, b.incrementStepperTheme, t),
       linkButtonTheme: CarrotLinkButtonThemeData.lerp(a.linkButtonTheme, b.linkButtonTheme, t),
       noticeTheme: CarrotNoticeThemeData.lerp(a.noticeTheme, b.noticeTheme, t),
       switchTheme: CarrotSwitchThemeData.lerp(a.switchTheme, b.switchTheme, t),

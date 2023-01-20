@@ -230,8 +230,6 @@ class CarrotTextButtonThemeData {
     CarrotOptional<FontWeight>? fontWeight,
     CarrotOptional<Color>? foreground,
     CarrotOptional<Color>? foregroundActive,
-    CarrotOptional<CarrotIconStyle>? iconAfterStyle,
-    CarrotOptional<CarrotIconStyle>? iconStyle,
     CarrotOptional<EdgeInsets>? padding,
     CarrotOptional<List<BoxShadow>>? shadow,
     CarrotOptional<List<BoxShadow>>? shadowActive,

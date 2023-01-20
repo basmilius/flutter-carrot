@@ -6,11 +6,14 @@ import 'package:intl/intl.dart';
 
 import '../data/data.dart';
 import '../extension/extension.dart';
+import '../theme/theme.dart';
 import '../ui/ui.dart';
 import 'form/form.dart';
 import 'icon.dart';
 import 'primitive/primitive.dart';
 import 'row.dart';
+
+part 'increment_stepper_theme.dart';
 
 enum CarrotIncrementStepperStyle {
   attached,
@@ -66,7 +69,7 @@ class _CarrotIncrementStepperState extends State<CarrotIncrementStepper> {
       decimalCount = widget.step.toString().split('.')[1].length;
     }
 
-    _formatter = NumberFormat(null, Localizations.localeOf(context).countryCode);
+    _formatter = NumberFormat(null, Localizations.localeOf(context).languageCode);
     _formatter.minimumFractionDigits = 0;
     _formatter.maximumFractionDigits = decimalCount;
 
@@ -154,11 +157,13 @@ class _CarrotIncrementStepperState extends State<CarrotIncrementStepper> {
 
   @override
   Widget build(BuildContext context) {
-    final carrotTheme = context.carrotTheme;
+    final incrementStepperTheme = CarrotIncrementStepperTheme.of(context);
 
     Widget controls = CarrotRow(
-      gap: widget.style == CarrotIncrementStepperStyle.detachedWithoutValue ? 6 : 0,
+      gap: widget.style == CarrotIncrementStepperStyle.detachedWithoutValue ? incrementStepperTheme.gap : 0,
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
         _CarrotIncrementStepperButton(
           disabled: value <= widget.min,
@@ -170,6 +175,7 @@ class _CarrotIncrementStepperState extends State<CarrotIncrementStepper> {
           _CarrotIncrementStepperValue(
             controller: _controller,
             focusNode: _focusNode,
+            style: widget.style,
           ),
         _CarrotIncrementStepperButton(
           disabled: value >= widget.max,
@@ -183,8 +189,8 @@ class _CarrotIncrementStepperState extends State<CarrotIncrementStepper> {
     if (widget.style == CarrotIncrementStepperStyle.attached || widget.style == CarrotIncrementStepperStyle.attachedWithoutValue) {
       controls = DecoratedBox(
         decoration: BoxDecoration(
-          borderRadius: carrotTheme.borderRadius / 2,
-          color: carrotTheme.gray[100],
+          borderRadius: incrementStepperTheme.borderRadius,
+          color: incrementStepperTheme.background,
         ),
         child: controls,
       );
@@ -209,17 +215,17 @@ class _CarrotIncrementStepperButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final carrotTheme = context.carrotTheme;
+    final incrementStepperTheme = CarrotIncrementStepperTheme.of(context);
 
     Widget control = CarrotRepeatingBounceTap(
       disabled: disabled,
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.all(9),
+        padding: incrementStepperTheme.padding,
         child: CarrotIcon(
-          color: carrotTheme.gray,
+          color: incrementStepperTheme.foreground,
           glyph: icon,
-          size: 16,
+          size: incrementStepperTheme.iconSize,
         ),
       ),
     );
@@ -228,7 +234,7 @@ class _CarrotIncrementStepperButton extends StatelessWidget {
       control = DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(99),
-          color: carrotTheme.gray[100],
+          color: incrementStepperTheme.background,
         ),
         child: control,
       );
@@ -245,27 +251,30 @@ class _CarrotIncrementStepperButton extends StatelessWidget {
 class _CarrotIncrementStepperValue extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
+  final CarrotIncrementStepperStyle style;
 
   const _CarrotIncrementStepperValue({
     required this.controller,
     required this.focusNode,
+    required this.style,
   });
 
   @override
   Widget build(BuildContext context) {
-    final carrotTheme = context.carrotTheme;
+    final appTheme = context.carrotTheme;
+    final incrementStepperTheme = CarrotIncrementStepperTheme.of(context);
 
     return SizedBox(
       width: 39,
       child: CarrotFormFieldTheme(
-        data: carrotTheme.formFieldTheme.copyWith(
+        data: appTheme.formFieldTheme.copyWith(
           background: const CarrotOptional.of(CarrotColors.transparent),
           padding: const CarrotOptional.of(EdgeInsets.zero),
-          textStyle: CarrotOptional.of(carrotTheme.typography.headline5.copyWith(
+          textStyle: CarrotOptional.of(appTheme.typography.headline5.copyWith(
+            color: style == CarrotIncrementStepperStyle.attached ? incrementStepperTheme.valueForegroundAttached : incrementStepperTheme.valueForegroundDetached,
             fontFeatures: const [
               FontFeature.tabularFigures(),
             ],
-            height: 1,
           )),
         ),
         child: CarrotTextField(

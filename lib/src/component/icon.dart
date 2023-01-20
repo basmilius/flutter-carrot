@@ -16,7 +16,6 @@ class CarrotIcon extends StatelessWidget {
   final String glyph;
   final String? semanticsLabel;
   final double? size;
-  final CarrotIconStyle? style;
 
   const CarrotIcon({
     super.key,
@@ -24,12 +23,9 @@ class CarrotIcon extends StatelessWidget {
     this.color,
     this.semanticsLabel,
     this.size,
-    this.style,
   });
 
   String _fontFamily(CarrotIconStyle style) {
-    style = this.style ?? style;
-
     switch (style) {
       case CarrotIconStyle.brand:
         return "font_awesome_brands";
@@ -43,8 +39,6 @@ class CarrotIcon extends StatelessWidget {
   }
 
   FontWeight _fontWeight(CarrotIconStyle style) {
-    style = this.style ?? style;
-
     switch (style) {
       case CarrotIconStyle.duotone:
         return FontWeight.w900;
