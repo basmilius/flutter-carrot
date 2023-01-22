@@ -1,22 +1,20 @@
 import 'package:flutter/widgets.dart';
 
-import '../utils/utils.dart';
+import 'primitive/primitive.dart';
 
-class CarrotRow extends Row {
-  CarrotRow({
+class CarrotRow extends CarrotFlex {
+  const CarrotRow({
     super.key,
-    super.mainAxisAlignment = MainAxisAlignment.start,
-    super.mainAxisSize = MainAxisSize.max,
-    super.crossAxisAlignment = CrossAxisAlignment.center,
-    super.textDirection,
-    super.verticalDirection = VerticalDirection.down,
+    required super.children,
+    super.clipBehavior,
+    super.gap,
+    super.crossAxisAlignment,
+    super.mainAxisAlignment,
+    super.mainAxisSize,
     super.textBaseline,
-    double? gap,
-    List<Widget> children = const [],
+    super.textDirection,
+    super.verticalDirection,
   }) : super(
-          children: intersperseWidgets(
-            gap != null && gap > 0 ? SizedBox(width: gap) : null,
-            children,
-          ),
+          direction: Axis.horizontal,
         );
 }

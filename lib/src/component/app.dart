@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
+import '../../l10n/l10n.dart';
 import '../theme/theme.dart';
 import 'scroll/scroll.dart';
 
@@ -37,7 +39,7 @@ class CarrotApp extends StatefulWidget {
     this.localeResolutionCallback,
     this.localeListResolutionCallback,
     this.localizationsDelegates,
-    this.supportedLocales = const [Locale('en', 'US')],
+    this.supportedLocales = CarrotLocalizations.supportedLocales,
     this.actions,
     this.shortcuts,
     this.navigatorObservers = const [],
@@ -72,8 +74,7 @@ class CarrotApp extends StatefulWidget {
 
 class _CarrotAppState extends State<CarrotApp> {
   Widget _appBuilder(BuildContext context) {
-    final platformBrightness = MediaQuery.platformBrightnessOf(context);
-    final effectiveTheme = platformBrightness == Brightness.light ? (widget.theme ?? CarrotThemeData.light()) : (widget.themeDark ?? CarrotThemeData.dark());
+    final effectiveTheme = _resolveEffectiveTheme();
 
     return CarrotAnimatedTheme(
       data: effectiveTheme,
@@ -112,6 +113,21 @@ class _CarrotAppState extends State<CarrotApp> {
         ),
       ),
     );
+  }
+
+  CarrotThemeData _resolveEffectiveTheme() {
+    final platformBrightness = MediaQuery.platformBrightnessOf(context);
+
+    final darkTheme = widget.themeDark ?? CarrotThemeData.dark();
+    final lightTheme = widget.theme ?? CarrotThemeData.light();
+
+    return platformBrightness == Brightness.light ? lightTheme : darkTheme;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initializeDateFormatting(widget.locale?.languageCode);
   }
 
   @override

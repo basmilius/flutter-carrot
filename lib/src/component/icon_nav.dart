@@ -63,22 +63,26 @@ class _CarrotIconNav extends State<CarrotIconNav> {
         color: widget.color ?? context.carrotTheme.defaults.content,
       ),
       duration: widget._getDuration(context),
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: 15,
         right: 15,
-        bottom: widget.isSafeAreaAware ? context.safeArea.bottom : 0,
       ),
-      child: CarrotRow(
-        gap: 3,
-        children: [
-          for (int index = 0; index < widget.items.length; ++index)
-            _CarrotIconNavItem(
-              iconNav: widget,
-              isActive: index == widget.activeIndex,
-              item: widget.items.elementAt(index),
-              onTap: widget.items.elementAt(index).onTap ?? () => _onItemTap(widget.items.elementAt(index), index),
-            ),
-        ],
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: widget.isSafeAreaAware ? context.safeArea.bottom : 0,
+        ),
+        child: CarrotRow(
+          gap: 3,
+          children: [
+            for (int index = 0; index < widget.items.length; ++index)
+              _CarrotIconNavItem(
+                iconNav: widget,
+                isActive: index == widget.activeIndex,
+                item: widget.items.elementAt(index),
+                onTap: widget.items.elementAt(index).onTap ?? () => _onItemTap(widget.items.elementAt(index), index),
+              ),
+          ],
+        ),
       ),
     );
   }

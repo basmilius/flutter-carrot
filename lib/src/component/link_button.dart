@@ -13,18 +13,15 @@ class CarrotLinkButton extends _CarrotButton {
     super.onTap,
   });
 
-  CarrotLinkButton.icon({
+  const CarrotLinkButton.icon({
     super.key,
-    required CarrotIcon icon,
+    required super.icon,
     super.curve,
     super.duration,
     super.focusNode,
     super.size,
     super.onTap,
   }) : super(
-          children: [icon],
-          icon: null,
-          iconAfter: null,
           type: _CarrotButtonType.icon,
         );
 

@@ -7,7 +7,7 @@ class CarrotCardContent extends StatelessWidget {
   final Widget? body;
   final List<Widget> children;
   final CrossAxisAlignment crossAxisAlignment;
-  final double? gap;
+  final double gap;
   final MainAxisAlignment mainAxisAlignment;
   final EdgeInsets padding;
   final Widget? title;
@@ -17,7 +17,7 @@ class CarrotCardContent extends StatelessWidget {
     this.body,
     this.children = const [],
     this.crossAxisAlignment = CrossAxisAlignment.stretch,
-    this.gap,
+    this.gap = 0,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.padding = const EdgeInsets.symmetric(
       horizontal: 21,

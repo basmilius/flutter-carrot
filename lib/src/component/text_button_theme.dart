@@ -29,68 +29,23 @@ class CarrotTextButtonTheme extends InheritedTheme {
   }
 }
 
-class CarrotTextButtonThemeData {
-  final Color? background;
-  final Color? backgroundActive;
-  final Border? border;
-  final Border? borderActive;
-  final BorderRadius? borderRadius;
-  final String? fontFamily;
-  final double? fontSize;
-  final FontWeight? fontWeight;
-  final Color? foreground;
-  final Color? foregroundActive;
-  final EdgeInsets? padding;
-  final List<BoxShadow>? shadow;
-  final List<BoxShadow>? shadowActive;
-  final double tapScale;
-
-  BoxDecoration get decoration => BoxDecoration(
-        border: border,
-        borderRadius: borderRadius,
-        boxShadow: shadow,
-        color: background,
-      );
-
-  BoxDecoration get decorationActive => BoxDecoration(
-        border: borderActive,
-        borderRadius: borderRadius,
-        boxShadow: shadowActive,
-        color: backgroundActive,
-      );
-
-  TextStyle get textStyle => TextStyle(
-        color: foreground,
-        fontFamily: fontFamily,
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        height: 1.45,
-      );
-
-  TextStyle get textStyleActive => TextStyle(
-        color: foregroundActive,
-        fontFamily: fontFamily,
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        height: 1.45,
-      );
-
+class CarrotTextButtonThemeData extends _CarrotButtonThemeData {
   const CarrotTextButtonThemeData.raw({
-    required this.background,
-    required this.backgroundActive,
-    required this.border,
-    required this.borderActive,
-    required this.borderRadius,
-    required this.fontFamily,
-    required this.fontSize,
-    required this.fontWeight,
-    required this.foreground,
-    required this.foregroundActive,
-    required this.padding,
-    required this.shadow,
-    required this.shadowActive,
-    required this.tapScale,
-  });
+    required super.background,
+    required super.backgroundActive,
+    required super.border,
+    required super.borderActive,
+    required super.borderRadius,
+    required super.fontFamily,
+    required super.fontSize,
+    required super.fontWeight,
+    required super.foreground,
+    required super.foregroundActive,
+    required super.padding,
+    required super.shadow,
+    required super.shadowActive,
+    required super.tapScale,
+  }) : super.raw();
 
   factory CarrotTextButtonThemeData(
     CarrotThemeDataBase theme, {
@@ -253,21 +208,23 @@ class CarrotTextButtonThemeData {
       );
 
   static CarrotTextButtonThemeData lerp(CarrotTextButtonThemeData a, CarrotTextButtonThemeData b, double t) {
+    final lerped = _CarrotButtonThemeData.lerp(a, b, t);
+
     return CarrotTextButtonThemeData.raw(
-      background: Color.lerp(a.background, b.background, t),
-      backgroundActive: Color.lerp(a.backgroundActive, b.backgroundActive, t),
-      border: Border.lerp(a.border, b.border, t),
-      borderActive: Border.lerp(a.borderActive, b.borderActive, t),
-      borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
-      fontFamily: t < .5 ? a.fontFamily : b.fontFamily,
-      fontSize: lerpDouble(a.fontSize, b.fontSize, t),
-      fontWeight: FontWeight.lerp(a.fontWeight, b.fontWeight, t),
-      foreground: Color.lerp(a.foreground, b.foreground, t),
-      foregroundActive: Color.lerp(a.foregroundActive, b.foregroundActive, t),
-      padding: EdgeInsets.lerp(a.padding, b.padding, t),
-      shadow: t < .5 ? a.shadow : b.shadow,
-      shadowActive: t < .5 ? a.shadowActive : b.shadowActive,
-      tapScale: lerpDouble(a.tapScale, b.tapScale, t)!,
+      background: lerped.background,
+      backgroundActive: lerped.backgroundActive,
+      border: lerped.border,
+      borderActive: lerped.borderActive,
+      borderRadius: lerped.borderRadius,
+      fontFamily: lerped.fontFamily,
+      fontSize: lerped.fontSize,
+      fontWeight: lerped.fontWeight,
+      foreground: lerped.foreground,
+      foregroundActive: lerped.foregroundActive,
+      padding: lerped.padding,
+      shadow: lerped.shadow,
+      shadowActive: lerped.shadowActive,
+      tapScale: lerped.tapScale,
     );
   }
 }

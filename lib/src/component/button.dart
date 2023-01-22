@@ -11,6 +11,10 @@ import 'icon.dart';
 import 'primitive/primitive.dart';
 import 'row.dart';
 
+part 'button_group.dart';
+
+part 'button_theme.dart';
+
 part 'contained_button.dart';
 
 part 'contained_button_theme.dart';
@@ -69,7 +73,7 @@ abstract class _CarrotButton extends StatefulWidget {
 
   const _CarrotButton({
     super.key,
-    required this.children,
+    this.children = const [],
     this.type = _CarrotButtonType.normal,
     this.curve = CarrotCurves.swiftOutCurve,
     this.duration = const Duration(milliseconds: 210),
@@ -108,12 +112,16 @@ abstract class _CarrotButton extends StatefulWidget {
 }
 
 class _CarrotButtonState extends State<_CarrotButton> with SingleTickerProviderStateMixin {
-  late Widget _content;
+  final FocusNode _backupFocusNode = FocusNode();
+
   late _CarrotButtonStyle _style;
+  late Widget _content;
 
   bool get _canTap {
     return widget.onTap != null;
   }
+
+  FocusNode get _focusNode => widget.focusNode ?? _backupFocusNode;
 
   EdgeInsets get _padding {
     EdgeInsets padding = EdgeInsets.zero;
@@ -197,29 +205,35 @@ class _CarrotButtonState extends State<_CarrotButton> with SingleTickerProviderS
     _style = widget._getStyle(context);
   }
 
+  void _onTapDown(TapDownDetails details) {
+    _focusNode.requestFocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     final duration = context.carrotTheme.isAnimating ? Duration.zero : widget.duration;
 
     return RepaintBoundary(
-      child: CarrotBounceTapBuilder(
-        curve: widget.curve,
-        duration: duration,
-        scale: _style.tapScale,
-        onTap: widget.onTap,
-        builder: (context, isTapDown) => Focus(
-          canRequestFocus: _canTap,
-          focusNode: widget.focusNode,
-          child: AnimatedContainer(
+      child: Focus(
+        canRequestFocus: _canTap,
+        focusNode: _focusNode,
+        child: CarrotBounceTapBuilder(
+          curve: widget.curve,
+          duration: duration,
+          scale: _style.tapScale,
+          onTap: widget.onTap,
+          onTapDown: _onTapDown,
+          builder: (context, isTapDown) => AnimatedContainer(
             curve: widget.curve,
             duration: duration,
             decoration: isTapDown ? _style.decorationActive : _style.decoration,
-            child: Padding(
-              padding: _padding,
-              child: DefaultTextStyle(
-                style: _style.textStyle.copyWith(
-                  overflow: TextOverflow.ellipsis,
-                ),
+            padding: _padding,
+            child: DefaultTextStyle(
+              style: _style.textStyle.copyWith(
+                overflow: TextOverflow.ellipsis,
+              ),
+              child: SizedBox(
+                height: widget.size == CarrotButtonSize.tiny ? 16 : 21,
                 child: _content,
               ),
             ),

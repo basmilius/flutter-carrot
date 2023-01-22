@@ -9,7 +9,6 @@ import '../button.dart';
 import '../column.dart';
 import '../dialog.dart';
 import '../filler.dart';
-import '../icon.dart';
 import '../primitive/primitive.dart';
 import '../row.dart';
 import '../scroll/scroll.dart';
@@ -388,10 +387,7 @@ class _CarrotDatePickerState extends State<CarrotDatePicker> {
         gap: 3,
         children: [
           CarrotTextButton.icon(
-            icon: const CarrotIcon(
-              glyph: 'angle-left',
-              size: 22,
-            ),
+            icon: 'angle-left',
             onTap: _onToolbarPreviousTap,
           ),
           const CarrotFiller(),
@@ -405,10 +401,7 @@ class _CarrotDatePickerState extends State<CarrotDatePicker> {
           ),
           const CarrotFiller(),
           CarrotTextButton.icon(
-            icon: const CarrotIcon(
-              glyph: 'angle-right',
-              size: 22,
-            ),
+            icon: 'angle-right',
             onTap: _onToolbarNextTap,
           ),
         ],

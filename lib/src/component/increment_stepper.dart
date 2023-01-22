@@ -50,10 +50,10 @@ class CarrotIncrementStepper extends StatefulWidget {
 }
 
 class _CarrotIncrementStepperState extends State<CarrotIncrementStepper> {
-  late final TextEditingController _controller;
-  late final NumberFormat _formatter;
   late final CarrotValueController<num> _valueController;
   late final FocusNode _focusNode;
+  late TextEditingController _controller;
+  late NumberFormat _formatter;
 
   num get value => _valueController.value;
 
