@@ -48,7 +48,7 @@ class CarrotSliverClipRenderer extends RenderProxySliver {
     final axisDirection = applyGrowthDirectionToAxisDirection(constraints.axisDirection, constraints.growthDirection);
     final overlapCorrection = (clipOverlap ? constraints.overlap : .0);
 
-    switch(axisDirection) {
+    switch (axisDirection) {
       case AxisDirection.up:
         return Rect.fromLTWH(
           0,
@@ -91,11 +91,11 @@ class CarrotSliverClipRenderer extends RenderProxySliver {
   }) {
     final overlapCorrection = (clipOverlap ? constraints.overlap : .0);
 
-    return child != null
-        && child!.geometry!.hitTestExtent > 0
-        && mainAxisPosition > (geometry!.paintOrigin + overlapCorrection)
-        && mainAxisPosition < (geometry!.paintOrigin + overlapCorrection + (constraints.axis == Axis.vertical ? clipRect!.height : clipRect!.width))
-        && child!.hitTest(
+    return child != null &&
+        child!.geometry!.hitTestExtent > 0 &&
+        mainAxisPosition > (geometry!.paintOrigin + overlapCorrection) &&
+        mainAxisPosition < (geometry!.paintOrigin + overlapCorrection + (constraints.axis == Axis.vertical ? clipRect!.height : clipRect!.width)) &&
+        child!.hitTest(
           result,
           mainAxisPosition: mainAxisPosition,
           crossAxisPosition: crossAxisPosition,

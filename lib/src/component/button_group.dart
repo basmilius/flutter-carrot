@@ -80,9 +80,9 @@ class CarrotButtonGroup extends StatelessWidget {
             child: first,
           ),
           ...children.map((child) => _wrap(
-            theme: theme,
-            child: child,
-          )),
+                theme: theme,
+                child: child,
+              )),
           _wrap(
             theme: theme,
             last: true,

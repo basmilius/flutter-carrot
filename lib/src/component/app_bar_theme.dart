@@ -38,16 +38,16 @@ class CarrotAppBarThemeData {
   final List<BoxShadow>? shadow;
 
   BoxDecoration get decoration => BoxDecoration(
-    border: border,
-    boxShadow: shadow,
-    color: background,
-    gradient: gradient,
-    image: image,
-  );
+        border: border,
+        boxShadow: shadow,
+        color: background,
+        gradient: gradient,
+        image: image,
+      );
 
   TextStyle get textStyle => TextStyle(
-    color: foreground,
-  );
+        color: foreground,
+      );
 
   const CarrotAppBarThemeData.raw({
     this.background,

@@ -14,16 +14,16 @@ class CarrotChartRuleMark<X, Y> extends CarrotChartMark<X, Y> {
     required super.yStart,
     required CarrotChartPlottableValue<X> x,
   }) : super.range(
-    xEnd: x,
-    xStart: x,
-  );
+          xEnd: x,
+          xStart: x,
+        );
 
   const CarrotChartRuleMark.y({
     required super.xEnd,
     required super.xStart,
     required CarrotChartPlottableValue<Y> y,
   }) : super.range(
-    yEnd: y,
-    yStart: y,
-  );
+          yEnd: y,
+          yStart: y,
+        );
 }
