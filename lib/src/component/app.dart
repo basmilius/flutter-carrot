@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 import '../../l10n/l10n.dart';
 import '../theme/theme.dart';
@@ -122,12 +121,6 @@ class _CarrotAppState extends State<CarrotApp> {
     final lightTheme = widget.theme ?? CarrotThemeData.light();
 
     return platformBrightness == Brightness.light ? lightTheme : darkTheme;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initializeDateFormatting(widget.locale?.languageCode);
   }
 
   @override

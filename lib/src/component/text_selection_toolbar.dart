@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 
 import '../extension/extension.dart';
 import 'button.dart';
+import 'null.dart';
 
 const double _toolbarHeight = 48.0;
 const double _toolbarContentDistance = 18.0;
@@ -344,7 +345,7 @@ class _CarrotTextSelectionToolbarItemsElement extends RenderObjectElement {
     _mountChild(widget.nextButton, _CarrotTextSelectionToolbarItemsSlot.nextButton);
     _mountChild(widget.nextButtonDisabled, _CarrotTextSelectionToolbarItemsSlot.nextButtonDisabled);
 
-    _children = List<Element>.filled(widget.children.length, _NullElement.instance);
+    _children = List<Element>.filled(widget.children.length, CarrotNullElement.instance);
 
     Element? previousChild;
 
@@ -890,21 +891,4 @@ enum _CarrotTextSelectionToolbarItemsSlot {
   backButton,
   nextButton,
   nextButtonDisabled,
-}
-
-class _NullElement extends Element {
-  static _NullElement instance = _NullElement();
-
-  @override
-  bool get debugDoingBuild => throw UnimplementedError();
-
-  _NullElement() : super(_NullWidget());
-
-  @override
-  void performRebuild() {}
-}
-
-class _NullWidget extends Widget {
-  @override
-  createElement() => throw UnimplementedError();
 }

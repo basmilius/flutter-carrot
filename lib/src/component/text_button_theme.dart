@@ -174,6 +174,7 @@ class CarrotTextButtonThemeData extends _CarrotButtonThemeData {
         tapScale: tapScale,
       );
 
+  @override
   CarrotTextButtonThemeData copyWith({
     CarrotOptional<Color>? background,
     CarrotOptional<Color>? backgroundActive,

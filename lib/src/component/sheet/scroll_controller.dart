@@ -81,6 +81,7 @@ class CarrotSheetScrollPosition extends ScrollPositionWithSingleContext {
           velocity,
         ),
         context.vsync,
+        false,
       ));
 
       return;
@@ -113,6 +114,7 @@ class CarrotSheetScrollPosition extends ScrollPositionWithSingleContext {
           velocity,
         ),
         context.vsync,
+        false,
       ));
 
       return;

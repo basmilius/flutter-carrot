@@ -276,7 +276,7 @@ class CarrotRenderFlex extends RenderBox with ContainerRenderObjectMixin<RenderB
         child = childParentData.nextSibling;
       }
 
-      return maxFlexFractionSoFar * totalFlex + inflexibleSpace;
+      return maxFlexFractionSoFar * totalFlex + inflexibleSpace + (childCount - 1) * gap;
     } else {
       final double availableMainSpace = extent;
       int totalFlex = 0;

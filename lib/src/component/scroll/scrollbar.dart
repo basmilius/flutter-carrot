@@ -23,7 +23,6 @@ const Color _scrollbarColor = CupertinoDynamicColor.withBrightness(
 );
 
 class CarrotScrollbar extends RawScrollbar {
-  final EdgeInsets padding;
   final Radius radiusWhileDragging;
   final double thicknessWhileDragging;
 
@@ -31,12 +30,12 @@ class CarrotScrollbar extends RawScrollbar {
     super.key,
     required super.child,
     super.controller,
+    super.notificationPredicate = defaultScrollNotificationPredicate,
+    super.padding = EdgeInsets.zero,
     super.radius = _defaultRadius,
+    super.scrollbarOrientation,
     super.thickness = _defaultThickness,
     super.thumbVisibility = false,
-    super.notificationPredicate = defaultScrollNotificationPredicate,
-    super.scrollbarOrientation,
-    this.padding = EdgeInsets.zero,
     this.radiusWhileDragging = _defaultRadiusWhileDragging,
     this.thicknessWhileDragging = _defaultThicknessWhileDragging,
   })  : assert(thicknessWhileDragging < double.infinity),
@@ -88,7 +87,7 @@ class _CarrotScrollbarState extends RawScrollbarState<CarrotScrollbar> {
       ..crossAxisMargin = _scrollbarCrossAxisMargin
       ..mainAxisMargin = _scrollbarMainAxisMargin
       ..radius = _radius
-      ..padding = MediaQuery.of(context).padding.add(widget.padding) as EdgeInsets
+      ..padding = MediaQuery.of(context).padding.add(widget.padding ?? EdgeInsets.zero) as EdgeInsets
       ..minLength = _scrollbarMinSize
       ..minOverscrollLength = _scrollbarMinOverscrollSize
       ..scrollbarOrientation = widget.scrollbarOrientation;

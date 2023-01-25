@@ -22,7 +22,4 @@ class _CarrotNothingElement extends Element {
     assert(parent is! MultiChildRenderObjectElement, 'CarrotNothing is probably not needed.');
     super.mount(parent, newSlot);
   }
-
-  @override
-  void performRebuild() {}
 }
