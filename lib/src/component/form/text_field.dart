@@ -1,14 +1,16 @@
 import 'dart:ui' show BoxHeightStyle, BoxWidthStyle;
 
+import 'package:flutter/cupertino.dart' show cupertinoTextSelectionControls, cupertinoDesktopTextSelectionControls;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/rendering.dart';
+import 'package:flutter/material.dart' show AdaptiveTextSelectionToolbar, TextMagnifier, desktopTextSelectionControls, materialTextSelectionControls;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../animation/animation.dart';
 import '../../extension/extension.dart';
+import '../row.dart';
 import '../scroll/scroll.dart';
-import '../text_selection.dart';
 import 'form_field.dart';
 
 const int _horizontalCursorOffsetPixels = -2;
@@ -20,12 +22,19 @@ enum CarrotTextFieldOverlayVisibility {
   always,
 }
 
+Widget _defaultContextMenuBuilder(BuildContext context, EditableTextState editableTextState) {
+  return AdaptiveTextSelectionToolbar.editableText(
+    editableTextState: editableTextState,
+  );
+}
+
 class CarrotTextField extends StatefulWidget {
   final bool autocorrect;
   final Iterable<String>? autofillHints;
   final bool autofocus;
   final CarrotTextFieldOverlayVisibility clearButtonVisibility;
   final Clip clipBehavior;
+  final EditableTextContextMenuBuilder contextMenuBuilder;
   final TextEditingController? controller;
   final Color? cursorColor;
   final double? cursorHeight;
@@ -42,6 +51,7 @@ class CarrotTextField extends StatefulWidget {
   final List<TextInputFormatter>? formatters;
   final Brightness? keyboardAppearance;
   final TextInputType keyboardType;
+  final TextMagnifierConfiguration? magnifierConfiguration;
   final int? maxLength;
   final MaxLengthEnforcement? maxLengthEnforcement;
   final int? maxLines;
@@ -72,7 +82,6 @@ class CarrotTextField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final TextSelectionControls? textSelectionControls;
   final TextStyle? textStyle;
-  final ToolbarOptions toolbarOptions;
   final ValueChanged<String>? onChanged;
   final VoidCallback? onEditingComplete;
   final ValueChanged<String>? onSubmitted;
@@ -83,12 +92,12 @@ class CarrotTextField extends StatefulWidget {
     TextInputType? keyboardType,
     SmartDashesType? smartDashesType,
     SmartQuotesType? smartQuotesType,
-    ToolbarOptions? toolbarOptions,
     this.autocorrect = true,
     this.autofillHints,
     this.autofocus = false,
     this.clearButtonVisibility = CarrotTextFieldOverlayVisibility.never,
     this.clipBehavior = Clip.hardEdge,
+    this.contextMenuBuilder = _defaultContextMenuBuilder,
     this.controller,
     this.cursorColor,
     this.cursorHeight,
@@ -104,6 +113,7 @@ class CarrotTextField extends StatefulWidget {
     this.focusNode,
     this.formatters,
     this.keyboardAppearance,
+    this.magnifierConfiguration,
     this.maxLength,
     this.maxLengthEnforcement,
     this.maxLines,
@@ -138,19 +148,7 @@ class CarrotTextField extends StatefulWidget {
     this.onTap,
   })  : keyboardType = keyboardType ?? (maxLines == 1 ? TextInputType.text : TextInputType.multiline),
         smartDashesType = smartDashesType ?? (obscureText ? SmartDashesType.disabled : SmartDashesType.enabled),
-        smartQuotesType = smartQuotesType ?? (obscureText ? SmartQuotesType.disabled : SmartQuotesType.enabled),
-        toolbarOptions = toolbarOptions ??
-            (obscureText
-                ? const ToolbarOptions(
-                    selectAll: true,
-                    paste: true,
-                  )
-                : const ToolbarOptions(
-                    selectAll: true,
-                    cut: true,
-                    copy: true,
-                    paste: true,
-                  ));
+        smartQuotesType = smartQuotesType ?? (obscureText ? SmartQuotesType.disabled : SmartQuotesType.enabled);
 
   @override
   createState() => _CarrotTextFieldState();
@@ -158,7 +156,6 @@ class CarrotTextField extends StatefulWidget {
 
 class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAliveClientMixin<CarrotTextField>, RestorationMixin implements AutofillClient, TextSelectionGestureDetectorBuilderDelegate {
   RestorableTextEditingController? _controller;
-  final _clearGlobalKey = GlobalKey();
   FocusNode? _focusNode;
   bool _showSelectionHandles = false;
 
@@ -284,7 +281,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
       valueListenable: _effectiveController,
       child: editableText,
       builder: (context, text, child) {
-        return Row(
+        return CarrotRow(
           children: [
             if (_shouldShowAttachmentPrefix(text)) widget.prefix!,
             Expanded(
@@ -328,6 +325,24 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
     }
   }
 
+  TextSelectionControls _getTextSelectionControls() {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.iOS:
+        return cupertinoTextSelectionControls;
+
+      case TargetPlatform.macOS:
+        return cupertinoDesktopTextSelectionControls;
+
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+        return materialTextSelectionControls;
+
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        return desktopTextSelectionControls;
+    }
+  }
+
   void _handleFocusChanged() {
     setState(() {});
   }
@@ -365,10 +380,13 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
     switch (attachmentVisibility) {
       case CarrotTextFieldOverlayVisibility.never:
         return false;
+
       case CarrotTextFieldOverlayVisibility.always:
         return true;
+
       case CarrotTextFieldOverlayVisibility.editing:
         return hasText;
+
       case CarrotTextFieldOverlayVisibility.notEditing:
         return !hasText;
     }
@@ -421,7 +439,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
 
     final mediaQuery = MediaQuery.of(context);
 
-    TextSelectionControls? textSelectionControls = widget.textSelectionControls ?? carrotTextSelectionControls;
+    TextSelectionControls textSelectionControls = widget.textSelectionControls ?? _getTextSelectionControls();
 
     final List<TextInputFormatter> formatters = [
       ...?widget.formatters,
@@ -447,6 +465,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
             autofillHints: widget.autofillHints,
             autofocus: widget.autofocus,
             backgroundCursorColor: formFieldTheme.cursor,
+            contextMenuBuilder: widget.contextMenuBuilder,
             controller: _effectiveController,
             cursorColor: formFieldTheme.cursor,
             cursorHeight: widget.cursorHeight,
@@ -463,6 +482,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
             inputFormatters: formatters,
             keyboardAppearance: widget.keyboardAppearance ?? mediaQuery.platformBrightness,
             keyboardType: widget.keyboardType,
+            magnifierConfiguration: widget.magnifierConfiguration ?? TextMagnifier.adaptiveMagnifierConfiguration,
             maxLines: widget.maxLines,
             minLines: widget.minLines,
             obscureText: widget.obscureText,
@@ -491,7 +511,6 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
             textHeightBehavior: context.carrotTypography.textHeightBehavior,
             textInputAction: widget.textInputAction,
             textScaleFactor: 1.0,
-            toolbarOptions: widget.toolbarOptions,
             onChanged: widget.onChanged,
             onEditingComplete: widget.onEditingComplete,
             onSelectionChanged: _handleSelectionChanged,
@@ -534,25 +553,31 @@ class _CarrotTextFieldSelectionGestureDetectorBuilder extends TextSelectionGestu
   }) : super(delegate: state);
 
   @override
-  void onDragSelectionEnd(DragEndDetails details) {
-    state._requestKeyboard();
+  void onForcePressStart(ForcePressDetails details) {
+    super.onForcePressStart(details);
+    if (delegate.selectionEnabled && shouldShowSelectionToolbar) {
+      editableText.showToolbar();
+    }
+  }
+
+  @override
+  void onForcePressEnd(ForcePressDetails details) {
   }
 
   @override
   void onSingleTapUp(TapUpDetails details) {
-    editableText.hideToolbar();
-
-    if (state._clearGlobalKey.currentContext != null) {
-      final RenderBox renderBox = state._clearGlobalKey.currentContext!.findRenderObject()! as RenderBox;
-      final Offset localOffset = renderBox.globalToLocal(details.globalPosition);
-      if (renderBox.hitTest(BoxHitTestResult(), position: localOffset)) {
-        return;
-      }
-    }
-
     super.onSingleTapUp(details);
 
     state._requestKeyboard();
     state.widget.onTap?.call();
+  }
+
+  @override
+  void onSingleLongTapStart(LongPressStartDetails details) {
+    super.onSingleLongTapStart(details);
+
+    if (delegate.selectionEnabled) {
+      HapticFeedback.selectionClick();
+    }
   }
 }
