@@ -1,7 +1,6 @@
 import 'dart:ui' show BoxHeightStyle, BoxWidthStyle;
 
 import 'package:flutter/cupertino.dart' show cupertinoTextSelectionControls, cupertinoDesktopTextSelectionControls;
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart' show AdaptiveTextSelectionToolbar, TextMagnifier, desktopTextSelectionControls, materialTextSelectionControls;
 import 'package:flutter/services.dart';
@@ -325,8 +324,8 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
     }
   }
 
-  TextSelectionControls _getTextSelectionControls() {
-    switch (defaultTargetPlatform) {
+  TextSelectionControls _getTextSelectionControls(TargetPlatform platform) {
+    switch (platform) {
       case TargetPlatform.iOS:
         return cupertinoTextSelectionControls;
 
@@ -438,8 +437,10 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
     assert(debugCheckHasDirectionality(context));
 
     final mediaQuery = MediaQuery.of(context);
+    final appTheme = context.carrotTheme;
+    final formFieldTheme = CarrotFormFieldTheme.of(context);
 
-    TextSelectionControls textSelectionControls = widget.textSelectionControls ?? _getTextSelectionControls();
+    TextSelectionControls textSelectionControls = widget.textSelectionControls ?? _getTextSelectionControls(appTheme.platform);
 
     final List<TextInputFormatter> formatters = [
       ...?widget.formatters,
@@ -449,8 +450,6 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
           maxLengthEnforcement: _effectiveMaxLengthEnforcement,
         ),
     ];
-
-    final formFieldTheme = CarrotFormFieldTheme.of(context);
 
     final Widget paddedEditable = Padding(
       padding: formFieldTheme.padding,
@@ -508,7 +507,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
             textAlign: widget.textAlign,
             textCapitalization: widget.textCapitalization,
             textDirection: widget.textDirection,
-            textHeightBehavior: context.carrotTypography.textHeightBehavior,
+            textHeightBehavior: appTheme.typography.textHeightBehavior,
             textInputAction: widget.textInputAction,
             textScaleFactor: 1.0,
             onChanged: widget.onChanged,

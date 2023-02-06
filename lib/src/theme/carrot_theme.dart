@@ -63,6 +63,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     required super.defaults,
     required super.typography,
     required super.brightness,
+    required super.platform,
     required super.radius,
     required super.accent,
     required super.gray,
@@ -84,6 +85,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotThemeDataDefaults? defaults,
     CarrotTypography? typography,
     Brightness? brightness,
+    TargetPlatform? platform,
     Radius? radius,
     CarrotColor accent = CarrotColors.amber,
     CarrotColor gray = CarrotColors.gray,
@@ -100,6 +102,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotTextButtonThemeData? textButtonTheme,
   }) {
     brightness ??= Brightness.light;
+    platform ??= defaultTargetPlatform;
     radius ??= const Radius.circular(12);
 
     defaults ??= brightness == Brightness.light ? CarrotThemeDataDefaults.light(gray) : CarrotThemeDataDefaults.dark(gray);
@@ -110,6 +113,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       defaults: defaults,
       typography: typography,
       brightness: brightness,
+      platform: platform,
       radius: radius,
       accent: accent,
       gray: gray,
@@ -131,6 +135,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       defaults: base.defaults,
       typography: base.typography,
       brightness: base.brightness,
+      platform: platform,
       radius: base.radius,
       accent: base.accent,
       gray: base.gray,
@@ -238,6 +243,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
     CarrotThemeDataDefaults? defaults,
     CarrotTypography? typography,
     Brightness? brightness,
+    TargetPlatform? platform,
     Radius? radius,
     CarrotColor? accent,
     CarrotColor? gray,
@@ -257,6 +263,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
         defaults: defaults ?? this.defaults,
         typography: typography ?? this.typography,
         brightness: brightness ?? this.brightness,
+        platform: platform ?? this.platform,
         radius: radius ?? this.radius,
         accent: accent ?? this.accent,
         gray: gray ?? this.gray,
@@ -281,6 +288,7 @@ class CarrotThemeData extends CarrotThemeDataBase {
       defaults: base.defaults,
       typography: base.typography,
       brightness: base.brightness,
+      platform: base.platform,
       radius: base.radius,
       accent: base.accent,
       gray: base.gray,
@@ -304,6 +312,7 @@ class CarrotThemeDataBase {
   final CarrotTypography typography;
 
   final Brightness brightness;
+  final TargetPlatform platform;
   final Radius radius;
 
   final CarrotColor accent;
@@ -321,6 +330,7 @@ class CarrotThemeDataBase {
     required this.defaults,
     required this.typography,
     required this.brightness,
+    required this.platform,
     required this.radius,
     required this.accent,
     required this.gray,
@@ -333,6 +343,7 @@ class CarrotThemeDataBase {
       defaults: CarrotThemeDataDefaults.lerp(a.defaults, b.defaults, t),
       typography: CarrotTypography.lerp(a.typography, b.typography, t),
       brightness: t < .5 ? a.brightness : b.brightness,
+      platform: t < .5 ? a.platform : b.platform,
       radius: Radius.lerp(a.radius, b.radius, t)!,
       accent: CarrotColor.lerp(a.accent, b.accent, t),
       gray: CarrotColor.lerp(a.gray, b.gray, t),

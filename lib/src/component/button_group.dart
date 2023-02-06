@@ -72,6 +72,8 @@ class CarrotButtonGroup extends StatelessWidget {
       child: CarrotFlex(
         crossAxisAlignment: CrossAxisAlignment.start,
         direction: Axis.horizontal,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         gap: -1,
         children: [
           _wrap(
