@@ -124,9 +124,9 @@ class _CarrotDatePickerState extends State<CarrotDatePicker> {
   final _today = DateTime.now().middleOfDay();
   final List<DateTime> _days = [];
   final List<DateTime> _months = [];
-  final List<DateTime> _years = [];
 
   _View _currentView = _View.dates;
+  int _yearIndex = 0;
 
   WidgetBuilder get _viewBuilder {
     switch (_currentView) {
@@ -137,6 +137,20 @@ class _CarrotDatePickerState extends State<CarrotDatePicker> {
       case _View.years:
         return _buildYears;
     }
+  }
+
+  List<DateTime> get _visibleYears {
+    var now = _viewMonth.year;
+    var years = <DateTime>[];
+    var start = now - (now % 10) + _yearIndex * 10;
+
+    for (var i = 0; i < 10; ++i) {
+      years.add(_today.copyWith(
+        year: start + i,
+      ));
+    }
+
+    return years;
   }
 
   @override
@@ -174,8 +188,9 @@ class _CarrotDatePickerState extends State<CarrotDatePicker> {
 
   void _initMaxMinRange() {
     setState(() {
-      _maxDate = widget.maxDate ?? DateTime(9999, 12, 31);
-      _minDate = widget.minDate ?? DateTime(1, 1, 1);
+      var now = DateTime.now();
+      _maxDate = widget.maxDate ?? DateTime(now.year + 10, 12, 31);
+      _minDate = widget.minDate ?? DateTime(now.year - 100, 1, 1);
     });
   }
 
@@ -185,16 +200,6 @@ class _CarrotDatePickerState extends State<CarrotDatePicker> {
     for (int i = 1; i <= 12; ++i) {
       _months.add(_today.copyWith(
         month: i,
-      ));
-    }
-  }
-
-  void _initYears() {
-    _years.clear();
-
-    for (int year = _minDate.year; year <= _maxDate.year; ++year) {
-      _years.add(_today.copyWith(
-        year: year,
       ));
     }
   }
@@ -228,7 +233,6 @@ class _CarrotDatePickerState extends State<CarrotDatePicker> {
   void _resolveInitialMonth() {
     _setMonth((widget.initialDate ?? _valueController.value ?? DateTime.now()).middleOfDay());
     _initMonths();
-    _initYears();
   }
 
   void _setMonth(DateTime month) {
@@ -343,9 +347,27 @@ class _CarrotDatePickerState extends State<CarrotDatePicker> {
   }
 
   Widget _buildYear(BuildContext context, int index) {
+    if (index == 0) {
+      return CarrotTextButton.icon(
+        icon: 'angle-left',
+        onTap: () => setState(() {
+          --_yearIndex;
+        }),
+      );
+    }
+
+    if (index == 11) {
+      return CarrotTextButton.icon(
+        icon: 'angle-right',
+        onTap: () => setState(() {
+          ++_yearIndex;
+        }),
+      );
+    }
+
     final locale = Localizations.localeOf(context);
     final yearFormatter = DateFormat.y(locale.languageCode);
-    final year = _years[index];
+    final year = _visibleYears[index - 1];
     final isDisabled = _isYearDisabled(year);
 
     return CarrotDisabled.opacity(
@@ -370,7 +392,7 @@ class _CarrotDatePickerState extends State<CarrotDatePicker> {
       ),
       delegate: SliverChildBuilderDelegate(
         _buildYear,
-        childCount: _years.length,
+        childCount: _visibleYears.length + 2,
       ),
     );
   }
