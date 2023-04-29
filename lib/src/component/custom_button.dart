@@ -15,6 +15,7 @@ class CarrotCustomButton extends _CarrotButton {
     super.focusNode,
     super.icon,
     super.iconAfter,
+    super.loading,
     super.size,
     super.onTap,
     this.padding = EdgeInsets.zero,

@@ -10,6 +10,7 @@ import '../ui/ui.dart';
 import 'icon.dart';
 import 'primitive/primitive.dart';
 import 'row.dart';
+import 'spinner.dart';
 
 part 'button_group.dart';
 
@@ -68,6 +69,7 @@ abstract class _CarrotButton extends StatefulWidget {
   final FocusNode? focusNode;
   final String? icon;
   final String? iconAfter;
+  final bool loading;
   final CarrotButtonSize size;
   final GestureTapCallback? onTap;
 
@@ -80,6 +82,7 @@ abstract class _CarrotButton extends StatefulWidget {
     this.focusNode,
     this.icon,
     this.iconAfter,
+    this.loading = false,
     this.size = CarrotButtonSize.medium,
     this.onTap,
   });
@@ -117,9 +120,7 @@ class _CarrotButtonState extends State<_CarrotButton> with SingleTickerProviderS
   late _CarrotButtonStyle _style;
   late Widget _content;
 
-  bool get _canTap {
-    return widget.onTap != null;
-  }
+  bool get _canTap => !widget.loading && widget.onTap != null;
 
   FocusNode get _focusNode => widget.focusNode ?? _backupFocusNode;
 
@@ -160,16 +161,26 @@ class _CarrotButtonState extends State<_CarrotButton> with SingleTickerProviderS
 
   void _initChildren() {
     List<Widget> children = [
-      ...widget.children.map((child) => Flexible(
-            child: child,
-          ))
+      ...widget.children.map(
+        (child) => Flexible(
+          child: child,
+        ),
+      ),
     ];
 
     final iconTextStyle = _style.textStyle.copyWith(
       fontSize: widget.size == CarrotButtonSize.tiny ? 16 : 21,
     );
 
-    if (widget.icon != null) {
+    if (widget.loading) {
+      children.insert(
+        0,
+        CarrotSpinner(
+          color: iconTextStyle.color,
+          size: iconTextStyle.fontSize!,
+        ),
+      );
+    } else if (widget.icon != null) {
       children.insert(
         0,
         DefaultTextStyle(
@@ -205,6 +216,14 @@ class _CarrotButtonState extends State<_CarrotButton> with SingleTickerProviderS
     _style = widget._getStyle(context);
   }
 
+  void _onTap() {
+    if (!_canTap) {
+      return;
+    }
+
+    widget.onTap?.call();
+  }
+
   void _onTapDown(TapDownDetails details) {
     _focusNode.requestFocus();
   }
@@ -221,7 +240,7 @@ class _CarrotButtonState extends State<_CarrotButton> with SingleTickerProviderS
           curve: widget.curve,
           duration: duration,
           scale: _style.tapScale,
-          onTap: widget.onTap,
+          onTap: _onTap,
           onTapDown: _onTapDown,
           builder: (context, isTapDown) => AnimatedContainer(
             curve: widget.curve,

@@ -9,6 +9,7 @@ class CarrotLinkButton extends _CarrotButton {
     super.focusNode,
     super.icon,
     super.iconAfter,
+    super.loading,
     super.size,
     super.onTap,
   });
@@ -19,6 +20,7 @@ class CarrotLinkButton extends _CarrotButton {
     super.curve,
     super.duration,
     super.focusNode,
+    super.loading,
     super.size,
     super.onTap,
   }) : super(
@@ -33,6 +35,7 @@ class CarrotLinkButton extends _CarrotButton {
     super.focusNode,
     super.icon,
     super.iconAfter,
+    super.loading,
     super.size,
     super.onTap,
   }) : super(
