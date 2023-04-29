@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 
 import '../../extension/extension.dart';
@@ -89,6 +91,10 @@ class CarrotSheet extends StatelessWidget {
     List<double>? stops,
     double willPopThreshold = .8,
   }) {
+    if (stops != null) {
+      initialExtent = stops.reduce(max);
+    }
+
     Navigator.of(context, rootNavigator: true).push(
       CarrotSheetRoute(
         barrierColor: barrierColor ?? context.carrotTheme.defaults.scrim,

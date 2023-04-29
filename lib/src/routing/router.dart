@@ -68,12 +68,12 @@ class CarrotRouter extends GoRouter {
   }
 
   @override
-  void push(String location, {Object? extra}) {
+  Future<T?> push<T extends Object?>(String location, {Object? extra}) {
     if (super.location == location) {
-      return;
+      return Future.value();
     }
 
-    super.push(location, extra: extra);
+    return super.push(location, extra: extra);
   }
 
   static CarrotRouter of(BuildContext context) {

@@ -127,7 +127,7 @@ class CarrotSheetBouncingPhysics extends ScrollPhysics with CarrotSheetPhysics {
 
   @override
   Simulation? createBallisticSimulation(ScrollMetrics position, double velocity) {
-    final tolerance = this.tolerance;
+    final tolerance = toleranceFor(position);
 
     if (position.outOfRange) {
       return BouncingScrollSimulation(
@@ -192,7 +192,7 @@ class CarrotSheetClampingPhysics extends ScrollPhysics with CarrotSheetPhysics {
 
   @override
   Simulation? createBallisticSimulation(ScrollMetrics position, double velocity) {
-    final tolerance = this.tolerance;
+    final tolerance = toleranceFor(position);
 
     if (position.outOfRange) {
       double? end;
@@ -273,7 +273,7 @@ class CarrotSheetNoMomentumPhysics extends ScrollPhysics with CarrotSheetPhysics
 
   @override
   Simulation? createBallisticSimulation(ScrollMetrics position, double velocity) {
-    final tolerance = this.tolerance;
+    final tolerance = toleranceFor(position);
 
     if (position.outOfRange) {
       double? end;
@@ -323,7 +323,7 @@ class CarrotSheetSnappingPhysics extends ScrollPhysics with CarrotSheetPhysics {
 
   @override
   Simulation? createBallisticSimulation(ScrollMetrics position, double velocity) {
-    final tolerance = this.tolerance;
+    final tolerance = toleranceFor(position);
     final target = _getTargetPixels(position, tolerance, velocity);
 
     if (target != position.pixels) {

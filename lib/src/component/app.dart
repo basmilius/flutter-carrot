@@ -24,7 +24,6 @@ class CarrotApp extends StatefulWidget {
   final bool showDebugBanner;
   final bool showPerformanceOverlay;
   final bool showSemanticsDebugger;
-  final bool useInheritedMediaQuery;
   final CarrotThemeData? theme;
   final CarrotThemeData? themeDark;
 
@@ -50,7 +49,6 @@ class CarrotApp extends StatefulWidget {
     this.showDebugBanner = false,
     this.showPerformanceOverlay = false,
     this.showSemanticsDebugger = false,
-    this.useInheritedMediaQuery = true,
   });
 
   @override
@@ -101,7 +99,6 @@ class _CarrotAppState extends State<CarrotApp> {
             inspectorSelectButtonBuilder: widget.inspectorSelectButtonBuilder,
             showPerformanceOverlay: widget.showPerformanceOverlay,
             showSemanticsDebugger: widget.showSemanticsDebugger,
-            useInheritedMediaQuery: widget.useInheritedMediaQuery,
             title: widget.settings.title,
             textStyle: effectiveTheme.typography.body1,
             builder: (context, _) => DefaultTextHeightBehavior(
@@ -128,7 +125,8 @@ class _CarrotAppState extends State<CarrotApp> {
     return ScrollNotificationObserver(
       child: ScrollConfiguration(
         behavior: const CarrotScrollBehavior(),
-        child: MediaQuery.fromWindow(
+        child: MediaQuery.fromView(
+          view: View.of(context),
           child: Builder(
             builder: _appBuilder,
           ),

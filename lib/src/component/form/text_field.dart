@@ -564,7 +564,7 @@ class _CarrotTextFieldSelectionGestureDetectorBuilder extends TextSelectionGestu
   }
 
   @override
-  void onSingleTapUp(TapUpDetails details) {
+  void onSingleTapUp(TapDragUpDetails details) {
     super.onSingleTapUp(details);
 
     state._requestKeyboard();
