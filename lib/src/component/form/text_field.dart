@@ -560,8 +560,7 @@ class _CarrotTextFieldSelectionGestureDetectorBuilder extends TextSelectionGestu
   }
 
   @override
-  void onForcePressEnd(ForcePressDetails details) {
-  }
+  void onForcePressEnd(ForcePressDetails details) {}
 
   @override
   void onSingleTapUp(TapDragUpDetails details) {

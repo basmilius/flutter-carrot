@@ -90,7 +90,7 @@ abstract class CarrotLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('nl')
+    Locale('nl'),
   ];
 
   /// No description provided for @cancel.
@@ -170,18 +170,16 @@ class _CarrotLocalizationsDelegate extends LocalizationsDelegate<CarrotLocalizat
 }
 
 CarrotLocalizations lookupCarrotLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return CarrotLocalizationsEn();
-    case 'nl': return CarrotLocalizationsNl();
+    case 'en':
+      return CarrotLocalizationsEn();
+    case 'nl':
+      return CarrotLocalizationsNl();
   }
 
-  throw FlutterError(
-    'CarrotLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+  throw FlutterError('CarrotLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }
