@@ -1,3 +1,4 @@
+export 'animated_colors.dart';
 export 'app.dart';
 export 'app_bar.dart';
 export 'app_bar_button.dart';

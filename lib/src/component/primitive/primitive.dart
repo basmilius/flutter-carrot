@@ -3,6 +3,7 @@ export 'background_tap.dart';
 export 'bounce_tap.dart';
 export 'bounce_tap_builder.dart';
 export 'change_notifier_builder.dart';
+export 'continuous_animation_builder.dart';
 export 'default_switch_animation.dart';
 export 'disabled.dart';
 export 'flex.dart';
