@@ -8,12 +8,14 @@ import '../utils/mulberry32.dart';
 import './primitive/primitive.dart';
 
 class CarrotAnimatedColors extends StatelessWidget {
+  final Widget? child;
   final List<CarrotColor> colors;
   final double opacity;
   final int seed;
 
   const CarrotAnimatedColors({
     super.key,
+    this.child,
     this.colors = const [
       CarrotColors.blue,
       CarrotColors.fuchsia,
@@ -36,6 +38,7 @@ class CarrotAnimatedColors extends StatelessWidget {
               seed: seed,
               repaint: notifier,
             ),
+            child: child,
           ),
         ),
       ),
