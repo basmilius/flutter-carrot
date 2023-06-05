@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import 'bounce_tap.dart';
+import 'bounce_tap_builder.dart';
 
 class CarrotRepeatingBounceTap extends StatefulWidget {
   final Widget child;
@@ -60,7 +60,7 @@ class _CarrotRepeatingBounceTapState extends State<CarrotRepeatingBounceTap> {
         onTapCancel: _onTapCancel,
         onTapDown: _onTapDown,
         onTapUp: _onTapUp,
-        child: CarrotBounceTap(
+        child: CarrotBounceTapBuilder.child(
           scale: .9,
           onTap: widget.onTap,
           child: widget.child,

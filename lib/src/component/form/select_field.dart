@@ -275,7 +275,7 @@ class _CarrotSelectFieldState<T> extends State<CarrotSelectField<T>> {
       offset: const Offset(0, 30),
       placement: CarrotPopupPlacement.center,
       position: CarrotPopupPosition.below,
-      child: CarrotBounceTap(
+      child: CarrotBounceTapBuilder.child(
         onTap: () => _popupController.open(),
         child: CarrotSizeMeasureChild(
           onChange: _onSizeChanged,

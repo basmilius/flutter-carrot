@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../animation/animation.dart';
 import '../extension/extension.dart';
-import 'primitive/bounce_tap.dart';
+import 'primitive/primitive.dart';
 import 'row.dart';
 import 'scroll/scroll.dart';
 import 'sliver/sliver.dart';
@@ -143,7 +143,7 @@ class _CarrotDrawerMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CarrotBounceTap(
+    return CarrotBounceTapBuilder.child(
       scale: .96,
       onTap: item.onTap,
       child: Padding(

@@ -13,9 +13,9 @@ class CarrotBounceTapBuilder extends StatefulWidget {
   final Function? onDown;
   final Function? onUp;
   final GestureTapCallback? onTap;
+  final GestureTapCancelCallback? onTapCancel;
   final GestureTapDownCallback? onTapDown;
   final GestureTapUpCallback? onTapUp;
-  final GestureTapCancelCallback? onTapCancel;
 
   const CarrotBounceTapBuilder({
     super.key,
@@ -26,10 +26,32 @@ class CarrotBounceTapBuilder extends StatefulWidget {
     this.onDown,
     this.onUp,
     this.onTap,
+    this.onTapCancel,
     this.onTapDown,
     this.onTapUp,
-    this.onTapCancel,
   });
+
+  factory CarrotBounceTapBuilder.child({
+    Key? key,
+    required Widget child,
+    Curve curve = CarrotCurves.swiftOutCurve,
+    Duration duration = const Duration(milliseconds: 90),
+    double scale = .985,
+    GestureTapCallback? onTap,
+    GestureTapDownCallback? onTapDown,
+    GestureTapUpCallback? onTapUp,
+    GestureTapCancelCallback? onTapCancel,
+  }) =>
+      CarrotBounceTapBuilder(
+        key: key,
+        builder: (context, _) => child,
+        curve: curve,
+        duration: duration,
+        onTap: onTap,
+        onTapCancel: onTapCancel,
+        onTapDown: onTapDown,
+        onTapUp: onTapUp,
+      );
 
   @override
   createState() => _CarrotBounceTapBuilderState();

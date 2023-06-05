@@ -35,10 +35,10 @@ class CarrotSheetView extends StatefulWidget {
       );
 
   @override
-  createState() => CarrotSheetViewState();
+  createState() => _CarrotSheetViewState();
 }
 
-class CarrotSheetViewState extends State<CarrotSheetView> {
+class _CarrotSheetViewState extends State<CarrotSheetView> {
   final _headerKey = GlobalKey(debugLabel: 'sheet_view:header');
 
   Size _headerSize = Size.zero;

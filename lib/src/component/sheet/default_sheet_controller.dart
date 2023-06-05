@@ -15,14 +15,14 @@ class CarrotSheetDefaultController extends StatefulWidget {
   });
 
   @override
-  createState() => CarrotSheetDefaultControllerState();
+  createState() => _CarrotSheetDefaultControllerState();
 
   static CarrotSheetController? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<_CarrotSheetInheritedController>()?.controller;
   }
 }
 
-class CarrotSheetDefaultControllerState extends State<CarrotSheetDefaultController> {
+class _CarrotSheetDefaultControllerState extends State<CarrotSheetDefaultController> {
   late final CarrotSheetController controller = CarrotSheetController();
 
   @override

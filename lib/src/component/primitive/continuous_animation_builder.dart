@@ -13,10 +13,10 @@ class CarrotContinuousAnimationBuilder extends StatefulWidget {
   });
 
   @override
-  createState() => CarrotContinuousAnimationBuilderState();
+  createState() => _CarrotContinuousAnimationBuilderState();
 }
 
-class CarrotContinuousAnimationBuilderState extends State<CarrotContinuousAnimationBuilder> with SingleTickerProviderStateMixin {
+class _CarrotContinuousAnimationBuilderState extends State<CarrotContinuousAnimationBuilder> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
   @override

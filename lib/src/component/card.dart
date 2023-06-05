@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../extension/extension.dart';
 import '../ui/shadow.dart';
-import 'primitive/bounce_tap.dart';
+import 'primitive/primitive.dart';
 
 enum CarrotCardMediaAlignment {
   start,
@@ -71,7 +71,7 @@ class CarrotCard extends StatelessWidget {
       );
     }
 
-    return CarrotBounceTap(
+    return CarrotBounceTapBuilder.child(
       onTap: onTap,
       onTapDown: onTapDown,
       onTapUp: onTapUp,

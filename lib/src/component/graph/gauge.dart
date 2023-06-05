@@ -42,10 +42,10 @@ class CarrotGauge extends StatefulWidget {
         assert(trackGradient == null || trackGradient.length > 1, 'At least two colors should be in the gradient.');
 
   @override
-  createState() => CarrotGaugeState();
+  createState() => _CarrotGaugeState();
 }
 
-class CarrotGaugeState extends State<CarrotGauge> with TickerProviderStateMixin {
+class _CarrotGaugeState extends State<CarrotGauge> with TickerProviderStateMixin {
   AnimationController? _animation;
 
   double get fractionalValue => (_animation?.value ?? 0 - widget.minValue) / (widget.maxValue - widget.minValue);

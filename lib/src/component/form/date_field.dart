@@ -94,7 +94,7 @@ class _CarrotDateFieldState extends State<CarrotDateField> {
   Widget build(BuildContext context) {
     final formFieldTheme = CarrotFormFieldTheme.of(context);
 
-    return CarrotBounceTap(
+    return CarrotBounceTapBuilder.child(
       onTap: _onDatePickerOpenTap,
       child: CarrotFormField(
         child: CarrotRow(

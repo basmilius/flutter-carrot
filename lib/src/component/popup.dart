@@ -73,10 +73,10 @@ class CarrotPopup<T> extends StatefulWidget {
   });
 
   @override
-  createState() => CarrotPopupState<T>();
+  createState() => _CarrotPopupState<T>();
 }
 
-class CarrotPopupState<T> extends State<CarrotPopup<T>> {
+class _CarrotPopupState<T> extends State<CarrotPopup<T>> {
   late final CarrotPopupController _controller;
   _CarrotPopupRoute<T>? _route;
 

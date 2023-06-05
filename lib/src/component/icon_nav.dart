@@ -46,10 +46,10 @@ class CarrotIconNav extends StatefulWidget {
   }
 
   @override
-  createState() => _CarrotIconNav();
+  createState() => _CarrotIconNavState();
 }
 
-class _CarrotIconNav extends State<CarrotIconNav> {
+class _CarrotIconNavState extends State<CarrotIconNav> {
   void _onItemTap(CarrotIconNavItem item, int index) {
     widget.onChanged?.call(index);
   }
@@ -122,7 +122,7 @@ class _CarrotIconNavItem extends StatelessWidget {
     final iconNavDuration = iconNav._getDuration(context);
 
     return Expanded(
-      child: CarrotBounceTap(
+      child: CarrotBounceTapBuilder.child(
         duration: const Duration(milliseconds: 240),
         scale: .9,
         onTap: onTap,

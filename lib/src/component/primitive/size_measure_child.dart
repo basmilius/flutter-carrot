@@ -72,10 +72,10 @@ class CarrotSizeMeasureProvider extends StatefulWidget {
   });
 
   @override
-  createState() => CarrotSizeMeasureProviderState();
+  createState() => _CarrotSizeMeasureProviderState();
 }
 
-class CarrotSizeMeasureProviderState extends State<CarrotSizeMeasureProvider> {
+class _CarrotSizeMeasureProviderState extends State<CarrotSizeMeasureProvider> {
   Size _size = Size.zero;
 
   void _onChange(Size size) {

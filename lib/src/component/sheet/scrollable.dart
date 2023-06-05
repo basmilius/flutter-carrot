@@ -45,7 +45,7 @@ class CarrotSheetScrollable extends StatefulWidget {
   }) : assert(semanticChildCount == null || semanticChildCount >= 0);
 
   @override
-  createState() => CarrotSheetScrollableState();
+  createState() => _CarrotSheetScrollableState();
 
   static CarrotSheetScrollableState? of(BuildContext context) {
     final widget = context.dependOnInheritedWidgetOfExactType<_CarrotSheetScrollableScope>();
@@ -91,7 +91,27 @@ class CarrotSheetScrollable extends StatefulWidget {
   }
 }
 
-class CarrotSheetScrollableState extends State<CarrotSheetScrollable> with RestorationMixin, TickerProviderStateMixin implements CarrotSheetScrollContext {
+abstract class CarrotSheetScrollableState {
+  BuildContext get context;
+
+  CarrotSheetController get controller;
+
+  AxisDirection get axisDirection;
+
+  double? get initialExtent;
+
+  BuildContext? get notificationContext;
+
+  CarrotSheetPosition get position;
+
+  String? get restorationId;
+
+  BuildContext get storageContext;
+
+  TickerProvider get vsync;
+}
+
+class _CarrotSheetScrollableState extends State<CarrotSheetScrollable> with RestorationMixin, TickerProviderStateMixin implements CarrotSheetScrollContext, CarrotSheetScrollableState {
   final GlobalKey<RawGestureDetectorState> _gestureDetectorKey = GlobalKey();
   final GlobalKey _ignorePointerKey = GlobalKey();
   final GlobalKey _scrollSemanticsKey = GlobalKey();
@@ -111,6 +131,7 @@ class CarrotSheetScrollableState extends State<CarrotSheetScrollable> with Resto
 
   CarrotSheetController get _effectiveScrollController => widget.controller ?? _fallbackScrollController!;
 
+  @override
   CarrotSheetController get controller => _effectiveScrollController;
 
   @override
@@ -512,7 +533,7 @@ class _CarrotSheetRestorableScrollOffset extends RestorableValue<double?> {
 
 class _CarrotSheetScrollableScope extends InheritedWidget {
   final ScrollPosition position;
-  final CarrotSheetScrollableState scrollable;
+  final _CarrotSheetScrollableState scrollable;
 
   const _CarrotSheetScrollableScope({
     required super.child,
