@@ -159,11 +159,11 @@ class _CarrotDrawerGestureDetectorState extends State<CarrotDrawerGestureDetecto
   }
 
   void _routingListenerAdd() {
-    CarrotRouter.of(context).addListener(_handleRoutingChange);
+    CarrotRouter.of(context).routerDelegate.addListener(_handleRoutingChange);
   }
 
   void _routingListenerRemove() {
-    CarrotRouter.of(context).removeListener(_handleRoutingChange);
+    CarrotRouter.of(context).routerDelegate.removeListener(_handleRoutingChange);
   }
 
   void _move(DragUpdateDetails details) {

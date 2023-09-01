@@ -58,22 +58,8 @@ class CarrotRouter extends GoRouter {
     return completer.future;
   }
 
-  @override
-  void go(String location, {Object? extra}) {
-    if (super.location == location) {
-      return;
-    }
-
-    super.go(location, extra: extra);
-  }
-
-  @override
-  Future<T?> push<T extends Object?>(String location, {Object? extra}) {
-    if (super.location == location) {
-      return Future.value();
-    }
-
-    return super.push(location, extra: extra);
+  static Uri locationOf(BuildContext context) {
+    return GoRouterState.of(context).uri;
   }
 
   static CarrotRouter of(BuildContext context) {

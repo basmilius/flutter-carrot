@@ -138,6 +138,9 @@ class _CarrotSheetScrollableState extends State<CarrotSheetScrollable> with Rest
   AxisDirection get axisDirection => widget.axisDirection;
 
   @override
+  double get devicePixelRatio => MediaQuery.devicePixelRatioOf(context);
+
+  @override
   double? get initialExtent => widget.initialExtent;
 
   @override

@@ -50,15 +50,15 @@ class CarrotRoute extends GoRoute {
 
 class CarrotShellRoute extends ShellRoute {
   CarrotShellRoute({
+    required super.routes,
     super.navigatorKey,
-    super.routes,
     super.builder,
     super.pageBuilder,
   });
 
   CarrotShellRoute.defaultTransition({
+    required super.routes,
     super.navigatorKey,
-    super.routes,
     CarrotShellRouteWidgetBuilder? builder,
   }) : super(
           pageBuilder: (context, state, child) => CarrotPage<void>(

@@ -23,7 +23,7 @@ extension CarrotCanvasExtension on Canvas {
   }
 }
 
-class CarrotPaintingSweepGradient extends Gradient {
+final class CarrotPaintingSweepGradient extends Gradient {
   final Offset center;
   final List<Color> colors;
   final List<double> stops;
