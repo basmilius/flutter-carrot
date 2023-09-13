@@ -18,6 +18,8 @@ class CarrotScrim extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+
     return RepaintBoundary(
       child: BlockSemantics(
         child: ExcludeSemantics(
@@ -33,6 +35,8 @@ class CarrotScrim extends StatelessWidget {
                   opacity: opacity,
                   child: Container(
                     color: color,
+                    height: size.height - 0.0001,
+                    width: size.width - 0.0001,
                   ),
                 ),
               ),
