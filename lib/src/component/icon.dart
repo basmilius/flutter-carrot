@@ -78,7 +78,7 @@ class CarrotIcon extends StatelessWidget {
               glyph,
               softWrap: false,
               textAlign: TextAlign.center,
-              textScaleFactor: .8,
+              textScaler: const TextScaler.linear(0.8),
               style: TextStyle(
                 color: color,
                 fontFamily: _fontFamily(appTheme.defaults.iconStyle),

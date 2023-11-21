@@ -86,7 +86,7 @@ class CarrotPageRoute<T> extends PageRoute<T> {
       return false;
     }
 
-    if (hasScopedWillPopCallback) {
+    if (popDisposition == RoutePopDisposition.doNotPop) {
       return false;
     }
 

@@ -19,7 +19,7 @@ class CarrotText extends StatelessWidget {
   final TextAlign? textAlign;
   final TextDirection? textDirection;
   final ui.TextHeightBehavior? textHeightBehavior;
-  final double? textScaleFactor;
+  final TextScaler? textScaler;
   final TextWidthBasis? textWidthBasis;
   final CarrotTypographyType type;
 
@@ -36,7 +36,7 @@ class CarrotText extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.textHeightBehavior,
-    this.textScaleFactor,
+    this.textScaler,
     this.textWidthBasis,
     this.type = CarrotTypographyType.body1,
   }) : textSpan = null;
@@ -54,7 +54,7 @@ class CarrotText extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.textHeightBehavior,
-    this.textScaleFactor,
+    this.textScaler,
     this.textWidthBasis,
     this.type = CarrotTypographyType.body1,
   }) : data = null;
@@ -72,7 +72,7 @@ class CarrotText extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.textHeightBehavior,
-    this.textScaleFactor,
+    this.textScaler,
     this.textWidthBasis,
   })  : textSpan = null,
         type = CarrotTypographyType.display1;
@@ -90,7 +90,7 @@ class CarrotText extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.textHeightBehavior,
-    this.textScaleFactor,
+    this.textScaler,
     this.textWidthBasis,
   })  : textSpan = null,
         type = CarrotTypographyType.display2;
@@ -108,7 +108,7 @@ class CarrotText extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.textHeightBehavior,
-    this.textScaleFactor,
+    this.textScaler,
     this.textWidthBasis,
   })  : textSpan = null,
         type = CarrotTypographyType.headline1;
@@ -126,7 +126,7 @@ class CarrotText extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.textHeightBehavior,
-    this.textScaleFactor,
+    this.textScaler,
     this.textWidthBasis,
   })  : textSpan = null,
         type = CarrotTypographyType.headline2;
@@ -144,7 +144,7 @@ class CarrotText extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.textHeightBehavior,
-    this.textScaleFactor,
+    this.textScaler,
     this.textWidthBasis,
   })  : textSpan = null,
         type = CarrotTypographyType.headline3;
@@ -162,7 +162,7 @@ class CarrotText extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.textHeightBehavior,
-    this.textScaleFactor,
+    this.textScaler,
     this.textWidthBasis,
   })  : textSpan = null,
         type = CarrotTypographyType.headline4;
@@ -180,7 +180,7 @@ class CarrotText extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.textHeightBehavior,
-    this.textScaleFactor,
+    this.textScaler,
     this.textWidthBasis,
   })  : textSpan = null,
         type = CarrotTypographyType.headline5;
@@ -198,7 +198,7 @@ class CarrotText extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.textHeightBehavior,
-    this.textScaleFactor,
+    this.textScaler,
     this.textWidthBasis,
   })  : textSpan = null,
         type = CarrotTypographyType.headline6;
@@ -216,7 +216,7 @@ class CarrotText extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.textHeightBehavior,
-    this.textScaleFactor,
+    this.textScaler,
     this.textWidthBasis,
   })  : textSpan = null,
         type = CarrotTypographyType.subtitle1;
@@ -234,7 +234,7 @@ class CarrotText extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.textHeightBehavior,
-    this.textScaleFactor,
+    this.textScaler,
     this.textWidthBasis,
   })  : textSpan = null,
         type = CarrotTypographyType.subtitle2;
@@ -252,7 +252,7 @@ class CarrotText extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.textHeightBehavior,
-    this.textScaleFactor,
+    this.textScaler,
     this.textWidthBasis,
   })  : textSpan = null,
         type = CarrotTypographyType.body1;
@@ -270,7 +270,7 @@ class CarrotText extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.textHeightBehavior,
-    this.textScaleFactor,
+    this.textScaler,
     this.textWidthBasis,
   })  : textSpan = null,
         type = CarrotTypographyType.body2;
@@ -336,7 +336,7 @@ class CarrotText extends StatelessWidget {
         textAlign: textAlign,
         textDirection: textDirection,
         textHeightBehavior: textHeightBehavior,
-        textScaleFactor: textScaleFactor,
+        textScaler: textScaler,
         textWidthBasis: textWidthBasis,
       );
     }
@@ -353,7 +353,7 @@ class CarrotText extends StatelessWidget {
       textAlign: textAlign,
       textDirection: textDirection,
       textHeightBehavior: textHeightBehavior,
-      textScaleFactor: textScaleFactor,
+      textScaler: textScaler,
       textWidthBasis: textWidthBasis,
     );
   }

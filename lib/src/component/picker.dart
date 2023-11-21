@@ -97,8 +97,11 @@ class _CarrotPickerState extends State<CarrotPicker> with SingleTickerProviderSt
     Navigator.of(context).maybePop();
   }
 
-  Future<bool> _onWillPop() async {
-    await _animationController.reverse();
+  Future<bool> _onPopInvoked(bool didPop) async {
+    if (didPop) {
+      await _animationController.reverse();
+    }
+
     return true;
   }
 
@@ -106,8 +109,8 @@ class _CarrotPickerState extends State<CarrotPicker> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     final appTheme = context.carrotTheme;
 
-    return WillPopScope(
-      onWillPop: _onWillPop,
+    return PopScope(
+      onPopInvoked: _onPopInvoked,
       child: LayoutBuilder(
         builder: (context, constraints) => Stack(
           alignment: Alignment.bottomCenter,

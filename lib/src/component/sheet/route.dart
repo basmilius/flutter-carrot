@@ -153,7 +153,7 @@ class CarrotSheetRoute<T> extends PageRoute<T> with CarrotDelegatedTransitionsRo
 
   @protected
   bool shouldPreventPopForExtent(double extent) {
-    return extent < willPopThreshold && hasScopedWillPopCallback && controller!.velocity <= 0;
+    return extent < willPopThreshold && popDisposition == RoutePopDisposition.doNotPop && controller!.velocity <= 0;
   }
 }
 
@@ -267,9 +267,7 @@ class _CarrotSheetRouteContainerState extends State<_CarrotSheetRouteContainer> 
       duration: _kTransitionDuration,
     );
 
-    final disposition = await route.willPop();
-
-    if (disposition == RoutePopDisposition.pop) {
+    if (route.popDisposition == RoutePopDisposition.pop) {
       _sheetController.relativeAnimateTo(
         0,
         curve: CarrotCurves.swiftOutCurve,

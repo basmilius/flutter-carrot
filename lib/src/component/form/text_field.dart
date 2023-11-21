@@ -509,7 +509,7 @@ class _CarrotTextFieldState extends State<CarrotTextField> with AutomaticKeepAli
             textDirection: widget.textDirection,
             textHeightBehavior: appTheme.typography.textHeightBehavior,
             textInputAction: widget.textInputAction,
-            textScaleFactor: 1.0,
+            textScaler: const TextScaler.linear(1.0),
             onChanged: widget.onChanged,
             onEditingComplete: widget.onEditingComplete,
             onSelectionChanged: _handleSelectionChanged,

@@ -289,6 +289,7 @@ class CarrotSheetRenderViewport extends RenderBox with RenderObjectWithChildMixi
   RevealedOffset getOffsetToReveal(
     RenderObject target,
     double alignment, {
+    Axis? axis,
     Rect? rect,
   }) {
     rect ??= target.paintBounds;
