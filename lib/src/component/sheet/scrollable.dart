@@ -643,9 +643,7 @@ class _CarrotSheetScrollSemanticsRenderObject extends RenderProxyBox {
     }
 
     _innerNode ??= SemanticsNode(showOnScreen: showOnScreen);
-    _innerNode!
-      ..isMergedIntoParent = node.isPartOfNodeMerging
-      ..rect = node.rect;
+    _innerNode!.rect = node.rect;
 
     int? firstVisibleIndex;
     final List<SemanticsNode> excluded = [_innerNode!];
